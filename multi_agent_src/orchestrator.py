@@ -1264,8 +1264,6 @@ class MultiAgentOrchestrator:
         }
         if retry_feedback:
             payload["retry_feedback"] = retry_feedback
-            payload["instruction"] = "请基于反馈完整重写代码，不要只给差异片段。"
-        if retry_feedback:
             payload["instruction"] = "Prefer a local edit of the existing code_file. Use read_file/load_previous_attempt first when useful, then write_file the complete corrected file."
         return json.dumps(payload, ensure_ascii=False, indent=2)
 
@@ -1359,7 +1357,5 @@ class MultiAgentOrchestrator:
         }
         if retry_feedback:
             payload["retry_feedback"] = retry_feedback
-            payload["instruction"] = "请基于反馈完整重写装配代码，不要只给差异片段。"
-        if retry_feedback:
             payload["instruction"] = "Prefer a local edit of the existing assembly code_file. Use read_file first when useful, then write_file the complete corrected file."
         return json.dumps(payload, ensure_ascii=False, indent=2)
