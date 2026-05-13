@@ -1,0 +1,908 @@
+{
+  "request_type": "assembly",
+  "assembly": {
+    "name": "4DOF_Desktop_Robot_Arm",
+    "summary": "生成一个4自由度桌面机械臂装配体，包含底座、旋转台、肩部支架、大臂、小臂、腕部法兰及两个销轴。所有零件基于米(m)单位建模，采用拉伸、切除、圆角等基础特征。装配体处于静态Home位姿（所有关节角0°），通过轴重合和面重合约束固定各部件位置。",
+    "workspace": {
+      "root_dir": "D:\\a_src\\python\\sw_agent\\agent_output\\4DOF_Desktop_Robot_Arm-20260428_112023",
+      "parts_dir": "D:\\a_src\\python\\sw_agent\\agent_output\\4DOF_Desktop_Robot_Arm-20260428_112023\\parts",
+      "assembly_dir": "D:\\a_src\\python\\sw_agent\\agent_output\\4DOF_Desktop_Robot_Arm-20260428_112023\\assembly",
+      "json_dir": "D:\\a_src\\python\\sw_agent\\agent_output\\4DOF_Desktop_Robot_Arm-20260428_112023\\json",
+      "logs_dir": "D:\\a_src\\python\\sw_agent\\agent_output\\4DOF_Desktop_Robot_Arm-20260428_112023\\logs",
+      "plan_file": "D:\\a_src\\python\\sw_agent\\agent_output\\4DOF_Desktop_Robot_Arm-20260428_112023\\json\\assembly_plan.json"
+    },
+    "global_coordinate_system": {
+      "origin": "P00_Base_Center_Bottom",
+      "x_direction": "Forward (Robot Front)",
+      "y_direction": "Left (Robot Left)",
+      "z_direction": "Up (Vertical Axis)"
+    },
+    "design_rules": [
+      "所有尺寸单位为米(m)",
+      "孔特征使用create_circle + extrude_cut生成，不使用阵列",
+      "参考几何(轴/面)需按指定名称创建以支持装配约束",
+      "未明确说明的倒角/圆角默认为无",
+      "装配体初始状态为静态Home位姿"
+    ],
+    "parts": [
+      {
+        "part_id": "p00_base",
+        "name": "Base Plate",
+        "function": "机器人底座，提供安装基准和J1旋转支撑",
+        "shape": "矩形底板，中心有凸台用于安装旋转台，底部有安装孔",
+        "key_dimensions": [
+          "Length: 0.2m",
+          "Width: 0.15m",
+          "Height: 0.02m",
+          "Center Boss Diameter: 0.05m",
+          "Center Boss Height: 0.01m"
+        ],
+        "material_or_notes": "Aluminum 6061, Anodized Black",
+        "quantity": 1,
+        "instance_ids": [
+          "inst_p00_base"
+        ],
+        "interfaces": {
+          "faces": [
+            {
+              "name": "PL_BASE_TOP",
+              "purpose": "与旋转台底面配合",
+              "normal_direction_relation": "normal +Z"
+            },
+            {
+              "name": "PL_BASE_ZERO_XZ",
+              "purpose": "Home位姿零位参考面(XZ平面)",
+              "normal_direction_relation": "normal +Y"
+            }
+          ],
+          "axes": [
+            {
+              "name": "AXIS_J1_Z",
+              "purpose": "J1旋转轴",
+              "direction_relation": "along local Z"
+            }
+          ],
+          "points": []
+        },
+        "assembly_relation_notes": [
+          "作为装配基准件(GROUND)",
+          "AXIS_J1_Z与P01同心",
+          "PL_BASE_TOP与P01底面重合"
+        ],
+        "workspace": {
+          "part_dir": "D:\\a_src\\python\\sw_agent\\agent_output\\4DOF_Desktop_Robot_Arm-20260428_112023\\parts\\p00_base",
+          "code_file": "D:\\a_src\\python\\sw_agent\\agent_output\\4DOF_Desktop_Robot_Arm-20260428_112023\\parts\\p00_base\\p00_base_model.py",
+          "model_file": "D:\\a_src\\python\\sw_agent\\agent_output\\4DOF_Desktop_Robot_Arm-20260428_112023\\parts\\p00_base\\p00_base.SLDPRT",
+          "log_file": "D:\\a_src\\python\\sw_agent\\agent_output\\4DOF_Desktop_Robot_Arm-20260428_112023\\logs\\p00_base_model.log",
+          "spec_file": "D:\\a_src\\python\\sw_agent\\agent_output\\4DOF_Desktop_Robot_Arm-20260428_112023\\json\\p00_base_spec.json"
+        },
+        "standalone_modeling_instructions": [
+          "在XY平面绘制矩形草图(0.2x0.15)，拉伸0.02m",
+          "在顶面中心绘制圆形草图(D=0.05)，拉伸0.01m形成凸台",
+          "创建参考轴AXIS_J1_Z穿过凸台中心沿Z向",
+          "创建参考面PL_BASE_ZERO_XZ平行于XZ平面且过原点"
+        ]
+      },
+      {
+        "part_id": "p01_yaw_platform",
+        "name": "Yaw Platform",
+        "function": "J1旋转平台，连接底座与肩部",
+        "shape": "圆柱形或方形平台，底部有凹槽与底座凸台配合，顶部有肩部安装接口",
+        "key_dimensions": [
+          "Diameter/Width: 0.08m",
+          "Height: 0.03m",
+          "Bottom Recess Depth: 0.01m"
+        ],
+        "material_or_notes": "Aluminum 6061",
+        "quantity": 1,
+        "instance_ids": [
+          "inst_p01_yaw"
+        ],
+        "interfaces": {
+          "faces": [
+            {
+              "name": "PL_YAW_BOTTOM",
+              "purpose": "与底座顶面配合",
+              "normal_direction_relation": "normal -Z"
+            },
+            {
+              "name": "PL_SHOULDER_TOP",
+              "purpose": "与肩部支架底面配合",
+              "normal_direction_relation": "normal +Z"
+            },
+            {
+              "name": "PL_YAW_ZERO_XZ",
+              "purpose": "Home位姿零位参考面",
+              "normal_direction_relation": "normal +Y"
+            }
+          ],
+          "axes": [
+            {
+              "name": "AXIS_J1_Z",
+              "purpose": "J1旋转轴",
+              "direction_relation": "along local Z"
+            },
+            {
+              "name": "AXIS_SHOULDER_MOUNT_Z",
+              "purpose": "肩部安装轴",
+              "direction_relation": "along local Z"
+            }
+          ],
+          "points": []
+        },
+        "assembly_relation_notes": [
+          "绕AXIS_J1_Z旋转",
+          "PL_YAW_BOTTOM与P00.PL_BASE_TOP重合",
+          "AXIS_SHOULDER_MOUNT_Z与P02.AXIS_MOUNT_Z同心"
+        ],
+        "workspace": {
+          "part_dir": "D:\\a_src\\python\\sw_agent\\agent_output\\4DOF_Desktop_Robot_Arm-20260428_112023\\parts\\p01_yaw_platform",
+          "code_file": "D:\\a_src\\python\\sw_agent\\agent_output\\4DOF_Desktop_Robot_Arm-20260428_112023\\parts\\p01_yaw_platform\\p01_yaw_platform_model.py",
+          "model_file": "D:\\a_src\\python\\sw_agent\\agent_output\\4DOF_Desktop_Robot_Arm-20260428_112023\\parts\\p01_yaw_platform\\p01_yaw_platform.SLDPRT",
+          "log_file": "D:\\a_src\\python\\sw_agent\\agent_output\\4DOF_Desktop_Robot_Arm-20260428_112023\\logs\\p01_yaw_platform_model.log",
+          "spec_file": "D:\\a_src\\python\\sw_agent\\agent_output\\4DOF_Desktop_Robot_Arm-20260428_112023\\json\\p01_yaw_platform_spec.json"
+        },
+        "standalone_modeling_instructions": [
+          "在XY平面绘制主体轮廓，拉伸0.03m",
+          "在底面中心切除凹槽以配合P00凸台",
+          "创建参考轴AXIS_J1_Z和AXIS_SHOULDER_MOUNT_Z",
+          "创建参考面PL_YAW_ZERO_XZ"
+        ]
+      },
+      {
+        "part_id": "p02_shoulder_bracket",
+        "name": "Shoulder Bracket",
+        "function": "连接J1与J2，支撑大臂",
+        "shape": "U型或双耳结构，底部有安装孔，两侧有J2轴承座",
+        "key_dimensions": [
+          "Width: 0.06m",
+          "Height: 0.08m",
+          "Ear Thickness: 0.01m",
+          "J2 Hole Diameter: 0.01m"
+        ],
+        "material_or_notes": "Aluminum 6061",
+        "quantity": 1,
+        "instance_ids": [
+          "inst_p02_shoulder"
+        ],
+        "interfaces": {
+          "faces": [
+            {
+              "name": "PL_SHOULDER_MOUNT_BOTTOM",
+              "purpose": "与旋转台顶面配合",
+              "normal_direction_relation": "normal -Z"
+            },
+            {
+              "name": "PL_SHOULDER_MID_XZ",
+              "purpose": "与大臂中面对齐",
+              "normal_direction_relation": "normal +Y"
+            },
+            {
+              "name": "PL_SHOULDER_ZERO_XY",
+              "purpose": "Home位姿零位参考面",
+              "normal_direction_relation": "normal +Z"
+            },
+            {
+              "name": "PL_LEFT_EAR_OUTER",
+              "purpose": "与销轴头内侧配合",
+              "normal_direction_relation": "normal -Y"
+            }
+          ],
+          "axes": [
+            {
+              "name": "AXIS_MOUNT_Z",
+              "purpose": "安装在旋转台上的轴",
+              "direction_relation": "along local Z"
+            },
+            {
+              "name": "AXIS_J2_Y",
+              "purpose": "J2旋转轴",
+              "direction_relation": "along local Y"
+            }
+          ],
+          "points": []
+        },
+        "assembly_relation_notes": [
+          "PL_SHOULDER_MOUNT_BOTTOM与P01.PL_SHOULDER_TOP重合",
+          "AXIS_J2_Y与P03.AXIS_J2_Y同心",
+          "PL_SHOULDER_ZERO_XY与P03.PL_UPPERARM_ZERO_XY重合"
+        ],
+        "workspace": {
+          "part_dir": "D:\\a_src\\python\\sw_agent\\agent_output\\4DOF_Desktop_Robot_Arm-20260428_112023\\parts\\p02_shoulder_bracket",
+          "code_file": "D:\\a_src\\python\\sw_agent\\agent_output\\4DOF_Desktop_Robot_Arm-20260428_112023\\parts\\p02_shoulder_bracket\\p02_shoulder_bracket_model.py",
+          "model_file": "D:\\a_src\\python\\sw_agent\\agent_output\\4DOF_Desktop_Robot_Arm-20260428_112023\\parts\\p02_shoulder_bracket\\p02_shoulder_bracket.SLDPRT",
+          "log_file": "D:\\a_src\\python\\sw_agent\\agent_output\\4DOF_Desktop_Robot_Arm-20260428_112023\\logs\\p02_shoulder_bracket_model.log",
+          "spec_file": "D:\\a_src\\python\\sw_agent\\agent_output\\4DOF_Desktop_Robot_Arm-20260428_112023\\json\\p02_shoulder_bracket_spec.json"
+        },
+        "standalone_modeling_instructions": [
+          "在YZ平面绘制U型剖面，沿X向拉伸",
+          "在两侧耳板中心钻孔(D=0.01m)形成J2轴孔",
+          "创建参考轴AXIS_J2_Y穿过两耳中心",
+          "创建参考面PL_SHOULDER_MID_XZ和PL_SHOULDER_ZERO_XY"
+        ]
+      },
+      {
+        "part_id": "p03_upper_arm",
+        "name": "Upper Arm",
+        "function": "连接J2与J3，主要承重臂",
+        "shape": "长条形实体，一端单耳(J2)，一端双耳(J3)，中间连接块融合",
+        "key_dimensions": [
+          "Length: 0.25m",
+          "Width: 0.04m",
+          "Thickness: 0.02m",
+          "J2 Ear Width: 0.015m",
+          "J3 Ear Width: 0.01m"
+        ],
+        "material_or_notes": "Aluminum 6061",
+        "quantity": 1,
+        "instance_ids": [
+          "inst_p03_upperarm"
+        ],
+        "interfaces": {
+          "faces": [
+            {
+              "name": "PL_UPPERARM_MID_XZ",
+              "purpose": "与肩部中面对齐",
+              "normal_direction_relation": "normal +Y"
+            },
+            {
+              "name": "PL_UPPERARM_ZERO_XY",
+              "purpose": "Home位姿零位参考面",
+              "normal_direction_relation": "normal +Z"
+            },
+            {
+              "name": "PL_LEFT_EAR_OUTER_J3",
+              "purpose": "与J3销轴头内侧配合",
+              "normal_direction_relation": "normal -Y"
+            }
+          ],
+          "axes": [
+            {
+              "name": "AXIS_J2_Y",
+              "purpose": "J2旋转轴",
+              "direction_relation": "along local Y"
+            },
+            {
+              "name": "AXIS_J3_Y",
+              "purpose": "J3旋转轴",
+              "direction_relation": "along local Y"
+            }
+          ],
+          "points": []
+        },
+        "assembly_relation_notes": [
+          "AXIS_J2_Y与P02.AXIS_J2_Y同心",
+          "PL_UPPERARM_MID_XZ与P02.PL_SHOULDER_MID_XZ重合",
+          "AXIS_J3_Y与P04.AXIS_J3_Y同心"
+        ],
+        "workspace": {
+          "part_dir": "D:\\a_src\\python\\sw_agent\\agent_output\\4DOF_Desktop_Robot_Arm-20260428_112023\\parts\\p03_upper_arm",
+          "code_file": "D:\\a_src\\python\\sw_agent\\agent_output\\4DOF_Desktop_Robot_Arm-20260428_112023\\parts\\p03_upper_arm\\p03_upper_arm_model.py",
+          "model_file": "D:\\a_src\\python\\sw_agent\\agent_output\\4DOF_Desktop_Robot_Arm-20260428_112023\\parts\\p03_upper_arm\\p03_upper_arm.SLDPRT",
+          "log_file": "D:\\a_src\\python\\sw_agent\\agent_output\\4DOF_Desktop_Robot_Arm-20260428_112023\\logs\\p03_upper_arm_model.log",
+          "spec_file": "D:\\a_src\\python\\sw_agent\\agent_output\\4DOF_Desktop_Robot_Arm-20260428_112023\\json\\p03_upper_arm_spec.json"
+        },
+        "standalone_modeling_instructions": [
+          "在XY平面绘制臂身轮廓，拉伸厚度",
+          "在一端构建单耳结构(J2)，另一端构建双耳结构(J3)",
+          "确保J2和J3轴孔同轴度",
+          "创建参考轴AXIS_J2_Y和AXIS_J3_Y"
+        ]
+      },
+      {
+        "part_id": "p04_forearm",
+        "name": "Forearm",
+        "function": "连接J3与J4，次要臂",
+        "shape": "长条形实体，一端单耳(J3)，一端法兰(J4)",
+        "key_dimensions": [
+          "Length: 0.2m",
+          "Width: 0.03m",
+          "Thickness: 0.015m",
+          "J3 Ear Width: 0.01m"
+        ],
+        "material_or_notes": "Aluminum 6061",
+        "quantity": 1,
+        "instance_ids": [
+          "inst_p04_forearm"
+        ],
+        "interfaces": {
+          "faces": [
+            {
+              "name": "PL_FOREARM_MID_XZ",
+              "purpose": "与大臂中面对齐",
+              "normal_direction_relation": "normal +Y"
+            },
+            {
+              "name": "PL_FOREARM_ZERO_XY",
+              "purpose": "Home位姿零位参考面",
+              "normal_direction_relation": "normal +Z"
+            },
+            {
+              "name": "PL_WRIST_FRONT_FACE",
+              "purpose": "与腕部法兰配合",
+              "normal_direction_relation": "normal +X"
+            }
+          ],
+          "axes": [
+            {
+              "name": "AXIS_J3_Y",
+              "purpose": "J3旋转轴",
+              "direction_relation": "along local Y"
+            },
+            {
+              "name": "AXIS_J4_X",
+              "purpose": "J4旋转轴",
+              "direction_relation": "along local X"
+            }
+          ],
+          "points": []
+        },
+        "assembly_relation_notes": [
+          "AXIS_J3_Y与P03.AXIS_J3_Y同心",
+          "PL_FOREARM_MID_XZ与P03.PL_UPPERARM_MID_XZ重合",
+          "AXIS_J4_X与P05.AXIS_J4_X同心"
+        ],
+        "workspace": {
+          "part_dir": "D:\\a_src\\python\\sw_agent\\agent_output\\4DOF_Desktop_Robot_Arm-20260428_112023\\parts\\p04_forearm",
+          "code_file": "D:\\a_src\\python\\sw_agent\\agent_output\\4DOF_Desktop_Robot_Arm-20260428_112023\\parts\\p04_forearm\\p04_forearm_model.py",
+          "model_file": "D:\\a_src\\python\\sw_agent\\agent_output\\4DOF_Desktop_Robot_Arm-20260428_112023\\parts\\p04_forearm\\p04_forearm.SLDPRT",
+          "log_file": "D:\\a_src\\python\\sw_agent\\agent_output\\4DOF_Desktop_Robot_Arm-20260428_112023\\logs\\p04_forearm_model.log",
+          "spec_file": "D:\\a_src\\python\\sw_agent\\agent_output\\4DOF_Desktop_Robot_Arm-20260428_112023\\json\\p04_forearm_spec.json"
+        },
+        "standalone_modeling_instructions": [
+          "在XY平面绘制臂身轮廓，拉伸厚度",
+          "在一端构建单耳结构(J3)",
+          "在另一端构建法兰盘结构(J4)",
+          "创建参考轴AXIS_J3_Y和AXIS_J4_X"
+        ]
+      },
+      {
+        "part_id": "p05_wrist_flange",
+        "name": "Wrist Flange",
+        "function": "末端执行器安装板，J4旋转输出",
+        "shape": "圆形或方形法兰盘，中心有J4轴孔，周边有4个安装通孔",
+        "key_dimensions": [
+          "Diameter: 0.05m",
+          "Thickness: 0.01m",
+          "Mounting Hole Diameter: 0.004m",
+          "Hole Pattern Radius: 0.02m"
+        ],
+        "material_or_notes": "Aluminum 6061",
+        "quantity": 1,
+        "instance_ids": [
+          "inst_p05_wrist"
+        ],
+        "interfaces": {
+          "faces": [
+            {
+              "name": "PL_WRIST_SHOULDER",
+              "purpose": "与小臂前端面配合",
+              "normal_direction_relation": "normal -X"
+            },
+            {
+              "name": "PL_WRIST_ZERO_XY",
+              "purpose": "Home位姿零位参考面",
+              "normal_direction_relation": "normal +Z"
+            }
+          ],
+          "axes": [
+            {
+              "name": "AXIS_J4_X",
+              "purpose": "J4旋转轴",
+              "direction_relation": "along local X"
+            }
+          ],
+          "points": []
+        },
+        "assembly_relation_notes": [
+          "AXIS_J4_X与P04.AXIS_J4_X同心",
+          "PL_WRIST_SHOULDER与P04.PL_WRIST_FRONT_FACE重合",
+          "PL_WRIST_ZERO_XY与P04.PL_FOREARM_ZERO_XY重合"
+        ],
+        "workspace": {
+          "part_dir": "D:\\a_src\\python\\sw_agent\\agent_output\\4DOF_Desktop_Robot_Arm-20260428_112023\\parts\\p05_wrist_flange",
+          "code_file": "D:\\a_src\\python\\sw_agent\\agent_output\\4DOF_Desktop_Robot_Arm-20260428_112023\\parts\\p05_wrist_flange\\p05_wrist_flange_model.py",
+          "model_file": "D:\\a_src\\python\\sw_agent\\agent_output\\4DOF_Desktop_Robot_Arm-20260428_112023\\parts\\p05_wrist_flange\\p05_wrist_flange.SLDPRT",
+          "log_file": "D:\\a_src\\python\\sw_agent\\agent_output\\4DOF_Desktop_Robot_Arm-20260428_112023\\logs\\p05_wrist_flange_model.log",
+          "spec_file": "D:\\a_src\\python\\sw_agent\\agent_output\\4DOF_Desktop_Robot_Arm-20260428_112023\\json\\p05_wrist_flange_spec.json"
+        },
+        "standalone_modeling_instructions": [
+          "在YZ平面绘制法兰轮廓，沿X向拉伸",
+          "在端面绘制4个安装孔草图，贯穿切除",
+          "创建参考轴AXIS_J4_X",
+          "创建参考面PL_WRIST_ZERO_XY"
+        ]
+      },
+      {
+        "part_id": "p06_pin_j2",
+        "name": "Pin J2",
+        "function": "J2关节销轴，连接肩部与大臂",
+        "shape": "阶梯轴，一端大头，一端螺纹或卡槽",
+        "key_dimensions": [
+          "Total Length: 0.04m",
+          "Shaft Diameter: 0.01m",
+          "Head Diameter: 0.015m",
+          "Head Thickness: 0.005m"
+        ],
+        "material_or_notes": "Steel, Zinc Plated",
+        "quantity": 1,
+        "instance_ids": [
+          "inst_p06_pin_j2"
+        ],
+        "interfaces": {
+          "faces": [
+            {
+              "name": "PL_PIN_HEAD_INNER",
+              "purpose": "与肩部左耳外侧面配合",
+              "normal_direction_relation": "normal +Y"
+            }
+          ],
+          "axes": [
+            {
+              "name": "AXIS_PIN_Y",
+              "purpose": "销轴中心轴",
+              "direction_relation": "along local Y"
+            }
+          ],
+          "points": []
+        },
+        "assembly_relation_notes": [
+          "AXIS_PIN_Y与P02.AXIS_J2_Y同心",
+          "PL_PIN_HEAD_INNER与P02.PL_LEFT_EAR_OUTER重合"
+        ],
+        "workspace": {
+          "part_dir": "D:\\a_src\\python\\sw_agent\\agent_output\\4DOF_Desktop_Robot_Arm-20260428_112023\\parts\\p06_pin_j2",
+          "code_file": "D:\\a_src\\python\\sw_agent\\agent_output\\4DOF_Desktop_Robot_Arm-20260428_112023\\parts\\p06_pin_j2\\p06_pin_j2_model.py",
+          "model_file": "D:\\a_src\\python\\sw_agent\\agent_output\\4DOF_Desktop_Robot_Arm-20260428_112023\\parts\\p06_pin_j2\\p06_pin_j2.SLDPRT",
+          "log_file": "D:\\a_src\\python\\sw_agent\\agent_output\\4DOF_Desktop_Robot_Arm-20260428_112023\\logs\\p06_pin_j2_model.log",
+          "spec_file": "D:\\a_src\\python\\sw_agent\\agent_output\\4DOF_Desktop_Robot_Arm-20260428_112023\\json\\p06_pin_j2_spec.json"
+        },
+        "standalone_modeling_instructions": [
+          "在XZ平面绘制阶梯轴剖面，绕Y轴旋转生成",
+          "创建参考轴AXIS_PIN_Y",
+          "创建参考面PL_PIN_HEAD_INNER"
+        ]
+      },
+      {
+        "part_id": "p07_pin_j3",
+        "name": "Pin J3",
+        "function": "J3关节销轴，连接大臂与小臂",
+        "shape": "阶梯轴，一端大头，一端螺纹或卡槽",
+        "key_dimensions": [
+          "Total Length: 0.04m",
+          "Shaft Diameter: 0.01m",
+          "Head Diameter: 0.015m",
+          "Head Thickness: 0.005m"
+        ],
+        "material_or_notes": "Steel, Zinc Plated",
+        "quantity": 1,
+        "instance_ids": [
+          "inst_p07_pin_j3"
+        ],
+        "interfaces": {
+          "faces": [
+            {
+              "name": "PL_PIN_HEAD_INNER",
+              "purpose": "与大臂左耳外侧面配合",
+              "normal_direction_relation": "normal +Y"
+            }
+          ],
+          "axes": [
+            {
+              "name": "AXIS_PIN_Y",
+              "purpose": "销轴中心轴",
+              "direction_relation": "along local Y"
+            }
+          ],
+          "points": []
+        },
+        "assembly_relation_notes": [
+          "AXIS_PIN_Y与P03.AXIS_J3_Y同心",
+          "PL_PIN_HEAD_INNER与P03.PL_LEFT_EAR_OUTER_J3重合"
+        ],
+        "workspace": {
+          "part_dir": "D:\\a_src\\python\\sw_agent\\agent_output\\4DOF_Desktop_Robot_Arm-20260428_112023\\parts\\p07_pin_j3",
+          "code_file": "D:\\a_src\\python\\sw_agent\\agent_output\\4DOF_Desktop_Robot_Arm-20260428_112023\\parts\\p07_pin_j3\\p07_pin_j3_model.py",
+          "model_file": "D:\\a_src\\python\\sw_agent\\agent_output\\4DOF_Desktop_Robot_Arm-20260428_112023\\parts\\p07_pin_j3\\p07_pin_j3.SLDPRT",
+          "log_file": "D:\\a_src\\python\\sw_agent\\agent_output\\4DOF_Desktop_Robot_Arm-20260428_112023\\logs\\p07_pin_j3_model.log",
+          "spec_file": "D:\\a_src\\python\\sw_agent\\agent_output\\4DOF_Desktop_Robot_Arm-20260428_112023\\json\\p07_pin_j3_spec.json"
+        },
+        "standalone_modeling_instructions": [
+          "在XZ平面绘制阶梯轴剖面，绕Y轴旋转生成",
+          "创建参考轴AXIS_PIN_Y",
+          "创建参考面PL_PIN_HEAD_INNER"
+        ]
+      }
+    ],
+    "instances": [
+      {
+        "instance_id": "inst_p00_base",
+        "part_id": "p00_base",
+        "name": "Base Instance",
+        "instance_role": "Ground/Base",
+        "placement_notes": "Fixed at origin",
+        "interface_usage": {
+          "faces": [
+            "PL_BASE_TOP",
+            "PL_BASE_ZERO_XZ"
+          ],
+          "axes": [
+            "AXIS_J1_Z"
+          ],
+          "points": []
+        }
+      },
+      {
+        "instance_id": "inst_p01_yaw",
+        "part_id": "p01_yaw_platform",
+        "name": "Yaw Platform Instance",
+        "instance_role": "J1 Rotator",
+        "placement_notes": "Mounted on Base",
+        "interface_usage": {
+          "faces": [
+            "PL_YAW_BOTTOM",
+            "PL_SHOULDER_TOP",
+            "PL_YAW_ZERO_XZ"
+          ],
+          "axes": [
+            "AXIS_J1_Z",
+            "AXIS_SHOULDER_MOUNT_Z"
+          ],
+          "points": []
+        }
+      },
+      {
+        "instance_id": "inst_p02_shoulder",
+        "part_id": "p02_shoulder_bracket",
+        "name": "Shoulder Bracket Instance",
+        "instance_role": "J2 Support",
+        "placement_notes": "Mounted on Yaw Platform",
+        "interface_usage": {
+          "faces": [
+            "PL_SHOULDER_MOUNT_BOTTOM",
+            "PL_SHOULDER_MID_XZ",
+            "PL_SHOULDER_ZERO_XY",
+            "PL_LEFT_EAR_OUTER"
+          ],
+          "axes": [
+            "AXIS_MOUNT_Z",
+            "AXIS_J2_Y"
+          ],
+          "points": []
+        }
+      },
+      {
+        "instance_id": "inst_p03_upperarm",
+        "part_id": "p03_upper_arm",
+        "name": "Upper Arm Instance",
+        "instance_role": "Main Arm",
+        "placement_notes": "Connected to Shoulder via J2",
+        "interface_usage": {
+          "faces": [
+            "PL_UPPERARM_MID_XZ",
+            "PL_UPPERARM_ZERO_XY",
+            "PL_LEFT_EAR_OUTER_J3"
+          ],
+          "axes": [
+            "AXIS_J2_Y",
+            "AXIS_J3_Y"
+          ],
+          "points": []
+        }
+      },
+      {
+        "instance_id": "inst_p04_forearm",
+        "part_id": "p04_forearm",
+        "name": "Forearm Instance",
+        "instance_role": "Secondary Arm",
+        "placement_notes": "Connected to Upper Arm via J3",
+        "interface_usage": {
+          "faces": [
+            "PL_FOREARM_MID_XZ",
+            "PL_FOREARM_ZERO_XY",
+            "PL_WRIST_FRONT_FACE"
+          ],
+          "axes": [
+            "AXIS_J3_Y",
+            "AXIS_J4_X"
+          ],
+          "points": []
+        }
+      },
+      {
+        "instance_id": "inst_p05_wrist",
+        "part_id": "p05_wrist_flange",
+        "name": "Wrist Flange Instance",
+        "instance_role": "End Effector Mount",
+        "placement_notes": "Connected to Forearm via J4",
+        "interface_usage": {
+          "faces": [
+            "PL_WRIST_SHOULDER",
+            "PL_WRIST_ZERO_XY"
+          ],
+          "axes": [
+            "AXIS_J4_X"
+          ],
+          "points": []
+        }
+      },
+      {
+        "instance_id": "inst_p06_pin_j2",
+        "part_id": "p06_pin_j2",
+        "name": "Pin J2 Instance",
+        "instance_role": "J2 Fastener",
+        "placement_notes": "Inserted into J2 Joint",
+        "interface_usage": {
+          "faces": [
+            "PL_PIN_HEAD_INNER"
+          ],
+          "axes": [
+            "AXIS_PIN_Y"
+          ],
+          "points": []
+        }
+      },
+      {
+        "instance_id": "inst_p07_pin_j3",
+        "part_id": "p07_pin_j3",
+        "name": "Pin J3 Instance",
+        "instance_role": "J3 Fastener",
+        "placement_notes": "Inserted into J3 Joint",
+        "interface_usage": {
+          "faces": [
+            "PL_PIN_HEAD_INNER"
+          ],
+          "axes": [
+            "AXIS_PIN_Y"
+          ],
+          "points": []
+        }
+      }
+    ],
+    "assembly_sequence": [
+      "Fix inst_p00_base",
+      "Mate inst_p01_yaw to inst_p00_base (Axis Coincident, Face Coincident, Zero Plane)",
+      "Mate inst_p02_shoulder to inst_p01_yaw (Axis Coincident, Face Coincident, Zero Plane)",
+      "Mate inst_p03_upperarm to inst_p02_shoulder (Axis Coincident, Face Coincident, Zero Plane)",
+      "Mate inst_p06_pin_j2 to inst_p02_shoulder (Axis Coincident, Face Coincident)",
+      "Mate inst_p04_forearm to inst_p03_upperarm (Axis Coincident, Face Coincident, Zero Plane)",
+      "Mate inst_p07_pin_j3 to inst_p03_upperarm (Axis Coincident, Face Coincident)",
+      "Mate inst_p05_wrist to inst_p04_forearm (Axis Coincident, Face Coincident, Zero Plane)"
+    ],
+    "constraints": [
+      {
+        "source_instance_id": "inst_p01_yaw",
+        "source_part_id": "p01_yaw_platform",
+        "source_interface": "AXIS_J1_Z",
+        "target_instance_id": "inst_p00_base",
+        "target_part_id": "p00_base",
+        "target_interface": "AXIS_J1_Z",
+        "relation": "axi_coincident",
+        "alignment": "aligned",
+        "offset_mm": 0,
+        "notes": "J1 Axis Alignment"
+      },
+      {
+        "source_instance_id": "inst_p01_yaw",
+        "source_part_id": "p01_yaw_platform",
+        "source_interface": "PL_YAW_BOTTOM",
+        "target_instance_id": "inst_p00_base",
+        "target_part_id": "p00_base",
+        "target_interface": "PL_BASE_TOP",
+        "relation": "face_coincident",
+        "alignment": "opposed",
+        "offset_mm": 0,
+        "notes": "Yaw Platform sits on Base"
+      },
+      {
+        "source_instance_id": "inst_p01_yaw",
+        "source_part_id": "p01_yaw_platform",
+        "source_interface": "PL_YAW_ZERO_XZ",
+        "target_instance_id": "inst_p00_base",
+        "target_part_id": "p00_base",
+        "target_interface": "PL_BASE_ZERO_XZ",
+        "relation": "face_coincident",
+        "alignment": "aligned",
+        "offset_mm": 0,
+        "notes": "Home Position Lock for J1"
+      },
+      {
+        "source_instance_id": "inst_p02_shoulder",
+        "source_part_id": "p02_shoulder_bracket",
+        "source_interface": "AXIS_MOUNT_Z",
+        "target_instance_id": "inst_p01_yaw",
+        "target_part_id": "p01_yaw_platform",
+        "target_interface": "AXIS_SHOULDER_MOUNT_Z",
+        "relation": "axi_coincident",
+        "alignment": "aligned",
+        "offset_mm": 0,
+        "notes": "Shoulder Mount Axis"
+      },
+      {
+        "source_instance_id": "inst_p02_shoulder",
+        "source_part_id": "p02_shoulder_bracket",
+        "source_interface": "PL_SHOULDER_MOUNT_BOTTOM",
+        "target_instance_id": "inst_p01_yaw",
+        "target_part_id": "p01_yaw_platform",
+        "target_interface": "PL_SHOULDER_TOP",
+        "relation": "face_coincident",
+        "alignment": "opposed",
+        "offset_mm": 0,
+        "notes": "Shoulder sits on Yaw Platform"
+      },
+      {
+        "source_instance_id": "inst_p02_shoulder",
+        "source_part_id": "p02_shoulder_bracket",
+        "source_interface": "PL_SHOULDER_ZERO_XY",
+        "target_instance_id": "inst_p01_yaw",
+        "target_part_id": "p01_yaw_platform",
+        "target_interface": "PL_YAW_ZERO_XZ",
+        "relation": "face_coincident",
+        "alignment": "aligned",
+        "offset_mm": 0,
+        "notes": "Orientation Lock for Shoulder"
+      },
+      {
+        "source_instance_id": "inst_p03_upperarm",
+        "source_part_id": "p03_upper_arm",
+        "source_interface": "AXIS_J2_Y",
+        "target_instance_id": "inst_p02_shoulder",
+        "target_part_id": "p02_shoulder_bracket",
+        "target_interface": "AXIS_J2_Y",
+        "relation": "axi_coincident",
+        "alignment": "aligned",
+        "offset_mm": 0,
+        "notes": "J2 Axis Alignment"
+      },
+      {
+        "source_instance_id": "inst_p03_upperarm",
+        "source_part_id": "p03_upper_arm",
+        "source_interface": "PL_UPPERARM_MID_XZ",
+        "target_instance_id": "inst_p02_shoulder",
+        "target_part_id": "p02_shoulder_bracket",
+        "target_interface": "PL_SHOULDER_MID_XZ",
+        "relation": "face_coincident",
+        "alignment": "aligned",
+        "offset_mm": 0,
+        "notes": "Upper Arm Mid-plane Alignment"
+      },
+      {
+        "source_instance_id": "inst_p03_upperarm",
+        "source_part_id": "p03_upper_arm",
+        "source_interface": "PL_UPPERARM_ZERO_XY",
+        "target_instance_id": "inst_p02_shoulder",
+        "target_part_id": "p02_shoulder_bracket",
+        "target_interface": "PL_SHOULDER_ZERO_XY",
+        "relation": "face_coincident",
+        "alignment": "aligned",
+        "offset_mm": 0,
+        "notes": "Home Position Lock for J2"
+      },
+      {
+        "source_instance_id": "inst_p06_pin_j2",
+        "source_part_id": "p06_pin_j2",
+        "source_interface": "AXIS_PIN_Y",
+        "target_instance_id": "inst_p02_shoulder",
+        "target_part_id": "p02_shoulder_bracket",
+        "target_interface": "AXIS_J2_Y",
+        "relation": "axi_coincident",
+        "alignment": "aligned",
+        "offset_mm": 0,
+        "notes": "J2 Pin Axis"
+      },
+      {
+        "source_instance_id": "inst_p06_pin_j2",
+        "source_part_id": "p06_pin_j2",
+        "source_interface": "PL_PIN_HEAD_INNER",
+        "target_instance_id": "inst_p02_shoulder",
+        "target_part_id": "p02_shoulder_bracket",
+        "target_interface": "PL_LEFT_EAR_OUTER",
+        "relation": "face_coincident",
+        "alignment": "opposed",
+        "offset_mm": 0,
+        "notes": "J2 Pin Head Contact"
+      },
+      {
+        "source_instance_id": "inst_p04_forearm",
+        "source_part_id": "p04_forearm",
+        "source_interface": "AXIS_J3_Y",
+        "target_instance_id": "inst_p03_upperarm",
+        "target_part_id": "p03_upper_arm",
+        "target_interface": "AXIS_J3_Y",
+        "relation": "axi_coincident",
+        "alignment": "aligned",
+        "offset_mm": 0,
+        "notes": "J3 Axis Alignment"
+      },
+      {
+        "source_instance_id": "inst_p04_forearm",
+        "source_part_id": "p04_forearm",
+        "source_interface": "PL_FOREARM_MID_XZ",
+        "target_instance_id": "inst_p03_upperarm",
+        "target_part_id": "p03_upper_arm",
+        "target_interface": "PL_UPPERARM_MID_XZ",
+        "relation": "face_coincident",
+        "alignment": "aligned",
+        "offset_mm": 0,
+        "notes": "Forearm Mid-plane Alignment"
+      },
+      {
+        "source_instance_id": "inst_p04_forearm",
+        "source_part_id": "p04_forearm",
+        "source_interface": "PL_FOREARM_ZERO_XY",
+        "target_instance_id": "inst_p03_upperarm",
+        "target_part_id": "p03_upper_arm",
+        "target_interface": "PL_UPPERARM_ZERO_XY",
+        "relation": "face_coincident",
+        "alignment": "aligned",
+        "offset_mm": 0,
+        "notes": "Home Position Lock for J3"
+      },
+      {
+        "source_instance_id": "inst_p07_pin_j3",
+        "source_part_id": "p07_pin_j3",
+        "source_interface": "AXIS_PIN_Y",
+        "target_instance_id": "inst_p03_upperarm",
+        "target_part_id": "p03_upper_arm",
+        "target_interface": "AXIS_J3_Y",
+        "relation": "axi_coincident",
+        "alignment": "aligned",
+        "offset_mm": 0,
+        "notes": "J3 Pin Axis"
+      },
+      {
+        "source_instance_id": "inst_p07_pin_j3",
+        "source_part_id": "p07_pin_j3",
+        "source_interface": "PL_PIN_HEAD_INNER",
+        "target_instance_id": "inst_p03_upperarm",
+        "target_part_id": "p03_upper_arm",
+        "target_interface": "PL_LEFT_EAR_OUTER_J3",
+        "relation": "face_coincident",
+        "alignment": "opposed",
+        "offset_mm": 0,
+        "notes": "J3 Pin Head Contact"
+      },
+      {
+        "source_instance_id": "inst_p05_wrist",
+        "source_part_id": "p05_wrist_flange",
+        "source_interface": "AXIS_J4_X",
+        "target_instance_id": "inst_p04_forearm",
+        "target_part_id": "p04_forearm",
+        "target_interface": "AXIS_J4_X",
+        "relation": "axi_coincident",
+        "alignment": "aligned",
+        "offset_mm": 0,
+        "notes": "J4 Axis Alignment"
+      },
+      {
+        "source_instance_id": "inst_p05_wrist",
+        "source_part_id": "p05_wrist_flange",
+        "source_interface": "PL_WRIST_SHOULDER",
+        "target_instance_id": "inst_p04_forearm",
+        "target_part_id": "p04_forearm",
+        "target_interface": "PL_WRIST_FRONT_FACE",
+        "relation": "face_coincident",
+        "alignment": "opposed",
+        "offset_mm": 0,
+        "notes": "Wrist Flange Contact"
+      },
+      {
+        "source_instance_id": "inst_p05_wrist",
+        "source_part_id": "p05_wrist_flange",
+        "source_interface": "PL_WRIST_ZERO_XY",
+        "target_instance_id": "inst_p04_forearm",
+        "target_part_id": "p04_forearm",
+        "target_interface": "PL_FOREARM_ZERO_XY",
+        "relation": "face_coincident",
+        "alignment": "aligned",
+        "offset_mm": 0,
+        "notes": "Home Position Lock for J4"
+      }
+    ],
+    "assembly_output": {
+      "code_file": "D:\\a_src\\python\\sw_agent\\agent_output\\4DOF_Desktop_Robot_Arm-20260428_112023\\assembly\\assembly_build.py",
+      "model_file": "D:\\a_src\\python\\sw_agent\\agent_output\\4DOF_Desktop_Robot_Arm-20260428_112023\\assembly\\4DOF_Desktop_Robot_Arm.SLDASM",
+      "log_file": "D:\\a_src\\python\\sw_agent\\agent_output\\4DOF_Desktop_Robot_Arm-20260428_112023\\logs\\assembly.log"
+    }
+  }
+}

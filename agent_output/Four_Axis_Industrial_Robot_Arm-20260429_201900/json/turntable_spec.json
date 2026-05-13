@@ -1,0 +1,104 @@
+{
+  "request_type": "assembly_part",
+  "assembly_context": {
+    "name": "Four_Axis_Industrial_Robot_Arm",
+    "summary": "创建一个包含底座、回转台、连杆、关节叉、销轴及夹爪的四轴工业机械臂装配体，通过同轴和平面重合实现运动副约束。",
+    "global_coordinate_system": {
+      "origin": "底座底面中心",
+      "x_direction": "机械臂正前方",
+      "y_direction": "关节旋转轴向",
+      "z_direction": "垂直向上"
+    },
+    "design_rules": [
+      "所有长度单位默认为 mm，建模时需换算为 m",
+      "销轴与孔采用 0.5mm 间隙配合",
+      "关节叉开口宽度 W1 = 连杆端部厚度 W2 + 1.0mm",
+      "优先使用 MidPlane 居中对齐以保证对称性"
+    ],
+    "review_comments": [],
+    "instances": [
+      {
+        "instance_id": "turntable_inst",
+        "part_id": "turntable",
+        "name": "回转台实例",
+        "instance_role": "第一轴旋转体",
+        "placement_notes": "安装在底座上方",
+        "interface_usage": {
+          "faces": [
+            "bottom_contact_face",
+            "mid_plane_y"
+          ],
+          "axes": [
+            "rotation_axis_z",
+            "joint_axis_y"
+          ],
+          "points": []
+        }
+      }
+    ],
+    "assembly_sequence": [
+      "1. 固定 base_inst",
+      "2. 将 turntable_inst 装配至 base_inst",
+      "3. 将 link_upper_arm 装配至 turntable_inst 并用 pin_shoulder 锁定",
+      "4. 将 fork_elbow 装配至 link_upper_arm 并用 pin_elbow 锁定",
+      "5. 将 link_forearm 装配至 fork_elbow",
+      "6. 将 fork_wrist 装配至 link_forearm 并用 pin_wrist 锁定",
+      "7. 将 gripper_inst 装配至 fork_wrist"
+    ]
+  },
+  "part": {
+    "part_id": "turntable",
+    "name": "回转台",
+    "function": "实现第一轴水平旋转",
+    "shape": "阶梯圆柱，底部与底座配合，顶部带有U形叉架接口",
+    "key_dimensions": [
+      "外径: 180mm",
+      "总高: 100mm",
+      "叉架开口宽: 61mm"
+    ],
+    "material_or_notes": "铝合金",
+    "quantity": 1,
+    "instance_ids": [
+      "turntable_inst"
+    ],
+    "interfaces": {
+      "faces": [
+        {
+          "name": "bottom_contact_face",
+          "purpose": "与底座接触面",
+          "normal_direction_relation": "normal -Z"
+        },
+        {
+          "name": "mid_plane_y",
+          "purpose": "对称中心面",
+          "normal_direction_relation": "normal Y"
+        }
+      ],
+      "axes": [
+        {
+          "name": "rotation_axis_z",
+          "purpose": "第一轴旋转轴",
+          "direction_relation": "along local Z"
+        },
+        {
+          "name": "joint_axis_y",
+          "purpose": "第二轴销轴孔轴线",
+          "direction_relation": "along local Y"
+        }
+      ],
+      "points": []
+    },
+    "assembly_relation_notes": [
+      "与底座同轴且面贴合"
+    ],
+    "workspace": {
+      "part_dir": "D:\\a_src\\python\\sw_agent\\agent_output\\Four_Axis_Industrial_Robot_Arm-20260429_201900\\parts\\turntable",
+      "code_file": "D:\\a_src\\python\\sw_agent\\agent_output\\Four_Axis_Industrial_Robot_Arm-20260429_201900\\parts\\turntable\\turntable_model.py",
+      "model_file": "D:\\a_src\\python\\sw_agent\\agent_output\\Four_Axis_Industrial_Robot_Arm-20260429_201900\\parts\\turntable\\turntable.SLDPRT",
+      "log_file": "D:\\a_src\\python\\sw_agent\\agent_output\\Four_Axis_Industrial_Robot_Arm-20260429_201900\\logs\\turntable_model.log",
+      "screenshot_dir": "D:\\a_src\\python\\sw_agent\\agent_output\\Four_Axis_Industrial_Robot_Arm-20260429_201900\\screenshots\\turntable",
+      "spec_file": "D:\\a_src\\python\\sw_agent\\agent_output\\Four_Axis_Industrial_Robot_Arm-20260429_201900\\json\\turntable_spec.json"
+    },
+    "standalone_modeling_instructions": "在XY面拉伸主体，在侧向切除形成U型槽，槽宽61mm，并在槽壁打直径20mm通孔。"
+  }
+}

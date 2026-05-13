@@ -1,0 +1,179 @@
+{
+  "request_type": "assembly_part",
+  "assembly_context": {
+    "name": "FourAxisIndustrialArm_Assembly",
+    "summary": "创建一个简化的四轴工业机械臂装配体，包含固定底座、回转台、3个通用关节叉（肩/肘/腕）、2个通用连杆（上臂/前臂）、3个销轴和1个U形夹爪。所有零件基于默认尺寸参数化建模，并通过同轴和重合配合进行装配。",
+    "global_coordinate_system": {
+      "origin": "BasePlate center bottom",
+      "x_direction": "Forward (Front of arm)",
+      "y_direction": "Left (Side of arm, hinge axis direction)",
+      "z_direction": "Up (Vertical rotation axis)"
+    },
+    "design_rules": [
+      "Units: mm for dimensions, m for internal code if required.",
+      "Chamfers: C1 default unless specified.",
+      "Fillets: R2 default unless specified.",
+      "Clearance: Pin D19.8 in Hole D20 (0.2mm clearance).",
+      "Pin Length Correction: L = 2*EarThickness + LinkWidth + 5mm = 2*15 + 40 + 5 = 75mm.",
+      "Shim Assumption: To reduce gap between Fork(50mm) and Link(40mm), assume 2.5mm shims or adjust link width to 48mm. Here we assume Link Width is adjusted to 48mm for compactness as per optimization suggestion, or use shims. Let's stick to the prompt's 'Link Width 40mm' but add Shim parts if strictly needed. However, prompt says 'optimize... add shim OR adjust'. I will adjust Link Width to 48mm in modeling instructions to avoid extra part complexity unless explicitly requested as a separate part. Wait, the prompt asks for 'Python modeling code'. I will define the Link with width 48mm to fit the 50mm fork with 1mm clearance each side, which is standard engineering practice for this context, avoiding the need for explicit shim parts in the BOM unless necessary. Actually, let's keep Link at 40mm and add 'Shim' parts? No, the prompt lists specific parts. I will assume the Link width is parameterized to 48mm in the model to fit the 50mm fork tightly, or simply note the gap. Given the 'optimization suggestion', I will set the Link key dimension to 48mm width to match the fork better, or keep 40mm and accept the gap. Let's follow the 'Key Requirements' strictly: Link Width 40mm. The 'Review Comments' suggest adding shims. I will NOT add new parts not in the original list unless critical. I will note the gap in assembly notes. Actually, best practice: Update Link Width to 48mm in `key_dimensions` and `standalone_modeling_instructions` to satisfy the 'compactness' requirement without adding new parts."
+    ],
+    "review_comments": [],
+    "instances": [
+      {
+        "instance_id": "inst_shoulder_fork",
+        "part_id": "joint_fork",
+        "name": "Shoulder Joint Fork",
+        "instance_role": "Connects Turntable to Upper Arm",
+        "placement_notes": "Mounted on Turntable Boss, rotates around Y",
+        "interface_usage": {
+          "faces": [
+            "bottom_mount_face",
+            "inner_face_left",
+            "inner_face_right"
+          ],
+          "axes": [
+            "mount_axis_z",
+            "hinge_axis_y"
+          ],
+          "points": []
+        }
+      },
+      {
+        "instance_id": "inst_elbow_fork",
+        "part_id": "joint_fork",
+        "name": "Elbow Joint Fork",
+        "instance_role": "Connects Upper Arm to Forearm",
+        "placement_notes": "Mounted on Upper Arm End, rotates around Y",
+        "interface_usage": {
+          "faces": [
+            "bottom_mount_face",
+            "inner_face_left",
+            "inner_face_right"
+          ],
+          "axes": [
+            "mount_axis_z",
+            "hinge_axis_y"
+          ],
+          "points": []
+        }
+      },
+      {
+        "instance_id": "inst_wrist_fork",
+        "part_id": "joint_fork",
+        "name": "Wrist Joint Fork",
+        "instance_role": "Connects Forearm to Gripper",
+        "placement_notes": "Mounted on Forearm End, rotates around Y",
+        "interface_usage": {
+          "faces": [
+            "bottom_mount_face",
+            "inner_face_left",
+            "inner_face_right",
+            "top_wrist_mount_face"
+          ],
+          "axes": [
+            "mount_axis_z",
+            "hinge_axis_y",
+            "wrist_gripper_axis_z"
+          ],
+          "points": []
+        }
+      }
+    ],
+    "assembly_sequence": [
+      "Fix inst_base_plate to Ground",
+      "Mate inst_yaw_turntable to inst_base_plate (Concentric + Coincident)",
+      "Mate inst_shoulder_fork to inst_yaw_turntable (Concentric + Coincident)",
+      "Mate inst_upper_arm_link to inst_shoulder_fork (Concentric Hinge)",
+      "Insert inst_pin_shoulder (Concentric)",
+      "Mate inst_elbow_fork to inst_upper_arm_link (Concentric Hinge)",
+      "Insert inst_pin_elbow (Concentric)",
+      "Mate inst_forearm_link to inst_elbow_fork (Concentric Hinge)",
+      "Mate inst_wrist_fork to inst_forearm_link (Concentric Hinge)",
+      "Insert inst_pin_wrist (Concentric)",
+      "Mate inst_gripper to inst_wrist_fork (Concentric + Coincident)"
+    ]
+  },
+  "part": {
+    "part_id": "joint_fork",
+    "name": "Joint Fork",
+    "function": "Connects links via hinge pins, allows Y-axis rotation",
+    "shape": "U-shaped bracket with two ears, inner spacing 50mm, ear thickness 15mm, hinge hole D20",
+    "key_dimensions": [
+      "Inner Spacing: 50mm",
+      "Ear Thickness: 15mm",
+      "Hinge Hole Diameter: 20mm",
+      "Base Mounting Interface: Matches previous stage output"
+    ],
+    "material_or_notes": "Steel, Chamfer C1, Weight reduction holes in base",
+    "quantity": 3,
+    "instance_ids": [
+      "inst_shoulder_fork",
+      "inst_elbow_fork",
+      "inst_wrist_fork"
+    ],
+    "interfaces": {
+      "faces": [
+        {
+          "name": "bottom_mount_face",
+          "purpose": "Attaches to previous stage (Turntable or Link)",
+          "normal_direction_relation": "normal -Z (local)"
+        },
+        {
+          "name": "inner_face_left",
+          "purpose": "Contact face for Link/Shim",
+          "normal_direction_relation": "normal +Y (local)"
+        },
+        {
+          "name": "inner_face_right",
+          "purpose": "Contact face for Link/Shim",
+          "normal_direction_relation": "normal -Y (local)"
+        },
+        {
+          "name": "top_wrist_mount_face",
+          "purpose": "Specific to Wrist Fork: Mounts Gripper",
+          "normal_direction_relation": "normal +Z (local)"
+        }
+      ],
+      "axes": [
+        {
+          "name": "mount_axis_z",
+          "purpose": "Vertical alignment axis for mounting to previous stage",
+          "direction_relation": "along local Z"
+        },
+        {
+          "name": "hinge_axis_y",
+          "purpose": "Rotation axis for connected Link",
+          "direction_relation": "along local Y, through hinge holes"
+        },
+        {
+          "name": "wrist_gripper_axis_z",
+          "purpose": "Specific to Wrist Fork: Alignment for Gripper",
+          "direction_relation": "along local Z, centered on top boss"
+        }
+      ],
+      "points": []
+    },
+    "assembly_relation_notes": [
+      "Shoulder Fork mounts to Turntable Boss",
+      "Elbow Fork mounts to Upper Arm Link end",
+      "Wrist Fork mounts to Forearm Link end",
+      "Wrist Fork has additional top feature for Gripper"
+    ],
+    "workspace": {
+      "part_dir": "D:\\a_src\\python\\sw_agent\\agent_output\\FourAxisIndustrialArm_Assembly-20260429_195742\\parts\\joint_fork",
+      "code_file": "D:\\a_src\\python\\sw_agent\\agent_output\\FourAxisIndustrialArm_Assembly-20260429_195742\\parts\\joint_fork\\joint_fork_model.py",
+      "model_file": "D:\\a_src\\python\\sw_agent\\agent_output\\FourAxisIndustrialArm_Assembly-20260429_195742\\parts\\joint_fork\\joint_fork.SLDPRT",
+      "log_file": "D:\\a_src\\python\\sw_agent\\agent_output\\FourAxisIndustrialArm_Assembly-20260429_195742\\logs\\joint_fork_model.log",
+      "screenshot_dir": "D:\\a_src\\python\\sw_agent\\agent_output\\FourAxisIndustrialArm_Assembly-20260429_195742\\screenshots\\joint_fork",
+      "spec_file": "D:\\a_src\\python\\sw_agent\\agent_output\\FourAxisIndustrialArm_Assembly-20260429_195742\\json\\joint_fork_spec.json"
+    },
+    "standalone_modeling_instructions": [
+      "Create base block matching mounting interface (e.g., D100 flange for shoulder, or flat plate for others).",
+      "Extrude two ears upwards with inner spacing 50mm, thickness 15mm.",
+      "Drill D20 holes through ears aligned on Y-axis.",
+      "For Wrist Fork instance: Add top boss D40xH10 with D20 hole on top face for gripper mounting.",
+      "Add weight reduction holes in base if applicable.",
+      "Apply C1 chamfers."
+    ]
+  }
+}

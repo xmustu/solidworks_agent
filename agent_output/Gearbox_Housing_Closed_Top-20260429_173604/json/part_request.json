@@ -1,0 +1,89 @@
+{
+  "request_type": "part",
+  "name": "Gearbox_Housing_Closed_Top",
+  "summary": "整体式齿轮箱箱体零件，顶部完全闭合（无开口）。主体为长方体基座，壁厚10mm。内部包含两个平行轴的轴承座凸台（孔径40mm），轴从左右两侧面水平穿入。侧壁及底部带有加强筋。底部有地脚安装孔。基于XY平面拉伸成型。",
+  "key_requirements": [
+    "主体形状：长方体基座，长200mm x 宽120mm x 高100mm",
+    "顶部状态：完全封闭实体，无开口",
+    "壁厚：统一10mm",
+    "轴承座：两侧对称，中心距150mm，孔径40mm，向外凸出，用于侧面进轴",
+    "加强筋：轴承座下方及侧壁连接处添加三角形加强筋",
+    "接口：底部四角M8地脚孔，侧面轴承孔轴线",
+    "建模方式：主要使用拉伸(Extrude)、拉伸切除(Extrude Cut)、圆角(Fillet)"
+  ],
+  "assumptions": [
+    "单位：mm",
+    "主草图面：XY平面",
+    "轴布局：双轴平行，中心距默认150mm",
+    "材料：默认无特定材料属性，仅几何建模",
+    "倒角/圆角：边缘默认R2圆角以消除锐边",
+    "轴入口：假设轴从左右两侧面水平穿入"
+  ],
+  "requested_outputs": [
+    ".SLDPRT file",
+    "Python modeling code"
+  ],
+  "interfaces": [
+    {
+      "name": "Bottom_Base_Face",
+      "type": "face",
+      "description": "箱体底部安装平面，用于固定在地基或机架上"
+    },
+    {
+      "name": "Bearing_Axis_Left",
+      "type": "axis",
+      "description": "左侧轴承座的中心轴线，用于轴系同心配合"
+    },
+    {
+      "name": "Bearing_Axis_Right",
+      "type": "axis",
+      "description": "右侧轴承座的中心轴线，用于轴系同心配合"
+    }
+  ],
+  "workspace": {
+    "root_dir": "D:\\a_src\\python\\sw_agent\\agent_output\\Gearbox_Housing_Closed_Top-20260429_173604",
+    "part_dir": "D:\\a_src\\python\\sw_agent\\agent_output\\Gearbox_Housing_Closed_Top-20260429_173604\\part",
+    "json_dir": "D:\\a_src\\python\\sw_agent\\agent_output\\Gearbox_Housing_Closed_Top-20260429_173604\\json",
+    "logs_dir": "D:\\a_src\\python\\sw_agent\\agent_output\\Gearbox_Housing_Closed_Top-20260429_173604\\logs",
+    "screenshots_dir": "D:\\a_src\\python\\sw_agent\\agent_output\\Gearbox_Housing_Closed_Top-20260429_173604\\screenshots",
+    "plan_file": "D:\\a_src\\python\\sw_agent\\agent_output\\Gearbox_Housing_Closed_Top-20260429_173604\\json\\part_request.json"
+  },
+  "part": {
+    "part_id": "Gearbox_Housing_Closed_Top",
+    "name": "Gearbox_Housing_Closed_Top",
+    "function": "整体式齿轮箱箱体零件，顶部完全闭合（无开口）。主体为长方体基座，壁厚10mm。内部包含两个平行轴的轴承座凸台（孔径40mm），轴从左右两侧面水平穿入。侧壁及底部带有加强筋。底部有地脚安装孔。基于XY平面拉伸成型。",
+    "shape": "根据需求分析结果由建模智能体细化",
+    "key_dimensions": [
+      "主体形状：长方体基座，长200mm x 宽120mm x 高100mm",
+      "顶部状态：完全封闭实体，无开口",
+      "壁厚：统一10mm",
+      "轴承座：两侧对称，中心距150mm，孔径40mm，向外凸出，用于侧面进轴",
+      "加强筋：轴承座下方及侧壁连接处添加三角形加强筋",
+      "接口：底部四角M8地脚孔，侧面轴承孔轴线",
+      "建模方式：主要使用拉伸(Extrude)、拉伸切除(Extrude Cut)、圆角(Fillet)"
+    ],
+    "material_or_notes": "单位：mm; 主草图面：XY平面; 轴布局：双轴平行，中心距默认150mm; 材料：默认无特定材料属性，仅几何建模; 倒角/圆角：边缘默认R2圆角以消除锐边; 轴入口：假设轴从左右两侧面水平穿入",
+    "interfaces": {
+      "faces": [],
+      "axes": [],
+      "points": []
+    },
+    "standalone_modeling_instructions": [
+      "主体形状：长方体基座，长200mm x 宽120mm x 高100mm",
+      "顶部状态：完全封闭实体，无开口",
+      "壁厚：统一10mm",
+      "轴承座：两侧对称，中心距150mm，孔径40mm，向外凸出，用于侧面进轴",
+      "加强筋：轴承座下方及侧壁连接处添加三角形加强筋",
+      "接口：底部四角M8地脚孔，侧面轴承孔轴线",
+      "建模方式：主要使用拉伸(Extrude)、拉伸切除(Extrude Cut)、圆角(Fillet)"
+    ],
+    "workspace": {
+      "part_dir": "D:\\a_src\\python\\sw_agent\\agent_output\\Gearbox_Housing_Closed_Top-20260429_173604\\part",
+      "code_file": "D:\\a_src\\python\\sw_agent\\agent_output\\Gearbox_Housing_Closed_Top-20260429_173604\\part\\Gearbox_Housing_Closed_Top_model.py",
+      "model_file": "D:\\a_src\\python\\sw_agent\\agent_output\\Gearbox_Housing_Closed_Top-20260429_173604\\part\\Gearbox_Housing_Closed_Top.SLDPRT",
+      "log_file": "D:\\a_src\\python\\sw_agent\\agent_output\\Gearbox_Housing_Closed_Top-20260429_173604\\logs\\Gearbox_Housing_Closed_Top_model.log",
+      "screenshot_dir": "D:\\a_src\\python\\sw_agent\\agent_output\\Gearbox_Housing_Closed_Top-20260429_173604\\screenshots\\Gearbox_Housing_Closed_Top",
+      "spec_file": "D:\\a_src\\python\\sw_agent\\agent_output\\Gearbox_Housing_Closed_Top-20260429_173604\\json\\Gearbox_Housing_Closed_Top_spec.json"
+    }
+  }
+}

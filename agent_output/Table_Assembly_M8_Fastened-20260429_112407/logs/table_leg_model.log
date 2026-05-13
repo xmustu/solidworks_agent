@@ -1,0 +1,23 @@
+[pysw] 已获得 SOLIDWORKS 跨进程任务锁: C:\Users\12617\AppData\Local\Temp\pysw_solidworks_task.lock
+----------------------------------------
+Python 成功接收到的新零件名称: Table Leg
+----------------------------------------
+
+[C# 调试日志]:
+[DEBUG] 11:27:39 - 接收到参数，尝试创建并激活文档: Table Leg
+[DEBUG] 11:27:39 - 尝试连接 SolidWorks...
+[DEBUG] 11:27:39 - 成功连接到已运行的实例。
+
+开始建模零件: Table Leg
+检测到当前有未退出的草图，正在自动退出以继续操作...
+草图选择成功，准备拉伸
+拉伸成功
+主体空心圆柱已创建
+创建底面参考平面: bottom_face
+创建顶面参考平面: top_face
+✅ 成功创建基准轴 [central_axis]
+创建中心轴线: central_axis
+正在保存零件到: D:\a_src\python\sw_agent\agent_output\Table_Assembly_M8_Fastened-20260429_112407\parts\table_leg\table_leg.SLDPRT ...
+保存失败，错误代码: False
+零件保存失败
+[pysw] 已释放 SOLIDWORKS 跨进程任务锁

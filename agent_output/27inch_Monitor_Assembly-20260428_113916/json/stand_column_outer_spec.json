@@ -1,0 +1,98 @@
+{
+  "request_type": "assembly_part",
+  "assembly_context": {
+    "name": "27inch_Monitor_Assembly",
+    "summary": "27英寸显示器装配体，包含屏幕面板、两段式可调节立柱、圆形底座及VESA安装背板。支持左右旋转配合，立柱模拟上下调节后的固定状态。",
+    "global_coordinate_system": {
+      "origin": "Base_Center_Bottom",
+      "x_direction": "Front of Monitor",
+      "y_direction": "Right side of Monitor (from front view)",
+      "z_direction": "Upwards along Stand Axis"
+    },
+    "design_rules": [
+      "All dimensions in mm, convert to meters for API calls.",
+      "Use XY plane as horizontal base for all parts unless specified.",
+      "Ensure concentricity for all cylindrical connections.",
+      "Screen panel is fixed relative to bracket; rotation is simulated by bracket orientation."
+    ],
+    "instances": [
+      {
+        "instance_id": "inst_stand_column_outer",
+        "part_id": "stand_column_outer",
+        "name": "Outer Tube Instance",
+        "instance_role": "Lower Stand Section",
+        "placement_notes": "Sits on base. Axis aligned with Z.",
+        "interface_usage": {
+          "faces": [
+            "outer_tube_bottom_face",
+            "outer_tube_top_face"
+          ],
+          "axes": [
+            "outer_tube_center_axis"
+          ],
+          "points": []
+        }
+      }
+    ],
+    "assembly_sequence": [
+      "Fix inst_stand_base to GROUND",
+      "Mate inst_stand_column_outer to inst_stand_base",
+      "Mate inst_stand_column_inner to inst_stand_column_outer",
+      "Mate inst_mount_bracket to inst_stand_column_inner",
+      "Mate inst_screen_panel to inst_mount_bracket"
+    ]
+  },
+  "part": {
+    "part_id": "stand_column_outer",
+    "name": "Stand Column Outer Tube",
+    "function": "Outer sleeve of the height-adjustable stand.",
+    "shape": "Hollow cylinder (tube). Outer diameter 40mm, Inner diameter slightly larger than 30mm (e.g., 32mm) to allow inner tube insertion. Height 200mm.",
+    "key_dimensions": [
+      "Outer Diameter: 40mm",
+      "Inner Diameter: 32mm (assumed clearance)",
+      "Height: 200mm"
+    ],
+    "material_or_notes": "Metal or rigid plastic.",
+    "quantity": 1,
+    "instance_ids": [
+      "inst_stand_column_outer"
+    ],
+    "interfaces": {
+      "faces": [
+        {
+          "name": "outer_tube_bottom_face",
+          "purpose": "Mates with base top face.",
+          "normal_direction_relation": "normal -Z"
+        },
+        {
+          "name": "outer_tube_top_face",
+          "purpose": "Reference for inner tube extension limit.",
+          "normal_direction_relation": "normal +Z"
+        }
+      ],
+      "axes": [
+        {
+          "name": "outer_tube_center_axis",
+          "purpose": "Concentric axis for mating with base and inner tube.",
+          "direction_relation": "along local Z"
+        }
+      ],
+      "points": []
+    },
+    "assembly_relation_notes": [
+      "Bottom face coincident with Base Top Face.",
+      "Center axis concentric with Base Center Axis."
+    ],
+    "workspace": {
+      "part_dir": "D:\\a_src\\python\\sw_agent\\agent_output\\27inch_Monitor_Assembly-20260428_113916\\parts\\stand_column_outer",
+      "code_file": "D:\\a_src\\python\\sw_agent\\agent_output\\27inch_Monitor_Assembly-20260428_113916\\parts\\stand_column_outer\\stand_column_outer_model.py",
+      "model_file": "D:\\a_src\\python\\sw_agent\\agent_output\\27inch_Monitor_Assembly-20260428_113916\\parts\\stand_column_outer\\stand_column_outer.SLDPRT",
+      "log_file": "D:\\a_src\\python\\sw_agent\\agent_output\\27inch_Monitor_Assembly-20260428_113916\\logs\\stand_column_outer_model.log",
+      "spec_file": "D:\\a_src\\python\\sw_agent\\agent_output\\27inch_Monitor_Assembly-20260428_113916\\json\\stand_column_outer_spec.json"
+    },
+    "standalone_modeling_instructions": [
+      "Sketch two concentric circles on XY plane: OD 40mm, ID 32mm.",
+      "Extrude boss/base 200mm in +Z direction."
+    ]
+  }
+}

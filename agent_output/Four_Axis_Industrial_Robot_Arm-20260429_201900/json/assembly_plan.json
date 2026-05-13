@@ -1,0 +1,595 @@
+{
+  "request_type": "assembly",
+  "assembly": {
+    "name": "Four_Axis_Industrial_Robot_Arm",
+    "summary": "创建一个包含底座、回转台、连杆、关节叉、销轴及夹爪的四轴工业机械臂装配体，通过同轴和平面重合实现运动副约束。",
+    "workspace": {
+      "root_dir": "D:\\a_src\\python\\sw_agent\\agent_output\\Four_Axis_Industrial_Robot_Arm-20260429_201900",
+      "parts_dir": "D:\\a_src\\python\\sw_agent\\agent_output\\Four_Axis_Industrial_Robot_Arm-20260429_201900\\parts",
+      "assembly_dir": "D:\\a_src\\python\\sw_agent\\agent_output\\Four_Axis_Industrial_Robot_Arm-20260429_201900\\assembly",
+      "json_dir": "D:\\a_src\\python\\sw_agent\\agent_output\\Four_Axis_Industrial_Robot_Arm-20260429_201900\\json",
+      "logs_dir": "D:\\a_src\\python\\sw_agent\\agent_output\\Four_Axis_Industrial_Robot_Arm-20260429_201900\\logs",
+      "screenshots_dir": "D:\\a_src\\python\\sw_agent\\agent_output\\Four_Axis_Industrial_Robot_Arm-20260429_201900\\screenshots",
+      "plan_file": "D:\\a_src\\python\\sw_agent\\agent_output\\Four_Axis_Industrial_Robot_Arm-20260429_201900\\json\\assembly_plan.json"
+    },
+    "global_coordinate_system": {
+      "origin": "底座底面中心",
+      "x_direction": "机械臂正前方",
+      "y_direction": "关节旋转轴向",
+      "z_direction": "垂直向上"
+    },
+    "design_rules": [
+      "所有长度单位默认为 mm，建模时需换算为 m",
+      "销轴与孔采用 0.5mm 间隙配合",
+      "关节叉开口宽度 W1 = 连杆端部厚度 W2 + 1.0mm",
+      "优先使用 MidPlane 居中对齐以保证对称性"
+    ],
+    "parts": [
+      {
+        "part_id": "robot_base",
+        "name": "底座",
+        "function": "支撑整个机械臂并提供第一轴旋转基准",
+        "shape": "圆柱形底盘，顶部带有中心轴孔",
+        "key_dimensions": [
+          "直径: 200mm",
+          "高度: 150mm",
+          "中心孔径: 50mm"
+        ],
+        "material_or_notes": "铸铁或钢材",
+        "quantity": 1,
+        "instance_ids": [
+          "base_inst"
+        ],
+        "interfaces": {
+          "faces": [
+            {
+              "name": "bottom_face",
+              "purpose": "地面固定面",
+              "normal_direction_relation": "normal -Z"
+            },
+            {
+              "name": "top_mount_face",
+              "purpose": "回转台支撑面",
+              "normal_direction_relation": "normal +Z"
+            }
+          ],
+          "axes": [
+            {
+              "name": "center_axis_z",
+              "purpose": "第一轴旋转中心",
+              "direction_relation": "along local Z"
+            }
+          ],
+          "points": []
+        },
+        "assembly_relation_notes": [
+          "固定在地面"
+        ],
+        "workspace": {
+          "part_dir": "D:\\a_src\\python\\sw_agent\\agent_output\\Four_Axis_Industrial_Robot_Arm-20260429_201900\\parts\\robot_base",
+          "code_file": "D:\\a_src\\python\\sw_agent\\agent_output\\Four_Axis_Industrial_Robot_Arm-20260429_201900\\parts\\robot_base\\robot_base_model.py",
+          "model_file": "D:\\a_src\\python\\sw_agent\\agent_output\\Four_Axis_Industrial_Robot_Arm-20260429_201900\\parts\\robot_base\\robot_base.SLDPRT",
+          "log_file": "D:\\a_src\\python\\sw_agent\\agent_output\\Four_Axis_Industrial_Robot_Arm-20260429_201900\\logs\\robot_base_model.log",
+          "screenshot_dir": "D:\\a_src\\python\\sw_agent\\agent_output\\Four_Axis_Industrial_Robot_Arm-20260429_201900\\screenshots\\robot_base",
+          "spec_file": "D:\\a_src\\python\\sw_agent\\agent_output\\Four_Axis_Industrial_Robot_Arm-20260429_201900\\json\\robot_base_spec.json"
+        },
+        "standalone_modeling_instructions": "在XY平面绘制直径200mm圆拉伸150mm，顶面中心切除直径50mm深50mm的孔。"
+      },
+      {
+        "part_id": "turntable",
+        "name": "回转台",
+        "function": "实现第一轴水平旋转",
+        "shape": "阶梯圆柱，底部与底座配合，顶部带有U形叉架接口",
+        "key_dimensions": [
+          "外径: 180mm",
+          "总高: 100mm",
+          "叉架开口宽: 61mm"
+        ],
+        "material_or_notes": "铝合金",
+        "quantity": 1,
+        "instance_ids": [
+          "turntable_inst"
+        ],
+        "interfaces": {
+          "faces": [
+            {
+              "name": "bottom_contact_face",
+              "purpose": "与底座接触面",
+              "normal_direction_relation": "normal -Z"
+            },
+            {
+              "name": "mid_plane_y",
+              "purpose": "对称中心面",
+              "normal_direction_relation": "normal Y"
+            }
+          ],
+          "axes": [
+            {
+              "name": "rotation_axis_z",
+              "purpose": "第一轴旋转轴",
+              "direction_relation": "along local Z"
+            },
+            {
+              "name": "joint_axis_y",
+              "purpose": "第二轴销轴孔轴线",
+              "direction_relation": "along local Y"
+            }
+          ],
+          "points": []
+        },
+        "assembly_relation_notes": [
+          "与底座同轴且面贴合"
+        ],
+        "workspace": {
+          "part_dir": "D:\\a_src\\python\\sw_agent\\agent_output\\Four_Axis_Industrial_Robot_Arm-20260429_201900\\parts\\turntable",
+          "code_file": "D:\\a_src\\python\\sw_agent\\agent_output\\Four_Axis_Industrial_Robot_Arm-20260429_201900\\parts\\turntable\\turntable_model.py",
+          "model_file": "D:\\a_src\\python\\sw_agent\\agent_output\\Four_Axis_Industrial_Robot_Arm-20260429_201900\\parts\\turntable\\turntable.SLDPRT",
+          "log_file": "D:\\a_src\\python\\sw_agent\\agent_output\\Four_Axis_Industrial_Robot_Arm-20260429_201900\\logs\\turntable_model.log",
+          "screenshot_dir": "D:\\a_src\\python\\sw_agent\\agent_output\\Four_Axis_Industrial_Robot_Arm-20260429_201900\\screenshots\\turntable",
+          "spec_file": "D:\\a_src\\python\\sw_agent\\agent_output\\Four_Axis_Industrial_Robot_Arm-20260429_201900\\json\\turntable_spec.json"
+        },
+        "standalone_modeling_instructions": "在XY面拉伸主体，在侧向切除形成U型槽，槽宽61mm，并在槽壁打直径20mm通孔。"
+      },
+      {
+        "part_id": "joint_fork",
+        "name": "关节叉",
+        "function": "连接连杆并提供旋转支点",
+        "shape": "U形结构，底部为圆柱连接端，顶部为叉形开口",
+        "key_dimensions": [
+          "开口宽度: 61mm",
+          "销轴孔径: 20mm",
+          "总长: 120mm"
+        ],
+        "material_or_notes": "铝合金",
+        "quantity": 2,
+        "instance_ids": [
+          "fork_elbow",
+          "fork_wrist"
+        ],
+        "interfaces": {
+          "faces": [
+            {
+              "name": "base_face",
+              "purpose": "底部安装面",
+              "normal_direction_relation": "normal -X"
+            },
+            {
+              "name": "mid_plane_y",
+              "purpose": "对称中心面",
+              "normal_direction_relation": "normal Y"
+            }
+          ],
+          "axes": [
+            {
+              "name": "hinge_axis_y",
+              "purpose": "关节旋转轴",
+              "direction_relation": "along local Y"
+            }
+          ],
+          "points": []
+        },
+        "assembly_relation_notes": [
+          "通过销轴与连杆连接"
+        ],
+        "workspace": {
+          "part_dir": "D:\\a_src\\python\\sw_agent\\agent_output\\Four_Axis_Industrial_Robot_Arm-20260429_201900\\parts\\joint_fork",
+          "code_file": "D:\\a_src\\python\\sw_agent\\agent_output\\Four_Axis_Industrial_Robot_Arm-20260429_201900\\parts\\joint_fork\\joint_fork_model.py",
+          "model_file": "D:\\a_src\\python\\sw_agent\\agent_output\\Four_Axis_Industrial_Robot_Arm-20260429_201900\\parts\\joint_fork\\joint_fork.SLDPRT",
+          "log_file": "D:\\a_src\\python\\sw_agent\\agent_output\\Four_Axis_Industrial_Robot_Arm-20260429_201900\\logs\\joint_fork_model.log",
+          "screenshot_dir": "D:\\a_src\\python\\sw_agent\\agent_output\\Four_Axis_Industrial_Robot_Arm-20260429_201900\\screenshots\\joint_fork",
+          "spec_file": "D:\\a_src\\python\\sw_agent\\agent_output\\Four_Axis_Industrial_Robot_Arm-20260429_201900\\json\\joint_fork_spec.json"
+        },
+        "standalone_modeling_instructions": "拉伸U型主体，确保开口宽度为61mm，在叉部两侧打20mm同心孔。"
+      },
+      {
+        "part_id": "hollow_link",
+        "name": "连杆",
+        "function": "机械臂臂身，连接两个关节",
+        "shape": "长方体或圆管，两端带有连接头",
+        "key_dimensions": [
+          "长度: 400mm",
+          "端部厚度: 60mm",
+          "销轴孔径: 20mm"
+        ],
+        "material_or_notes": "碳纤维或铝管",
+        "quantity": 2,
+        "instance_ids": [
+          "link_upper_arm",
+          "link_forearm"
+        ],
+        "interfaces": {
+          "faces": [
+            {
+              "name": "mid_plane_y",
+              "purpose": "对称中心面",
+              "normal_direction_relation": "normal Y"
+            }
+          ],
+          "axes": [
+            {
+              "name": "start_axis_y",
+              "purpose": "起始端旋转轴",
+              "direction_relation": "along local Y"
+            },
+            {
+              "name": "end_axis_y",
+              "purpose": "末端旋转轴",
+              "direction_relation": "along local Y"
+            }
+          ],
+          "points": []
+        },
+        "assembly_relation_notes": [
+          "两端分别插入关节叉"
+        ],
+        "workspace": {
+          "part_dir": "D:\\a_src\\python\\sw_agent\\agent_output\\Four_Axis_Industrial_Robot_Arm-20260429_201900\\parts\\hollow_link",
+          "code_file": "D:\\a_src\\python\\sw_agent\\agent_output\\Four_Axis_Industrial_Robot_Arm-20260429_201900\\parts\\hollow_link\\hollow_link_model.py",
+          "model_file": "D:\\a_src\\python\\sw_agent\\agent_output\\Four_Axis_Industrial_Robot_Arm-20260429_201900\\parts\\hollow_link\\hollow_link.SLDPRT",
+          "log_file": "D:\\a_src\\python\\sw_agent\\agent_output\\Four_Axis_Industrial_Robot_Arm-20260429_201900\\logs\\hollow_link_model.log",
+          "screenshot_dir": "D:\\a_src\\python\\sw_agent\\agent_output\\Four_Axis_Industrial_Robot_Arm-20260429_201900\\screenshots\\hollow_link",
+          "spec_file": "D:\\a_src\\python\\sw_agent\\agent_output\\Four_Axis_Industrial_Robot_Arm-20260429_201900\\json\\hollow_link_spec.json"
+        },
+        "standalone_modeling_instructions": "拉伸400mm长臂，两端加厚至60mm并打20mm通孔，添加减重孔特征。"
+      },
+      {
+        "part_id": "pivot_pin",
+        "name": "销轴",
+        "function": "连接叉架与连杆的转轴",
+        "shape": "圆柱体，两端带倒角",
+        "key_dimensions": [
+          "直径: 19.5mm",
+          "长度: 80mm"
+        ],
+        "material_or_notes": "不锈钢",
+        "quantity": 3,
+        "instance_ids": [
+          "pin_shoulder",
+          "pin_elbow",
+          "pin_wrist"
+        ],
+        "interfaces": {
+          "faces": [
+            {
+              "name": "cylinder_surface",
+              "purpose": "配合面",
+              "normal_direction_relation": "radial"
+            },
+            {
+              "name": "end_face",
+              "purpose": "轴向定位面",
+              "normal_direction_relation": "normal X"
+            }
+          ],
+          "axes": [
+            {
+              "name": "main_axis",
+              "purpose": "中心轴线",
+              "direction_relation": "along local X"
+            }
+          ],
+          "points": []
+        },
+        "assembly_relation_notes": [
+          "插入关节叉与连杆的重合孔中"
+        ],
+        "workspace": {
+          "part_dir": "D:\\a_src\\python\\sw_agent\\agent_output\\Four_Axis_Industrial_Robot_Arm-20260429_201900\\parts\\pivot_pin",
+          "code_file": "D:\\a_src\\python\\sw_agent\\agent_output\\Four_Axis_Industrial_Robot_Arm-20260429_201900\\parts\\pivot_pin\\pivot_pin_model.py",
+          "model_file": "D:\\a_src\\python\\sw_agent\\agent_output\\Four_Axis_Industrial_Robot_Arm-20260429_201900\\parts\\pivot_pin\\pivot_pin.SLDPRT",
+          "log_file": "D:\\a_src\\python\\sw_agent\\agent_output\\Four_Axis_Industrial_Robot_Arm-20260429_201900\\logs\\pivot_pin_model.log",
+          "screenshot_dir": "D:\\a_src\\python\\sw_agent\\agent_output\\Four_Axis_Industrial_Robot_Arm-20260429_201900\\screenshots\\pivot_pin",
+          "spec_file": "D:\\a_src\\python\\sw_agent\\agent_output\\Four_Axis_Industrial_Robot_Arm-20260429_201900\\json\\pivot_pin_spec.json"
+        },
+        "standalone_modeling_instructions": "拉伸直径19.5mm圆柱至80mm，两端添加1x45度倒角。"
+      },
+      {
+        "part_id": "gripper",
+        "name": "夹爪",
+        "function": "末端执行器",
+        "shape": "带有安装座的双指结构",
+        "key_dimensions": [
+          "安装座厚度: 60mm",
+          "销轴孔径: 20mm"
+        ],
+        "material_or_notes": "工程塑料或铝",
+        "quantity": 1,
+        "instance_ids": [
+          "gripper_inst"
+        ],
+        "interfaces": {
+          "faces": [
+            {
+              "name": "mid_plane_y",
+              "purpose": "对称中心面",
+              "normal_direction_relation": "normal Y"
+            }
+          ],
+          "axes": [
+            {
+              "name": "mount_axis_y",
+              "purpose": "末端安装轴",
+              "direction_relation": "along local Y"
+            }
+          ],
+          "points": []
+        },
+        "assembly_relation_notes": [
+          "安装在最后一个关节叉上"
+        ],
+        "workspace": {
+          "part_dir": "D:\\a_src\\python\\sw_agent\\agent_output\\Four_Axis_Industrial_Robot_Arm-20260429_201900\\parts\\gripper",
+          "code_file": "D:\\a_src\\python\\sw_agent\\agent_output\\Four_Axis_Industrial_Robot_Arm-20260429_201900\\parts\\gripper\\gripper_model.py",
+          "model_file": "D:\\a_src\\python\\sw_agent\\agent_output\\Four_Axis_Industrial_Robot_Arm-20260429_201900\\parts\\gripper\\gripper.SLDPRT",
+          "log_file": "D:\\a_src\\python\\sw_agent\\agent_output\\Four_Axis_Industrial_Robot_Arm-20260429_201900\\logs\\gripper_model.log",
+          "screenshot_dir": "D:\\a_src\\python\\sw_agent\\agent_output\\Four_Axis_Industrial_Robot_Arm-20260429_201900\\screenshots\\gripper",
+          "spec_file": "D:\\a_src\\python\\sw_agent\\agent_output\\Four_Axis_Industrial_Robot_Arm-20260429_201900\\json\\gripper_spec.json"
+        },
+        "standalone_modeling_instructions": "建立夹爪基座，打20mm安装孔，拉伸出两个手指特征。"
+      }
+    ],
+    "instances": [
+      {
+        "instance_id": "base_inst",
+        "part_id": "robot_base",
+        "name": "底座实例",
+        "instance_role": "固定基座",
+        "placement_notes": "放置于全局原点",
+        "interface_usage": {
+          "faces": [
+            "bottom_face",
+            "top_mount_face"
+          ],
+          "axes": [
+            "center_axis_z"
+          ],
+          "points": []
+        }
+      },
+      {
+        "instance_id": "turntable_inst",
+        "part_id": "turntable",
+        "name": "回转台实例",
+        "instance_role": "第一轴旋转体",
+        "placement_notes": "安装在底座上方",
+        "interface_usage": {
+          "faces": [
+            "bottom_contact_face",
+            "mid_plane_y"
+          ],
+          "axes": [
+            "rotation_axis_z",
+            "joint_axis_y"
+          ],
+          "points": []
+        }
+      },
+      {
+        "instance_id": "link_upper_arm",
+        "part_id": "hollow_link",
+        "name": "大臂连杆",
+        "instance_role": "第二段臂",
+        "placement_notes": "连接回转台与肘关节",
+        "interface_usage": {
+          "faces": [
+            "mid_plane_y"
+          ],
+          "axes": [
+            "start_axis_y",
+            "end_axis_y"
+          ],
+          "points": []
+        }
+      },
+      {
+        "instance_id": "fork_elbow",
+        "part_id": "joint_fork",
+        "name": "肘关节叉",
+        "instance_role": "连接大臂与小臂",
+        "placement_notes": "位于大臂末端",
+        "interface_usage": {
+          "faces": [
+            "mid_plane_y"
+          ],
+          "axes": [
+            "hinge_axis_y"
+          ],
+          "points": []
+        }
+      },
+      {
+        "instance_id": "link_forearm",
+        "part_id": "hollow_link",
+        "name": "小臂连杆",
+        "instance_role": "第三段臂",
+        "placement_notes": "连接肘关节与腕关节",
+        "interface_usage": {
+          "faces": [
+            "mid_plane_y"
+          ],
+          "axes": [
+            "start_axis_y",
+            "end_axis_y"
+          ],
+          "points": []
+        }
+      },
+      {
+        "instance_id": "fork_wrist",
+        "part_id": "joint_fork",
+        "name": "腕关节叉",
+        "instance_role": "连接小臂与夹爪",
+        "placement_notes": "位于小臂末端",
+        "interface_usage": {
+          "faces": [
+            "mid_plane_y"
+          ],
+          "axes": [
+            "hinge_axis_y"
+          ],
+          "points": []
+        }
+      },
+      {
+        "instance_id": "gripper_inst",
+        "part_id": "gripper",
+        "name": "夹爪实例",
+        "instance_role": "末端执行器",
+        "placement_notes": "安装在腕关节叉上",
+        "interface_usage": {
+          "faces": [
+            "mid_plane_y"
+          ],
+          "axes": [
+            "mount_axis_y"
+          ],
+          "points": []
+        }
+      },
+      {
+        "instance_id": "pin_shoulder",
+        "part_id": "pivot_pin",
+        "name": "肩部销轴",
+        "instance_role": "连接回转台与大臂",
+        "placement_notes": "插入回转台销轴孔",
+        "interface_usage": {
+          "faces": [
+            "cylinder_surface"
+          ],
+          "axes": [
+            "main_axis"
+          ],
+          "points": []
+        }
+      },
+      {
+        "instance_id": "pin_elbow",
+        "part_id": "pivot_pin",
+        "name": "肘部销轴",
+        "instance_role": "连接大臂与肘关节叉",
+        "placement_notes": "插入肘关节孔",
+        "interface_usage": {
+          "faces": [
+            "cylinder_surface"
+          ],
+          "axes": [
+            "main_axis"
+          ],
+          "points": []
+        }
+      },
+      {
+        "instance_id": "pin_wrist",
+        "part_id": "pivot_pin",
+        "name": "腕部销轴",
+        "instance_role": "连接小臂与腕关节叉",
+        "placement_notes": "插入腕关节孔",
+        "interface_usage": {
+          "faces": [
+            "cylinder_surface"
+          ],
+          "axes": [
+            "main_axis"
+          ],
+          "points": []
+        }
+      }
+    ],
+    "assembly_sequence": [
+      "1. 固定 base_inst",
+      "2. 将 turntable_inst 装配至 base_inst",
+      "3. 将 link_upper_arm 装配至 turntable_inst 并用 pin_shoulder 锁定",
+      "4. 将 fork_elbow 装配至 link_upper_arm 并用 pin_elbow 锁定",
+      "5. 将 link_forearm 装配至 fork_elbow",
+      "6. 将 fork_wrist 装配至 link_forearm 并用 pin_wrist 锁定",
+      "7. 将 gripper_inst 装配至 fork_wrist"
+    ],
+    "constraints": [
+      {
+        "source_instance_id": "base_inst",
+        "source_part_id": "robot_base",
+        "source_interface": "bottom_face",
+        "target_instance_id": "GROUND",
+        "target_part_id": "GROUND",
+        "target_interface": "XY_PLANE",
+        "relation": "fix",
+        "alignment": "na",
+        "offset_mm": 0,
+        "notes": "固定底座"
+      },
+      {
+        "source_instance_id": "turntable_inst",
+        "source_part_id": "turntable",
+        "source_interface": "rotation_axis_z",
+        "target_instance_id": "base_inst",
+        "target_part_id": "robot_base",
+        "target_interface": "center_axis_z",
+        "relation": "axi_coincident",
+        "alignment": "aligned",
+        "offset_mm": 0,
+        "notes": "第一轴同心"
+      },
+      {
+        "source_instance_id": "turntable_inst",
+        "source_part_id": "turntable",
+        "source_interface": "bottom_contact_face",
+        "target_instance_id": "base_inst",
+        "target_part_id": "robot_base",
+        "target_interface": "top_mount_face",
+        "relation": "face_coincident",
+        "alignment": "opposed",
+        "offset_mm": 0,
+        "notes": "回转台坐落在底座上"
+      },
+      {
+        "source_instance_id": "link_upper_arm",
+        "source_part_id": "hollow_link",
+        "source_interface": "start_axis_y",
+        "target_instance_id": "turntable_inst",
+        "target_part_id": "turntable",
+        "target_interface": "joint_axis_y",
+        "relation": "axi_coincident",
+        "alignment": "aligned",
+        "offset_mm": 0,
+        "notes": "第二轴（肩部）同心"
+      },
+      {
+        "source_instance_id": "link_upper_arm",
+        "source_part_id": "hollow_link",
+        "source_interface": "mid_plane_y",
+        "target_instance_id": "turntable_inst",
+        "target_part_id": "turntable",
+        "target_interface": "mid_plane_y",
+        "relation": "face_coincident",
+        "alignment": "aligned",
+        "offset_mm": 0,
+        "notes": "大臂在回转台叉架内居中"
+      },
+      {
+        "source_instance_id": "pin_shoulder",
+        "source_part_id": "pivot_pin",
+        "source_interface": "main_axis",
+        "target_instance_id": "turntable_inst",
+        "target_part_id": "turntable",
+        "target_interface": "joint_axis_y",
+        "relation": "axi_coincident",
+        "alignment": "aligned",
+        "offset_mm": 0,
+        "notes": "插入肩部销轴"
+      }
+    ],
+    "assembly_output": {
+      "code_file": "D:\\a_src\\python\\sw_agent\\agent_output\\Four_Axis_Industrial_Robot_Arm-20260429_201900\\assembly\\assembly_build.py",
+      "model_file": "D:\\a_src\\python\\sw_agent\\agent_output\\Four_Axis_Industrial_Robot_Arm-20260429_201900\\assembly\\Four_Axis_Industrial_Robot_Arm.SLDASM",
+      "log_file": "D:\\a_src\\python\\sw_agent\\agent_output\\Four_Axis_Industrial_Robot_Arm-20260429_201900\\logs\\assembly.log",
+      "screenshot_dir": "D:\\a_src\\python\\sw_agent\\agent_output\\Four_Axis_Industrial_Robot_Arm-20260429_201900\\screenshots\\assembly"
+    },
+    "review_comments": [
+      "建模建议：请确保 joint_fork 的外总宽小于 pivot_pin 的长度（80mm），建议 joint_fork 的壁厚设为 8mm，则外宽为 61 + 8*2 = 77mm，以配合 80mm 销轴。",
+      "建模建议：hollow_link 的两端孔距应严格等于 400mm，且端部厚度 60mm 需与 joint_fork 的开口 61mm 严格对应。",
+      "装配建议：对于 fork_elbow、link_forearm 等后续组件，虽然 JSON 约束列表未完全列出，请装配代码智能体参照 link_upper_arm 的模式，依次执行：1. MidPlane 重合；2. 同轴约束；3. 销轴插入。",
+      "装配建议：销轴（pivot_pin）除了同轴约束外，建议增加一个端面与关节叉外侧面的距离约束（如 1.5mm）或对称约束，防止销轴在孔内自由滑动。",
+      "坐标系建议：由于机械臂存在多级旋转，建议在每个零件的孔中心建立参考基准轴（Axis），以提高装配代码调用 API 时的稳定性。"
+    ]
+  }
+}

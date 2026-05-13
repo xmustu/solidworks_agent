@@ -1,0 +1,61 @@
+{
+  "request_type": "part",
+  "part_context": {
+    "name": "Simple_Rectangular_Desk",
+    "summary": "设计一个现代简约风格的矩形办公桌，作为单个零件实体。包含1200x600x25mm的桌面和4条40x40x725mm的方形桌腿，桌腿与桌面直接融合。桌面边缘C2倒角，桌腿底部R2圆角。总高750mm。",
+    "key_requirements": [
+      "主体为单零件实体，无装配配合关系",
+      "桌面尺寸：长1200mm，宽600mm，厚25mm",
+      "桌腿数量：4条，截面40x40mm，高度725mm",
+      "桌腿位置：位于桌面四角内侧，距边缘适当距离（如内缩20mm）",
+      "特征：桌面边缘C2倒角，桌腿底部R2圆角",
+      "坐标系：XY平面为地面，Z轴向上，桌面中心对齐原点"
+    ],
+    "assumptions": [
+      "单位默认为mm，代码中转换为m",
+      "主草图面为XY平面",
+      "未指定材质，仅生成几何形状",
+      "桌腿与桌面通过布尔并集合并为一个实体",
+      "交付物为Python建模代码"
+    ],
+    "requested_outputs": [
+      "Python modeling code"
+    ],
+    "interfaces": []
+  },
+  "part": {
+    "part_id": "Simple_Rectangular_Desk",
+    "name": "Simple_Rectangular_Desk",
+    "function": "设计一个现代简约风格的矩形办公桌，作为单个零件实体。包含1200x600x25mm的桌面和4条40x40x725mm的方形桌腿，桌腿与桌面直接融合。桌面边缘C2倒角，桌腿底部R2圆角。总高750mm。",
+    "shape": "根据需求分析结果由建模智能体细化",
+    "key_dimensions": [
+      "主体为单零件实体，无装配配合关系",
+      "桌面尺寸：长1200mm，宽600mm，厚25mm",
+      "桌腿数量：4条，截面40x40mm，高度725mm",
+      "桌腿位置：位于桌面四角内侧，距边缘适当距离（如内缩20mm）",
+      "特征：桌面边缘C2倒角，桌腿底部R2圆角",
+      "坐标系：XY平面为地面，Z轴向上，桌面中心对齐原点"
+    ],
+    "material_or_notes": "单位默认为mm，代码中转换为m; 主草图面为XY平面; 未指定材质，仅生成几何形状; 桌腿与桌面通过布尔并集合并为一个实体; 交付物为Python建模代码",
+    "interfaces": {
+      "faces": [],
+      "axes": [],
+      "points": []
+    },
+    "standalone_modeling_instructions": [
+      "主体为单零件实体，无装配配合关系",
+      "桌面尺寸：长1200mm，宽600mm，厚25mm",
+      "桌腿数量：4条，截面40x40mm，高度725mm",
+      "桌腿位置：位于桌面四角内侧，距边缘适当距离（如内缩20mm）",
+      "特征：桌面边缘C2倒角，桌腿底部R2圆角",
+      "坐标系：XY平面为地面，Z轴向上，桌面中心对齐原点"
+    ],
+    "workspace": {
+      "part_dir": "D:\\a_src\\python\\sw_agent\\agent_output\\Simple_Rectangular_Desk-20260428_150713\\part",
+      "code_file": "D:\\a_src\\python\\sw_agent\\agent_output\\Simple_Rectangular_Desk-20260428_150713\\part\\Simple_Rectangular_Desk_model.py",
+      "model_file": "D:\\a_src\\python\\sw_agent\\agent_output\\Simple_Rectangular_Desk-20260428_150713\\part\\Simple_Rectangular_Desk.SLDPRT",
+      "log_file": "D:\\a_src\\python\\sw_agent\\agent_output\\Simple_Rectangular_Desk-20260428_150713\\logs\\Simple_Rectangular_Desk_model.log",
+      "spec_file": "D:\\a_src\\python\\sw_agent\\agent_output\\Simple_Rectangular_Desk-20260428_150713\\json\\Simple_Rectangular_Desk_spec.json"
+    }
+  }
+}

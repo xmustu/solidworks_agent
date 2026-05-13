@@ -1,0 +1,3 @@
+Execution Failed with error:
+Warning: 'pyswassem' not found. Attempting to locate SW API...
+Critical Error: SolidWorks API module not found. Please ensure the correct package is installed.

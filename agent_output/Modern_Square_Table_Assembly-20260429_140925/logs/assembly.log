@@ -1,0 +1,58 @@
+[pysw] 已获得 SOLIDWORKS 跨进程任务锁: C:\Users\12617\AppData\Local\Temp\pysw_solidworks_task.lock
+[LOG] Creating assembly document: Modern_Square_Table_Assembly
+----------------------------------------
+Python 成功接收到的新装配名称: 
+----------------------------------------
+
+[C# 调试日志]:
+[DEBUG] 14:13:22 - 接收到参数，尝试创建并激活文档: Modern_Square_Table_Assembly
+[DEBUG] 14:13:22 - 尝试连接 SolidWorks...
+[DEBUG] 14:13:22 - 成功连接到已运行的实例。
+
+[LOG] Inserting Table Top...
+成功导入组件: table_top-1
+[LOG] Table Top inserted as: table_top-1
+[LOG] Inserting Leg instance: inst_leg_fl...
+成功导入组件: table_leg-1
+[LOG] inst_leg_fl inserted as: table_leg-1
+[LOG] Inserting Leg instance: inst_leg_fr...
+成功导入组件: table_leg-2
+[LOG] inst_leg_fr inserted as: table_leg-2
+[LOG] Inserting Leg instance: inst_leg_bl...
+成功导入组件: table_leg-3
+[LOG] inst_leg_bl inserted as: table_leg-3
+[LOG] Inserting Leg instance: inst_leg_br...
+成功导入组件: table_leg-4
+[LOG] inst_leg_br inserted as: table_leg-4
+[LOG] Inserting Cross Beam Frame...
+成功导入组件: cross_beam_frame-1
+[LOG] Cross Beam inserted as: cross_beam_frame-1
+[LOG] Constraint: Fix Table Top (Base)
+[LOG] Mating inst_leg_fl top_face to Table Top bottom_face...
+❌ 平面配合选择失败: top_face@table_leg-1@Modern_Square_Table_Assembly 或 bottom_face@table_top-1@Modern_Square_Table_Assembly
+[LOG] Success: Face mate for inst_leg_fl
+[LOG] Mating inst_leg_fr top_face to Table Top bottom_face...
+❌ 平面配合选择失败: top_face@table_leg-2@Modern_Square_Table_Assembly 或 bottom_face@table_top-1@Modern_Square_Table_Assembly
+[LOG] Success: Face mate for inst_leg_fr
+[LOG] Mating inst_leg_bl top_face to Table Top bottom_face...
+❌ 平面配合选择失败: top_face@table_leg-3@Modern_Square_Table_Assembly 或 bottom_face@table_top-1@Modern_Square_Table_Assembly
+[LOG] Success: Face mate for inst_leg_bl
+[LOG] Mating inst_leg_br top_face to Table Top bottom_face...
+❌ 平面配合选择失败: top_face@table_leg-4@Modern_Square_Table_Assembly 或 bottom_face@table_top-1@Modern_Square_Table_Assembly
+[LOG] Success: Face mate for inst_leg_br
+[LOG] Mating Beam end_face_x_minus to FL Leg inner_face_x_plus...
+❌ 平面配合选择失败: end_face_x_minus@cross_beam_frame-1@Modern_Square_Table_Assembly 或 inner_face_x_plus@table_leg-1@Modern_Square_Table_Assembly
+[LOG] Success: Beam-FL X mate
+[LOG] Mating Beam end_face_x_plus to FR Leg inner_face_x_minus...
+❌ 平面配合选择失败: end_face_x_plus@cross_beam_frame-1@Modern_Square_Table_Assembly 或 inner_face_x_minus@table_leg-2@Modern_Square_Table_Assembly
+[LOG] Success: Beam-FR X mate
+[LOG] Mating Beam end_face_y_minus to FL Leg inner_face_y_plus...
+✅ 平面配合 end_face_y_minus-inner_face_y_plus 完成 (cross_beam_frame-1 <-> table_leg-1)
+[LOG] Success: Beam-FL Y mate
+[LOG] Mating Beam end_face_y_plus to BL Leg inner_face_y_minus...
+❌ 平面配合选择失败: end_face_y_plus@cross_beam_frame-1@Modern_Square_Table_Assembly 或 inner_face_y_minus@table_leg-3@Modern_Square_Table_Assembly
+[LOG] Success: Beam-BL Y mate
+[LOG] Saving assembly to: D:\a_src\python\sw_agent\agent_output\Modern_Square_Table_Assembly-20260429_140925\assembly\Modern_Square_Table_Assembly.SLDASM
+Assembly save failed, code: True
+[LOG] Assembly saved successfully.
+[pysw] 已释放 SOLIDWORKS 跨进程任务锁

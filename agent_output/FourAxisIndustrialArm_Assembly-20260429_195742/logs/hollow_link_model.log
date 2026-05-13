@@ -1,0 +1,99 @@
+===== Clear SolidWorks =====
+
+returncode=0
+STDOUT:
+[pysw] 已获得 SOLIDWORKS 跨进程任务锁: C:\Users\12617\AppData\Local\Temp\pysw_solidworks_task.lock
+[pysw] 当前进程开始执行 SW 任务前，自动关闭所有已打开文档
+已关闭当前 SOLIDWORKS 会话中的所有文档
+SolidWorks initialized with close_before_task=True
+[pysw] 已释放 SOLIDWORKS 跨进程任务锁
+STDERR:
+(empty)
+
+===== Execute Script =====
+
+returncode=0
+STDOUT:
+[pysw] 已获得 SOLIDWORKS 跨进程任务锁: C:\Users\12617\AppData\Local\Temp\pysw_solidworks_task.lock
+[pysw] 当前进程开始执行 SW 任务前，自动关闭所有已打开文档
+已关闭当前 SOLIDWORKS 会话中的所有文档
+----------------------------------------
+Python 成功接收到的新零件名称: HollowLink
+----------------------------------------
+
+[C# 调试日志]:
+[DEBUG] 20:03:09 - 接收到参数，尝试创建并激活文档: HollowLink
+[DEBUG] 20:03:09 - 尝试连接 SolidWorks...
+[DEBUG] 20:03:09 - 成功连接到已运行的实例。
+
+Step 1: Creating main beam body...
+矩形对象信息: (<COMObject CreateCenterRectangle>, <COMObject CreateCenterRectangle>, <COMObject CreateCenterRectangle>, <COMObject CreateCenterRectangle>, <COMObject CreateCenterRectangle>, <COMObject CreateCenterRectangle>)
+检测到当前有未退出的草图，正在自动退出以继续操作...
+草图选择成功，准备拉伸
+拉伸成功
+Step 2: Creating start bearing seat...
+检测到当前有未退出的草图，正在自动退出以继续操作...
+草图选择成功，准备拉伸
+拉伸成功
+Step 3: Creating end bearing seat...
+检测到当前有未退出的草图，正在自动退出以继续操作...
+草图选择成功，准备拉伸
+拉伸成功
+Step 4: Drilling hinge holes...
+检测到当前有未退出的草图，正在自动退出以继续操作...
+草图选择成功，准备拉伸
+拉伸切除成功
+检测到当前有未退出的草图，正在自动退出以继续操作...
+草图选择成功，准备拉伸
+拉伸切除成功
+Step 5: Hollowing the link...
+[SelectionHelper] Face 选择失败，最近距离=0.01, 最近点=(0.15, 0.01, 0.01), tol=1e-06
+面选择失败，无法壳化
+Step 6: Applying chamfers...
+正在选中 4 条边以进行倒角...
+[SelectionHelper] Edge 选择失败，最近距离=0.019798989873223333, 最近点=(0.15, 0.01, 0.024), tol=1e-05
+[Warn] 未能在坐标 (0.15, 0.024, 0.01) 处选中边
+[SelectionHelper] Edge 选择失败，最近距离=0.019798989873223333, 最近点=(0.15, -0.01, 0.024), tol=1e-05
+[Warn] 未能在坐标 (0.15, -0.024, 0.01) 处选中边
+[SelectionHelper] Edge 选择失败，最近距离=0.019798989873223333, 最近点=(0.15, 0.01, -0.024), tol=1e-05
+[Warn] 未能在坐标 (0.15, 0.024, -0.01) 处选中边
+[SelectionHelper] Edge 选择失败，最近距离=0.019798989873223333, 最近点=(0.15, -0.01, -0.024), tol=1e-05
+[Warn] 未能在坐标 (0.15, -0.024, -0.01) 处选中边
+[失败]未选中任何边，无法倒角
+Step 7: Creating reference axes and planes for interfaces...
+✅ 成功创建基准轴 [start_hinge_axis_y]
+✅ 成功创建基准轴 [end_hinge_axis_y]
+✅ 成功创建基准轴 [longitudinal_axis_x]
+Saving part to: D:\a_src\python\sw_agent\agent_output\FourAxisIndustrialArm_Assembly-20260429_195742\parts\hollow_link\hollow_link.SLDPRT
+正在保存零件到: D:\a_src\python\sw_agent\agent_output\FourAxisIndustrialArm_Assembly-20260429_195742\parts\hollow_link\hollow_link.SLDPRT ...
+零件已保存至: D:\a_src\python\sw_agent\agent_output\FourAxisIndustrialArm_Assembly-20260429_195742\parts\hollow_link\hollow_link.SLDPRT
+[pysw] 已释放 SOLIDWORKS 跨进程任务锁
+STDERR:
+(empty)
+
+===== Capture Screenshots =====
+
+returncode=0
+STDOUT:
+[pysw] 已获得 SOLIDWORKS 跨进程任务锁: C:\Users\12617\AppData\Local\Temp\pysw_solidworks_task.lock
+SolidWorks initialized with close_before_task=False
+开始截取当前模型视图，输出目录: D:\a_src\python\sw_agent\agent_output\FourAxisIndustrialArm_Assembly-20260429_195742\screenshots\hollow_link
+[OK] 已保存 front: D:\a_src\python\sw_agent\agent_output\FourAxisIndustrialArm_Assembly-20260429_195742\screenshots\hollow_link\hollow_link_attempt_2_front.png
+[OK] 已保存 top: D:\a_src\python\sw_agent\agent_output\FourAxisIndustrialArm_Assembly-20260429_195742\screenshots\hollow_link\hollow_link_attempt_2_top.png
+[OK] 已保存 right: D:\a_src\python\sw_agent\agent_output\FourAxisIndustrialArm_Assembly-20260429_195742\screenshots\hollow_link\hollow_link_attempt_2_right.png
+[OK] 已保存 isometric: D:\a_src\python\sw_agent\agent_output\FourAxisIndustrialArm_Assembly-20260429_195742\screenshots\hollow_link\hollow_link_attempt_2_isometric.png
+===== Screenshot Result =====
+front
+top
+right
+isometric
+[pysw] 已释放 SOLIDWORKS 跨进程任务锁
+STDERR:
+(empty)
+
+===== Screenshot Files =====
+
+D:\a_src\python\sw_agent\agent_output\FourAxisIndustrialArm_Assembly-20260429_195742\screenshots\hollow_link\hollow_link_attempt_2_front.png
+D:\a_src\python\sw_agent\agent_output\FourAxisIndustrialArm_Assembly-20260429_195742\screenshots\hollow_link\hollow_link_attempt_2_isometric.png
+D:\a_src\python\sw_agent\agent_output\FourAxisIndustrialArm_Assembly-20260429_195742\screenshots\hollow_link\hollow_link_attempt_2_right.png
+D:\a_src\python\sw_agent\agent_output\FourAxisIndustrialArm_Assembly-20260429_195742\screenshots\hollow_link\hollow_link_attempt_2_top.png

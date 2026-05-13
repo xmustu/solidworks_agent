@@ -1,0 +1,7 @@
+Execution Failed with error:
+Traceback (most recent call last):
+  File "D:\a_src\python\sw_agent\agent_output\27inch_Monitor_Assembly-20260428_113916\parts\mount_bracket\mount_bracket_model.py", line 251, in <module>
+    main()
+  File "D:\a_src\python\sw_agent\agent_output\27inch_Monitor_Assembly-20260428_113916\parts\mount_bracket\mount_bracket_model.py", line 36, in main
+    raise Exception("Failed to create vertical sketch on YZ plane")
+Exception: Failed to create vertical sketch on YZ plane

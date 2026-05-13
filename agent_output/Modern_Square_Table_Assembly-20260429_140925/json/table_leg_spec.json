@@ -1,0 +1,168 @@
+{
+  "request_type": "assembly_part",
+  "assembly_context": {
+    "name": "Modern_Square_Table_Assembly",
+    "summary": "设计一个现代简约四腿方桌装配体。包含1个矩形桌面、4根相同的方形截面桌腿、1个整体式矩形横梁框架。桌腿通过面贴合与同心配合固定在桌面下方，横梁框架位于桌腿内侧底部附近，通过面贴合与同心配合连接桌腿，形成稳定结构。",
+    "global_coordinate_system": {
+      "origin": "Table_Top center bottom face",
+      "x_direction": "Along table length (1200mm)",
+      "y_direction": "Along table width (600mm)",
+      "z_direction": "Upwards from table top"
+    },
+    "design_rules": [
+      "Units are in mm for dimensions, convert to meters for API calls if necessary.",
+      "Use coincident constraints for face mating and concentric constraints for axis alignment.",
+      "Table legs are positioned at the four corners of the tabletop underside.",
+      "Cross beam frame is centered under the table, connecting the inner faces of the legs."
+    ],
+    "instances": [
+      {
+        "instance_id": "inst_leg_fl",
+        "part_id": "table_leg",
+        "name": "Front Left Leg",
+        "instance_role": "Support leg at front-left corner",
+        "placement_notes": "Positioned at X=-580, Y=-280 relative to table center. Top face mates with table bottom.",
+        "interface_usage": {
+          "faces": [
+            "top_face",
+            "inner_face_x_plus",
+            "inner_face_y_plus"
+          ],
+          "axes": [
+            "center_axis_z"
+          ],
+          "points": []
+        }
+      },
+      {
+        "instance_id": "inst_leg_fr",
+        "part_id": "table_leg",
+        "name": "Front Right Leg",
+        "instance_role": "Support leg at front-right corner",
+        "placement_notes": "Positioned at X=580, Y=-280 relative to table center. Top face mates with table bottom.",
+        "interface_usage": {
+          "faces": [
+            "top_face",
+            "inner_face_x_minus",
+            "inner_face_y_plus"
+          ],
+          "axes": [
+            "center_axis_z"
+          ],
+          "points": []
+        }
+      },
+      {
+        "instance_id": "inst_leg_bl",
+        "part_id": "table_leg",
+        "name": "Back Left Leg",
+        "instance_role": "Support leg at back-left corner",
+        "placement_notes": "Positioned at X=-580, Y=280 relative to table center. Top face mates with table bottom.",
+        "interface_usage": {
+          "faces": [
+            "top_face",
+            "inner_face_x_plus",
+            "inner_face_y_minus"
+          ],
+          "axes": [
+            "center_axis_z"
+          ],
+          "points": []
+        }
+      },
+      {
+        "instance_id": "inst_leg_br",
+        "part_id": "table_leg",
+        "name": "Back Right Leg",
+        "instance_role": "Support leg at back-right corner",
+        "placement_notes": "Positioned at X=580, Y=280 relative to table center. Top face mates with table bottom.",
+        "interface_usage": {
+          "faces": [
+            "top_face",
+            "inner_face_x_minus",
+            "inner_face_y_minus"
+          ],
+          "axes": [
+            "center_axis_z"
+          ],
+          "points": []
+        }
+      }
+    ],
+    "assembly_sequence": [
+      "Fix inst_table_top_1",
+      "Mate inst_leg_fl top_face to inst_table_top_1 bottom_face",
+      "Mate inst_leg_fr top_face to inst_table_top_1 bottom_face",
+      "Mate inst_leg_bl top_face to inst_table_top_1 bottom_face",
+      "Mate inst_leg_br top_face to inst_table_top_1 bottom_face",
+      "Position inst_cross_beam_1 at Z=-620mm centered",
+      "Mate inst_cross_beam_1 end_face_x_minus to inst_leg_fl inner_face_x_plus",
+      "Mate inst_cross_beam_1 end_face_x_plus to inst_leg_fr inner_face_x_minus",
+      "Mate inst_cross_beam_1 end_face_y_minus to inst_leg_fl inner_face_y_plus",
+      "Mate inst_cross_beam_1 end_face_y_plus to inst_leg_bl inner_face_y_minus"
+    ]
+  },
+  "part": {
+    "part_id": "table_leg",
+    "name": "Table Leg",
+    "function": "Support structure",
+    "shape": "Square prism with cross-section 40mm x 40mm and height 720mm.",
+    "key_dimensions": [
+      "Width: 40mm",
+      "Depth: 40mm",
+      "Height: 720mm"
+    ],
+    "material_or_notes": "Solid wood or metal. Square profile.",
+    "quantity": 4,
+    "instance_ids": [
+      "inst_leg_fl",
+      "inst_leg_fr",
+      "inst_leg_bl",
+      "inst_leg_br"
+    ],
+    "interfaces": {
+      "faces": [
+        {
+          "name": "top_face",
+          "purpose": "Mates with table top bottom face",
+          "normal_direction_relation": "normal +Z (local)"
+        },
+        {
+          "name": "inner_face_x_plus",
+          "purpose": "Inner face facing towards center along X",
+          "normal_direction_relation": "normal +X (local, assuming leg oriented such that this face points inward)"
+        },
+        {
+          "name": "inner_face_y_plus",
+          "purpose": "Inner face facing towards center along Y",
+          "normal_direction_relation": "normal +Y (local, assuming leg oriented such that this face points inward)"
+        }
+      ],
+      "axes": [
+        {
+          "name": "center_axis_z",
+          "purpose": "Vertical axis for concentric constraint with beam ends",
+          "direction_relation": "along local Z"
+        }
+      ],
+      "points": []
+    },
+    "assembly_relation_notes": [
+      "Four instances placed at corners of the table top underside.",
+      "Top face mates with table top bottom face.",
+      "Inner faces mate with cross beam frame end faces."
+    ],
+    "workspace": {
+      "part_dir": "D:\\a_src\\python\\sw_agent\\agent_output\\Modern_Square_Table_Assembly-20260429_140925\\parts\\table_leg",
+      "code_file": "D:\\a_src\\python\\sw_agent\\agent_output\\Modern_Square_Table_Assembly-20260429_140925\\parts\\table_leg\\table_leg_model.py",
+      "model_file": "D:\\a_src\\python\\sw_agent\\agent_output\\Modern_Square_Table_Assembly-20260429_140925\\parts\\table_leg\\table_leg.SLDPRT",
+      "log_file": "D:\\a_src\\python\\sw_agent\\agent_output\\Modern_Square_Table_Assembly-20260429_140925\\logs\\table_leg_model.log",
+      "spec_file": "D:\\a_src\\python\\sw_agent\\agent_output\\Modern_Square_Table_Assembly-20260429_140925\\json\\table_leg_spec.json"
+    },
+    "standalone_modeling_instructions": [
+      "Create a sketch on the XY plane.",
+      "Draw a square 40mm x 40mm centered at origin.",
+      "Extrude boss 720mm in the +Z direction."
+    ]
+  }
+}

@@ -1,0 +1,79 @@
+===== Clear SolidWorks =====
+
+returncode=0
+STDOUT:
+[pysw] 已获得 SOLIDWORKS 跨进程任务锁: C:\Users\12617\AppData\Local\Temp\pysw_solidworks_task.lock
+[pysw] 当前进程开始执行 SW 任务前，自动关闭所有已打开文档
+已关闭当前 SOLIDWORKS 会话中的所有文档
+SolidWorks initialized with close_before_task=True
+[pysw] 已释放 SOLIDWORKS 跨进程任务锁
+STDERR:
+(empty)
+
+===== Execute Script =====
+
+returncode=0
+STDOUT:
+[pysw] 已获得 SOLIDWORKS 跨进程任务锁: C:\Users\12617\AppData\Local\Temp\pysw_solidworks_task.lock
+[pysw] 当前进程开始执行 SW 任务前，自动关闭所有已打开文档
+已关闭当前 SOLIDWORKS 会话中的所有文档
+----------------------------------------
+Python 成功接收到的新零件名称: gripper
+----------------------------------------
+
+[C# 调试日志]:
+[DEBUG] 20:20:31 - 接收到参数，尝试创建并激活文档: gripper
+[DEBUG] 20:20:31 - 尝试连接 SolidWorks...
+[DEBUG] 20:20:31 - 成功连接到已运行的实例。
+
+开始建模零件: gripper
+矩形对象信息: (<COMObject CreateCenterRectangle>, <COMObject CreateCenterRectangle>, <COMObject CreateCenterRectangle>, <COMObject CreateCenterRectangle>, <COMObject CreateCenterRectangle>, <COMObject CreateCenterRectangle>)
+检测到当前有未退出的草图，正在自动退出以继续操作...
+草图选择成功，准备拉伸
+拉伸成功
+基座主体拉伸完成
+检测到当前有未退出的草图，正在自动退出以继续操作...
+草图选择成功，准备拉伸
+拉伸切除成功
+安装孔切除完成
+矩形对象信息: (<COMObject CreateCenterRectangle>, <COMObject CreateCenterRectangle>, <COMObject CreateCenterRectangle>, <COMObject CreateCenterRectangle>, <COMObject CreateCenterRectangle>, <COMObject CreateCenterRectangle>)
+矩形对象信息: (<COMObject CreateCenterRectangle>, <COMObject CreateCenterRectangle>, <COMObject CreateCenterRectangle>, <COMObject CreateCenterRectangle>, <COMObject CreateCenterRectangle>, <COMObject CreateCenterRectangle>)
+检测到当前有未退出的草图，正在自动退出以继续操作...
+草图选择成功，准备拉伸
+拉伸成功
+手指特征拉伸完成
+✅ 成功创建基准轴 [mount_axis_y]
+装配接口创建完成
+正在保存零件到: D:\a_src\python\sw_agent\agent_output\Four_Axis_Industrial_Robot_Arm-20260429_201900\parts\gripper\gripper.SLDPRT ...
+零件已保存至: D:\a_src\python\sw_agent\agent_output\Four_Axis_Industrial_Robot_Arm-20260429_201900\parts\gripper\gripper.SLDPRT
+零件成功保存至: D:\a_src\python\sw_agent\agent_output\Four_Axis_Industrial_Robot_Arm-20260429_201900\parts\gripper\gripper.SLDPRT
+[pysw] 已释放 SOLIDWORKS 跨进程任务锁
+STDERR:
+(empty)
+
+===== Capture Screenshots =====
+
+returncode=0
+STDOUT:
+[pysw] 已获得 SOLIDWORKS 跨进程任务锁: C:\Users\12617\AppData\Local\Temp\pysw_solidworks_task.lock
+SolidWorks initialized with close_before_task=False
+开始截取当前模型视图，输出目录: D:\a_src\python\sw_agent\agent_output\Four_Axis_Industrial_Robot_Arm-20260429_201900\screenshots\gripper
+[OK] 已保存 front: D:\a_src\python\sw_agent\agent_output\Four_Axis_Industrial_Robot_Arm-20260429_201900\screenshots\gripper\gripper_attempt_1_front.png
+[OK] 已保存 top: D:\a_src\python\sw_agent\agent_output\Four_Axis_Industrial_Robot_Arm-20260429_201900\screenshots\gripper\gripper_attempt_1_top.png
+[OK] 已保存 right: D:\a_src\python\sw_agent\agent_output\Four_Axis_Industrial_Robot_Arm-20260429_201900\screenshots\gripper\gripper_attempt_1_right.png
+[OK] 已保存 isometric: D:\a_src\python\sw_agent\agent_output\Four_Axis_Industrial_Robot_Arm-20260429_201900\screenshots\gripper\gripper_attempt_1_isometric.png
+===== Screenshot Result =====
+front
+top
+right
+isometric
+[pysw] 已释放 SOLIDWORKS 跨进程任务锁
+STDERR:
+(empty)
+
+===== Screenshot Files =====
+
+D:\a_src\python\sw_agent\agent_output\Four_Axis_Industrial_Robot_Arm-20260429_201900\screenshots\gripper\gripper_attempt_1_front.png
+D:\a_src\python\sw_agent\agent_output\Four_Axis_Industrial_Robot_Arm-20260429_201900\screenshots\gripper\gripper_attempt_1_isometric.png
+D:\a_src\python\sw_agent\agent_output\Four_Axis_Industrial_Robot_Arm-20260429_201900\screenshots\gripper\gripper_attempt_1_right.png
+D:\a_src\python\sw_agent\agent_output\Four_Axis_Industrial_Robot_Arm-20260429_201900\screenshots\gripper\gripper_attempt_1_top.png

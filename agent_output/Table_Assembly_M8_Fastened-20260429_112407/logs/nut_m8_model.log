@@ -1,0 +1,20 @@
+[pysw] 已获得 SOLIDWORKS 跨进程任务锁: C:\Users\12617\AppData\Local\Temp\pysw_solidworks_task.lock
+----------------------------------------
+Python 成功接收到的新零件名称: Nut_M8_Simplified
+----------------------------------------
+
+[C# 调试日志]:
+[DEBUG] 11:26:49 - 接收到参数，尝试创建并激活文档: Nut_M8_Simplified
+[DEBUG] 11:26:49 - 尝试连接 SolidWorks...
+[DEBUG] 11:26:49 - 成功连接到已运行的实例。
+
+Creating Nut M8: Width=0.013m, Thickness=0.006m, Hole Radius=0.004m
+草图选择成功，准备拉伸
+拉伸成功
+草图选择成功，准备拉伸
+拉伸切除成功
+✅ 成功创建基准轴 [nut_axis]
+正在保存零件到: D:\a_src\python\sw_agent\agent_output\Table_Assembly_M8_Fastened-20260429_112407\parts\nut_m8\nut_m8.SLDPRT ...
+零件已保存至: D:\a_src\python\sw_agent\agent_output\Table_Assembly_M8_Fastened-20260429_112407\parts\nut_m8\nut_m8.SLDPRT
+Part saved successfully to D:\a_src\python\sw_agent\agent_output\Table_Assembly_M8_Fastened-20260429_112407\parts\nut_m8\nut_m8.SLDPRT
+[pysw] 已释放 SOLIDWORKS 跨进程任务锁

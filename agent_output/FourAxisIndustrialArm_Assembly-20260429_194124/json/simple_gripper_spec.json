@@ -1,0 +1,110 @@
+{
+  "request_type": "assembly_part",
+  "assembly_context": {
+    "name": "FourAxisIndustrialArm_Assembly",
+    "summary": "创建一个工业风四轴机械臂装配体，包含底座、回转台、3个通用关节叉、2个通用连杆、3个销轴和1个夹爪。所有零件基于默认尺寸参数化建模，并通过同轴和重合配合进行装配。初始姿态为竖直向上伸展（修正：为避免奇异点，肩关节设为90度水平伸出，其余关节伸直）。",
+    "global_coordinate_system": {
+      "origin": "BasePlate bottom center",
+      "x_direction": "Forward (Front of arm)",
+      "y_direction": "Right (Side of arm)",
+      "z_direction": "Up (Vertical axis)"
+    },
+    "design_rules": [
+      "Unit: mm for dimensions, convert to m for API calls if necessary.",
+      "Fillet R2 on all exposed sharp edges.",
+      "Chamfer C1 on mounting faces.",
+      "Clearance fit: Pin D18mm into Hole D20mm.",
+      "Link thickness 20mm < Fork gap 40mm."
+    ],
+    "review_comments": [],
+    "instances": [
+      {
+        "instance_id": "inst_simple_gripper",
+        "part_id": "simple_gripper",
+        "name": "End Effector Gripper",
+        "instance_role": "Tool/Gripper",
+        "placement_notes": "Mounted on Wrist Fork via pin. Vertical orientation.",
+        "interface_usage": {
+          "faces": [
+            "mount_face",
+            "mid_plane_yz"
+          ],
+          "axes": [
+            "mount_axis_y"
+          ],
+          "points": []
+        }
+      }
+    ],
+    "assembly_sequence": [
+      "Fix inst_base_plate to GROUND",
+      "Mate inst_yaw_turntable to inst_base_plate (Face Coincident + Axis Concentric)",
+      "Mate inst_joint_fork_shoulder to inst_yaw_turntable (Face Coincident + Axis Concentric)",
+      "Mate inst_hollow_link_1 to inst_joint_fork_shoulder (Axis Concentric + Plane Coincident + Angle Constraint)",
+      "Insert inst_hinge_pin_1 (Axis Concentric)",
+      "Mate inst_joint_fork_elbow to inst_hollow_link_1 (Axis Concentric + Plane Coincident + Angle Constraint)",
+      "Mate inst_hollow_link_2 to inst_joint_fork_elbow (Axis Concentric + Plane Coincident + Angle Constraint)",
+      "Insert inst_hinge_pin_2 (Axis Concentric)",
+      "Mate inst_joint_fork_wrist to inst_hollow_link_2 (Axis Concentric + Plane Coincident + Angle Constraint)",
+      "Mate inst_simple_gripper to inst_joint_fork_wrist (Axis Concentric + Plane Coincident + Angle Constraint)",
+      "Insert inst_hinge_pin_3 (Axis Concentric)"
+    ]
+  },
+  "part": {
+    "part_id": "simple_gripper",
+    "name": "Simple Gripper",
+    "function": "End-effector for grasping objects",
+    "shape": "U-shaped gripper body with mounting interface.",
+    "key_dimensions": [
+      "Width: 60mm",
+      "Height: 40mm",
+      "Mounting Hole Dia: 20mm"
+    ],
+    "material_or_notes": "Aluminum or Plastic. Fillet R2 on edges.",
+    "quantity": 1,
+    "instance_ids": [
+      "inst_simple_gripper"
+    ],
+    "interfaces": {
+      "faces": [
+        {
+          "name": "mount_face",
+          "purpose": "Reference face for angle constraint",
+          "normal_direction_relation": "normal -X (local)"
+        },
+        {
+          "name": "mid_plane_yz",
+          "purpose": "Symmetry plane for centering",
+          "normal_direction_relation": "normal +X (local)"
+        }
+      ],
+      "axes": [
+        {
+          "name": "mount_axis_y",
+          "purpose": "Axis for hinge pin connection to wrist",
+          "direction_relation": "along local Y"
+        }
+      ],
+      "points": []
+    },
+    "assembly_relation_notes": [
+      "Mount Axis concentric with Wrist Fork Hinge Axis.",
+      "Mid Plane coincident with Wrist Fork Mid Plane.",
+      "No face contact with Fork; positioned by pin and mid-plane."
+    ],
+    "workspace": {
+      "part_dir": "D:\\a_src\\python\\sw_agent\\agent_output\\FourAxisIndustrialArm_Assembly-20260429_194124\\parts\\simple_gripper",
+      "code_file": "D:\\a_src\\python\\sw_agent\\agent_output\\FourAxisIndustrialArm_Assembly-20260429_194124\\parts\\simple_gripper\\simple_gripper_model.py",
+      "model_file": "D:\\a_src\\python\\sw_agent\\agent_output\\FourAxisIndustrialArm_Assembly-20260429_194124\\parts\\simple_gripper\\simple_gripper.SLDPRT",
+      "log_file": "D:\\a_src\\python\\sw_agent\\agent_output\\FourAxisIndustrialArm_Assembly-20260429_194124\\logs\\simple_gripper_model.log",
+      "screenshot_dir": "D:\\a_src\\python\\sw_agent\\agent_output\\FourAxisIndustrialArm_Assembly-20260429_194124\\screenshots\\simple_gripper",
+      "spec_file": "D:\\a_src\\python\\sw_agent\\agent_output\\FourAxisIndustrialArm_Assembly-20260429_194124\\json\\simple_gripper_spec.json"
+    },
+    "standalone_modeling_instructions": [
+      "Sketch U-profile on XZ plane.",
+      "Extrude along Y.",
+      "Add mounting hole/boss.",
+      "Apply fillets."
+    ]
+  }
+}

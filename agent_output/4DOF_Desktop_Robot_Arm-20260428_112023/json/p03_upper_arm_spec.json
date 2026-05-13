@@ -1,0 +1,119 @@
+{
+  "request_type": "assembly_part",
+  "assembly_context": {
+    "name": "4DOF_Desktop_Robot_Arm",
+    "summary": "生成一个4自由度桌面机械臂装配体，包含底座、旋转台、肩部支架、大臂、小臂、腕部法兰及两个销轴。所有零件基于米(m)单位建模，采用拉伸、切除、圆角等基础特征。装配体处于静态Home位姿（所有关节角0°），通过轴重合和面重合约束固定各部件位置。",
+    "global_coordinate_system": {
+      "origin": "P00_Base_Center_Bottom",
+      "x_direction": "Forward (Robot Front)",
+      "y_direction": "Left (Robot Left)",
+      "z_direction": "Up (Vertical Axis)"
+    },
+    "design_rules": [
+      "所有尺寸单位为米(m)",
+      "孔特征使用create_circle + extrude_cut生成，不使用阵列",
+      "参考几何(轴/面)需按指定名称创建以支持装配约束",
+      "未明确说明的倒角/圆角默认为无",
+      "装配体初始状态为静态Home位姿"
+    ],
+    "instances": [
+      {
+        "instance_id": "inst_p03_upperarm",
+        "part_id": "p03_upper_arm",
+        "name": "Upper Arm Instance",
+        "instance_role": "Main Arm",
+        "placement_notes": "Connected to Shoulder via J2",
+        "interface_usage": {
+          "faces": [
+            "PL_UPPERARM_MID_XZ",
+            "PL_UPPERARM_ZERO_XY",
+            "PL_LEFT_EAR_OUTER_J3"
+          ],
+          "axes": [
+            "AXIS_J2_Y",
+            "AXIS_J3_Y"
+          ],
+          "points": []
+        }
+      }
+    ],
+    "assembly_sequence": [
+      "Fix inst_p00_base",
+      "Mate inst_p01_yaw to inst_p00_base (Axis Coincident, Face Coincident, Zero Plane)",
+      "Mate inst_p02_shoulder to inst_p01_yaw (Axis Coincident, Face Coincident, Zero Plane)",
+      "Mate inst_p03_upperarm to inst_p02_shoulder (Axis Coincident, Face Coincident, Zero Plane)",
+      "Mate inst_p06_pin_j2 to inst_p02_shoulder (Axis Coincident, Face Coincident)",
+      "Mate inst_p04_forearm to inst_p03_upperarm (Axis Coincident, Face Coincident, Zero Plane)",
+      "Mate inst_p07_pin_j3 to inst_p03_upperarm (Axis Coincident, Face Coincident)",
+      "Mate inst_p05_wrist to inst_p04_forearm (Axis Coincident, Face Coincident, Zero Plane)"
+    ]
+  },
+  "part": {
+    "part_id": "p03_upper_arm",
+    "name": "Upper Arm",
+    "function": "连接J2与J3，主要承重臂",
+    "shape": "长条形实体，一端单耳(J2)，一端双耳(J3)，中间连接块融合",
+    "key_dimensions": [
+      "Length: 0.25m",
+      "Width: 0.04m",
+      "Thickness: 0.02m",
+      "J2 Ear Width: 0.015m",
+      "J3 Ear Width: 0.01m"
+    ],
+    "material_or_notes": "Aluminum 6061",
+    "quantity": 1,
+    "instance_ids": [
+      "inst_p03_upperarm"
+    ],
+    "interfaces": {
+      "faces": [
+        {
+          "name": "PL_UPPERARM_MID_XZ",
+          "purpose": "与肩部中面对齐",
+          "normal_direction_relation": "normal +Y"
+        },
+        {
+          "name": "PL_UPPERARM_ZERO_XY",
+          "purpose": "Home位姿零位参考面",
+          "normal_direction_relation": "normal +Z"
+        },
+        {
+          "name": "PL_LEFT_EAR_OUTER_J3",
+          "purpose": "与J3销轴头内侧配合",
+          "normal_direction_relation": "normal -Y"
+        }
+      ],
+      "axes": [
+        {
+          "name": "AXIS_J2_Y",
+          "purpose": "J2旋转轴",
+          "direction_relation": "along local Y"
+        },
+        {
+          "name": "AXIS_J3_Y",
+          "purpose": "J3旋转轴",
+          "direction_relation": "along local Y"
+        }
+      ],
+      "points": []
+    },
+    "assembly_relation_notes": [
+      "AXIS_J2_Y与P02.AXIS_J2_Y同心",
+      "PL_UPPERARM_MID_XZ与P02.PL_SHOULDER_MID_XZ重合",
+      "AXIS_J3_Y与P04.AXIS_J3_Y同心"
+    ],
+    "workspace": {
+      "part_dir": "D:\\a_src\\python\\sw_agent\\agent_output\\4DOF_Desktop_Robot_Arm-20260428_112023\\parts\\p03_upper_arm",
+      "code_file": "D:\\a_src\\python\\sw_agent\\agent_output\\4DOF_Desktop_Robot_Arm-20260428_112023\\parts\\p03_upper_arm\\p03_upper_arm_model.py",
+      "model_file": "D:\\a_src\\python\\sw_agent\\agent_output\\4DOF_Desktop_Robot_Arm-20260428_112023\\parts\\p03_upper_arm\\p03_upper_arm.SLDPRT",
+      "log_file": "D:\\a_src\\python\\sw_agent\\agent_output\\4DOF_Desktop_Robot_Arm-20260428_112023\\logs\\p03_upper_arm_model.log",
+      "spec_file": "D:\\a_src\\python\\sw_agent\\agent_output\\4DOF_Desktop_Robot_Arm-20260428_112023\\json\\p03_upper_arm_spec.json"
+    },
+    "standalone_modeling_instructions": [
+      "在XY平面绘制臂身轮廓，拉伸厚度",
+      "在一端构建单耳结构(J2)，另一端构建双耳结构(J3)",
+      "确保J2和J3轴孔同轴度",
+      "创建参考轴AXIS_J2_Y和AXIS_J3_Y"
+    ]
+  }
+}

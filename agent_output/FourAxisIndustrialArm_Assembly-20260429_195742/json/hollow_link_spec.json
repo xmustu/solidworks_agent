@@ -1,0 +1,155 @@
+{
+  "request_type": "assembly_part",
+  "assembly_context": {
+    "name": "FourAxisIndustrialArm_Assembly",
+    "summary": "创建一个简化的四轴工业机械臂装配体，包含固定底座、回转台、3个通用关节叉（肩/肘/腕）、2个通用连杆（上臂/前臂）、3个销轴和1个U形夹爪。所有零件基于默认尺寸参数化建模，并通过同轴和重合配合进行装配。",
+    "global_coordinate_system": {
+      "origin": "BasePlate center bottom",
+      "x_direction": "Forward (Front of arm)",
+      "y_direction": "Left (Side of arm, hinge axis direction)",
+      "z_direction": "Up (Vertical rotation axis)"
+    },
+    "design_rules": [
+      "Units: mm for dimensions, m for internal code if required.",
+      "Chamfers: C1 default unless specified.",
+      "Fillets: R2 default unless specified.",
+      "Clearance: Pin D19.8 in Hole D20 (0.2mm clearance).",
+      "Pin Length Correction: L = 2*EarThickness + LinkWidth + 5mm = 2*15 + 40 + 5 = 75mm.",
+      "Shim Assumption: To reduce gap between Fork(50mm) and Link(40mm), assume 2.5mm shims or adjust link width to 48mm. Here we assume Link Width is adjusted to 48mm for compactness as per optimization suggestion, or use shims. Let's stick to the prompt's 'Link Width 40mm' but add Shim parts if strictly needed. However, prompt says 'optimize... add shim OR adjust'. I will adjust Link Width to 48mm in modeling instructions to avoid extra part complexity unless explicitly requested as a separate part. Wait, the prompt asks for 'Python modeling code'. I will define the Link with width 48mm to fit the 50mm fork with 1mm clearance each side, which is standard engineering practice for this context, avoiding the need for explicit shim parts in the BOM unless necessary. Actually, let's keep Link at 40mm and add 'Shim' parts? No, the prompt lists specific parts. I will assume the Link width is parameterized to 48mm in the model to fit the 50mm fork tightly, or simply note the gap. Given the 'optimization suggestion', I will set the Link key dimension to 48mm width to match the fork better, or keep 40mm and accept the gap. Let's follow the 'Key Requirements' strictly: Link Width 40mm. The 'Review Comments' suggest adding shims. I will NOT add new parts not in the original list unless critical. I will note the gap in assembly notes. Actually, best practice: Update Link Width to 48mm in `key_dimensions` and `standalone_modeling_instructions` to satisfy the 'compactness' requirement without adding new parts."
+    ],
+    "review_comments": [],
+    "instances": [
+      {
+        "instance_id": "inst_upper_arm_link",
+        "part_id": "hollow_link",
+        "name": "Upper Arm Link",
+        "instance_role": "Segment 1",
+        "placement_notes": "Connected between Shoulder and Elbow forks",
+        "interface_usage": {
+          "faces": [
+            "end_face_start",
+            "end_face_end"
+          ],
+          "axes": [
+            "start_hinge_axis_y",
+            "end_hinge_axis_y"
+          ],
+          "points": []
+        }
+      },
+      {
+        "instance_id": "inst_forearm_link",
+        "part_id": "hollow_link",
+        "name": "Forearm Link",
+        "instance_role": "Segment 2",
+        "placement_notes": "Connected between Elbow and Wrist forks",
+        "interface_usage": {
+          "faces": [
+            "end_face_start",
+            "end_face_end"
+          ],
+          "axes": [
+            "start_hinge_axis_y",
+            "end_hinge_axis_y"
+          ],
+          "points": []
+        }
+      }
+    ],
+    "assembly_sequence": [
+      "Fix inst_base_plate to Ground",
+      "Mate inst_yaw_turntable to inst_base_plate (Concentric + Coincident)",
+      "Mate inst_shoulder_fork to inst_yaw_turntable (Concentric + Coincident)",
+      "Mate inst_upper_arm_link to inst_shoulder_fork (Concentric Hinge)",
+      "Insert inst_pin_shoulder (Concentric)",
+      "Mate inst_elbow_fork to inst_upper_arm_link (Concentric Hinge)",
+      "Insert inst_pin_elbow (Concentric)",
+      "Mate inst_forearm_link to inst_elbow_fork (Concentric Hinge)",
+      "Mate inst_wrist_fork to inst_forearm_link (Concentric Hinge)",
+      "Insert inst_pin_wrist (Concentric)",
+      "Mate inst_gripper to inst_wrist_fork (Concentric + Coincident)"
+    ]
+  },
+  "part": {
+    "part_id": "hollow_link",
+    "name": "Hollow Link",
+    "function": "Structural arm segment connecting joints",
+    "shape": "Rectangular beam with bearing seats at both ends, hollowed middle",
+    "key_dimensions": [
+      "Length: Variable (300mm for Upper, 250mm for Lower)",
+      "Width: 48mm (Adjusted from 40mm to fit 50mm fork with 1mm clearance)",
+      "Thickness: 20mm",
+      "Bearing Seat OD: 40mm",
+      "Hinge Hole Diameter: 20mm"
+    ],
+    "material_or_notes": "Aluminum, Hollowed for weight reduction",
+    "quantity": 2,
+    "instance_ids": [
+      "inst_upper_arm_link",
+      "inst_forearm_link"
+    ],
+    "interfaces": {
+      "faces": [
+        {
+          "name": "end_face_start",
+          "purpose": "Mates with previous Joint Fork inner face",
+          "normal_direction_relation": "normal -X (local, along length)"
+        },
+        {
+          "name": "end_face_end",
+          "purpose": "Mates with next Joint Fork inner face",
+          "normal_direction_relation": "normal +X (local, along length)"
+        },
+        {
+          "name": "side_face_y_plus",
+          "purpose": "Side reference",
+          "normal_direction_relation": "normal +Y"
+        },
+        {
+          "name": "side_face_y_minus",
+          "purpose": "Side reference",
+          "normal_direction_relation": "normal -Y"
+        }
+      ],
+      "axes": [
+        {
+          "name": "start_hinge_axis_y",
+          "purpose": "Rotation axis at start end",
+          "direction_relation": "along local Y, through start bearing seat"
+        },
+        {
+          "name": "end_hinge_axis_y",
+          "purpose": "Rotation axis at end end",
+          "direction_relation": "along local Y, through end bearing seat"
+        },
+        {
+          "name": "longitudinal_axis_x",
+          "purpose": "Main length axis",
+          "direction_relation": "along local X"
+        }
+      ],
+      "points": []
+    },
+    "assembly_relation_notes": [
+      "Upper Arm connects Shoulder Fork to Elbow Fork",
+      "Forearm connects Elbow Fork to Wrist Fork",
+      "Width adjusted to 48mm to minimize lateral play in 50mm forks"
+    ],
+    "workspace": {
+      "part_dir": "D:\\a_src\\python\\sw_agent\\agent_output\\FourAxisIndustrialArm_Assembly-20260429_195742\\parts\\hollow_link",
+      "code_file": "D:\\a_src\\python\\sw_agent\\agent_output\\FourAxisIndustrialArm_Assembly-20260429_195742\\parts\\hollow_link\\hollow_link_model.py",
+      "model_file": "D:\\a_src\\python\\sw_agent\\agent_output\\FourAxisIndustrialArm_Assembly-20260429_195742\\parts\\hollow_link\\hollow_link.SLDPRT",
+      "log_file": "D:\\a_src\\python\\sw_agent\\agent_output\\FourAxisIndustrialArm_Assembly-20260429_195742\\logs\\hollow_link_model.log",
+      "screenshot_dir": "D:\\a_src\\python\\sw_agent\\agent_output\\FourAxisIndustrialArm_Assembly-20260429_195742\\screenshots\\hollow_link",
+      "spec_file": "D:\\a_src\\python\\sw_agent\\agent_output\\FourAxisIndustrialArm_Assembly-20260429_195742\\json\\hollow_link_spec.json"
+    },
+    "standalone_modeling_instructions": [
+      "Sketch rectangle 48mm x 20mm on YZ plane.",
+      "Extrude along X axis for specified length (300mm or 250mm).",
+      "At both ends, create cylindrical bearing seats OD40mm, height sufficient to engage fork ears.",
+      "Drill D20 holes through bearing seats along Y-axis.",
+      "Shell or cut out middle section for weight reduction.",
+      "Apply fillets/chamfers as needed."
+    ]
+  }
+}

@@ -1,0 +1,94 @@
+{
+  "request_type": "assembly_part",
+  "assembly_context": {
+    "name": "Modern_Square_Table_Assembly",
+    "summary": "设计一个现代简约四腿方桌装配体。包含1个矩形桌面、4根相同的方形截面桌腿、1个整体式矩形横梁框架。桌腿通过面贴合与同心配合固定在桌面下方，横梁框架位于桌腿内侧底部附近，通过面贴合与同心配合连接桌腿，形成稳定结构。",
+    "global_coordinate_system": {
+      "origin": "Table_Top center bottom face",
+      "x_direction": "Along table length (1200mm)",
+      "y_direction": "Along table width (600mm)",
+      "z_direction": "Upwards from table top"
+    },
+    "design_rules": [
+      "Units are in mm for dimensions, convert to meters for API calls if necessary.",
+      "Use coincident constraints for face mating and concentric constraints for axis alignment.",
+      "Table legs are positioned at the four corners of the tabletop underside.",
+      "Cross beam frame is centered under the table, connecting the inner faces of the legs."
+    ],
+    "instances": [
+      {
+        "instance_id": "inst_table_top_1",
+        "part_id": "table_top",
+        "name": "Table Top Instance",
+        "instance_role": "Base component",
+        "placement_notes": "Fixed at global origin. Bottom face at Z=0.",
+        "interface_usage": {
+          "faces": [
+            "bottom_face"
+          ],
+          "axes": [],
+          "points": []
+        }
+      }
+    ],
+    "assembly_sequence": [
+      "Fix inst_table_top_1",
+      "Mate inst_leg_fl top_face to inst_table_top_1 bottom_face",
+      "Mate inst_leg_fr top_face to inst_table_top_1 bottom_face",
+      "Mate inst_leg_bl top_face to inst_table_top_1 bottom_face",
+      "Mate inst_leg_br top_face to inst_table_top_1 bottom_face",
+      "Position inst_cross_beam_1 at Z=-620mm centered",
+      "Mate inst_cross_beam_1 end_face_x_minus to inst_leg_fl inner_face_x_plus",
+      "Mate inst_cross_beam_1 end_face_x_plus to inst_leg_fr inner_face_x_minus",
+      "Mate inst_cross_beam_1 end_face_y_minus to inst_leg_fl inner_face_y_plus",
+      "Mate inst_cross_beam_1 end_face_y_plus to inst_leg_bl inner_face_y_minus"
+    ]
+  },
+  "part": {
+    "part_id": "table_top",
+    "name": "Table Top",
+    "function": "Main surface of the table",
+    "shape": "Rectangular prism with dimensions 1200mm x 600mm x 25mm. Centered at origin on XY plane, extending -Z direction for thickness.",
+    "key_dimensions": [
+      "Length: 1200mm",
+      "Width: 600mm",
+      "Thickness: 25mm"
+    ],
+    "material_or_notes": "Wood or composite material. Smooth finish.",
+    "quantity": 1,
+    "instance_ids": [
+      "inst_table_top_1"
+    ],
+    "interfaces": {
+      "faces": [
+        {
+          "name": "bottom_face",
+          "purpose": "Mating surface for table legs",
+          "normal_direction_relation": "normal -Z"
+        },
+        {
+          "name": "top_face",
+          "purpose": "User surface",
+          "normal_direction_relation": "normal +Z"
+        }
+      ],
+      "axes": [],
+      "points": []
+    },
+    "assembly_relation_notes": [
+      "Fixed as the base reference for the assembly."
+    ],
+    "workspace": {
+      "part_dir": "D:\\a_src\\python\\sw_agent\\agent_output\\Modern_Square_Table_Assembly-20260429_140925\\parts\\table_top",
+      "code_file": "D:\\a_src\\python\\sw_agent\\agent_output\\Modern_Square_Table_Assembly-20260429_140925\\parts\\table_top\\table_top_model.py",
+      "model_file": "D:\\a_src\\python\\sw_agent\\agent_output\\Modern_Square_Table_Assembly-20260429_140925\\parts\\table_top\\table_top.SLDPRT",
+      "log_file": "D:\\a_src\\python\\sw_agent\\agent_output\\Modern_Square_Table_Assembly-20260429_140925\\logs\\table_top_model.log",
+      "spec_file": "D:\\a_src\\python\\sw_agent\\agent_output\\Modern_Square_Table_Assembly-20260429_140925\\json\\table_top_spec.json"
+    },
+    "standalone_modeling_instructions": [
+      "Create a sketch on the XY plane centered at origin.",
+      "Draw a rectangle 1200mm x 600mm.",
+      "Extrude cut or boss extrude 25mm in the -Z direction."
+    ]
+  }
+}

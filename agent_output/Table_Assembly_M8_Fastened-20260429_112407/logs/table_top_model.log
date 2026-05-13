@@ -1,0 +1,46 @@
+[pysw] 已获得 SOLIDWORKS 跨进程任务锁: C:\Users\12617\AppData\Local\Temp\pysw_solidworks_task.lock
+----------------------------------------
+Python 成功接收到的新零件名称: Table Top
+----------------------------------------
+
+[C# 调试日志]:
+[DEBUG] 11:27:00 - 接收到参数，尝试创建并激活文档: Table Top
+[DEBUG] 11:27:00 - 尝试连接 SolidWorks...
+[DEBUG] 11:27:00 - 成功连接到已运行的实例。
+
+开始建模零件: Table Top
+矩形对象信息: (<COMObject CreateCenterRectangle>, <COMObject CreateCenterRectangle>, <COMObject CreateCenterRectangle>, <COMObject CreateCenterRectangle>, <COMObject CreateCenterRectangle>, <COMObject CreateCenterRectangle>)
+检测到当前有未退出的草图，正在自动退出以继续操作...
+草图选择成功，准备拉伸
+拉伸成功
+桌面主体拉伸完成
+检测到当前有未退出的草图，正在自动退出以继续操作...
+草图选择成功，准备拉伸
+拉伸切除成功
+创建安装孔 FL 完成
+检测到当前有未退出的草图，正在自动退出以继续操作...
+草图选择成功，准备拉伸
+拉伸切除成功
+创建安装孔 FR 完成
+检测到当前有未退出的草图，正在自动退出以继续操作...
+草图选择成功，准备拉伸
+拉伸切除成功
+创建安装孔 BL 完成
+检测到当前有未退出的草图，正在自动退出以继续操作...
+草图选择成功，准备拉伸
+拉伸切除成功
+创建安装孔 BR 完成
+创建参考面: top_face
+创建参考面: bottom_face
+✅ 成功创建基准轴 [hole_axis_fl]
+创建参考轴: hole_axis_fl
+✅ 成功创建基准轴 [hole_axis_fr]
+创建参考轴: hole_axis_fr
+✅ 成功创建基准轴 [hole_axis_bl]
+创建参考轴: hole_axis_bl
+✅ 成功创建基准轴 [hole_axis_br]
+创建参考轴: hole_axis_br
+正在保存零件到: D:\a_src\python\sw_agent\agent_output\Table_Assembly_M8_Fastened-20260429_112407\parts\table_top\table_top.SLDPRT ...
+零件已保存至: D:\a_src\python\sw_agent\agent_output\Table_Assembly_M8_Fastened-20260429_112407\parts\table_top\table_top.SLDPRT
+零件模型已保存至: D:\a_src\python\sw_agent\agent_output\Table_Assembly_M8_Fastened-20260429_112407\parts\table_top\table_top.SLDPRT
+[pysw] 已释放 SOLIDWORKS 跨进程任务锁

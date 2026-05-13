@@ -1,0 +1,126 @@
+{
+  "request_type": "assembly_part",
+  "assembly_context": {
+    "name": "Modern_Square_Table_Assembly",
+    "summary": "设计一个现代简约四腿方桌装配体。包含1个矩形桌面、4根相同的方形截面桌腿、1个整体式矩形横梁框架。桌腿通过面贴合与同心配合固定在桌面下方，横梁框架位于桌腿内侧底部附近，通过面贴合与同心配合连接桌腿，形成稳定结构。",
+    "global_coordinate_system": {
+      "origin": "Table_Top center bottom face",
+      "x_direction": "Along table length (1200mm)",
+      "y_direction": "Along table width (600mm)",
+      "z_direction": "Upwards from table top"
+    },
+    "design_rules": [
+      "Units are in mm for dimensions, convert to meters for API calls if necessary.",
+      "Use coincident constraints for face mating and concentric constraints for axis alignment.",
+      "Table legs are positioned at the four corners of the tabletop underside.",
+      "Cross beam frame is centered under the table, connecting the inner faces of the legs."
+    ],
+    "instances": [
+      {
+        "instance_id": "inst_cross_beam_1",
+        "part_id": "cross_beam_frame",
+        "name": "Cross Beam Frame Instance",
+        "instance_role": "Structural frame connecting legs",
+        "placement_notes": "Centered under table. Located at Z = -620mm (100mm from ground, assuming leg height 720mm and table thickness 25mm, ground is at Z=-720). Actually, if table top bottom is Z=0, legs go down to Z=-720. Ground is Z=-720. Beam is 100mm from ground, so Beam Z position is -620.",
+        "interface_usage": {
+          "faces": [
+            "end_face_x_minus",
+            "end_face_x_plus",
+            "end_face_y_minus",
+            "end_face_y_plus"
+          ],
+          "axes": [
+            "axis_x_center",
+            "axis_y_center"
+          ],
+          "points": []
+        }
+      }
+    ],
+    "assembly_sequence": [
+      "Fix inst_table_top_1",
+      "Mate inst_leg_fl top_face to inst_table_top_1 bottom_face",
+      "Mate inst_leg_fr top_face to inst_table_top_1 bottom_face",
+      "Mate inst_leg_bl top_face to inst_table_top_1 bottom_face",
+      "Mate inst_leg_br top_face to inst_table_top_1 bottom_face",
+      "Position inst_cross_beam_1 at Z=-620mm centered",
+      "Mate inst_cross_beam_1 end_face_x_minus to inst_leg_fl inner_face_x_plus",
+      "Mate inst_cross_beam_1 end_face_x_plus to inst_leg_fr inner_face_x_minus",
+      "Mate inst_cross_beam_1 end_face_y_minus to inst_leg_fl inner_face_y_plus",
+      "Mate inst_cross_beam_1 end_face_y_plus to inst_leg_bl inner_face_y_minus"
+    ]
+  },
+  "part": {
+    "part_id": "cross_beam_frame",
+    "name": "Cross Beam Frame",
+    "function": "Structural reinforcement connecting legs",
+    "shape": "Rectangular frame made of 30mm x 30mm square tubes. Outer dimensions approx 1120mm x 520mm (accounting for leg positions). Height 30mm.",
+    "key_dimensions": [
+      "Tube Section: 30mm x 30mm",
+      "Frame Length (Outer): ~1120mm",
+      "Frame Width (Outer): ~520mm",
+      "Height: 30mm"
+    ],
+    "material_or_notes": "Metal or wood. Welded or joined frame.",
+    "quantity": 1,
+    "instance_ids": [
+      "inst_cross_beam_1"
+    ],
+    "interfaces": {
+      "faces": [
+        {
+          "name": "end_face_x_minus",
+          "purpose": "Mates with front-left and back-left leg inner faces",
+          "normal_direction_relation": "normal -X (local)"
+        },
+        {
+          "name": "end_face_x_plus",
+          "purpose": "Mates with front-right and back-right leg inner faces",
+          "normal_direction_relation": "normal +X (local)"
+        },
+        {
+          "name": "end_face_y_minus",
+          "purpose": "Mates with front-left and front-right leg inner faces",
+          "normal_direction_relation": "normal -Y (local)"
+        },
+        {
+          "name": "end_face_y_plus",
+          "purpose": "Mates with back-left and back-right leg inner faces",
+          "normal_direction_relation": "normal +Y (local)"
+        }
+      ],
+      "axes": [
+        {
+          "name": "axis_x_center",
+          "purpose": "Horizontal axis along length for alignment",
+          "direction_relation": "along local X"
+        },
+        {
+          "name": "axis_y_center",
+          "purpose": "Horizontal axis along width for alignment",
+          "direction_relation": "along local Y"
+        }
+      ],
+      "points": []
+    },
+    "assembly_relation_notes": [
+      "Located 100mm above ground (approx 620mm below table top).",
+      "End faces mate with inner faces of table legs.",
+      "Centered relative to table top."
+    ],
+    "workspace": {
+      "part_dir": "D:\\a_src\\python\\sw_agent\\agent_output\\Modern_Square_Table_Assembly-20260429_140925\\parts\\cross_beam_frame",
+      "code_file": "D:\\a_src\\python\\sw_agent\\agent_output\\Modern_Square_Table_Assembly-20260429_140925\\parts\\cross_beam_frame\\cross_beam_frame_model.py",
+      "model_file": "D:\\a_src\\python\\sw_agent\\agent_output\\Modern_Square_Table_Assembly-20260429_140925\\parts\\cross_beam_frame\\cross_beam_frame.SLDPRT",
+      "log_file": "D:\\a_src\\python\\sw_agent\\agent_output\\Modern_Square_Table_Assembly-20260429_140925\\logs\\cross_beam_frame_model.log",
+      "spec_file": "D:\\a_src\\python\\sw_agent\\agent_output\\Modern_Square_Table_Assembly-20260429_140925\\json\\cross_beam_frame_spec.json"
+    },
+    "standalone_modeling_instructions": [
+      "Create a sketch on the XY plane.",
+      "Draw outer rectangle 1120mm x 520mm centered at origin.",
+      "Offset inward by 30mm to create inner boundary.",
+      "Extrude boss 30mm in +Z direction to form the frame shape.",
+      "Alternatively, model as four separate beams and combine, but single part is preferred for simplicity if geometry allows."
+    ]
+  }
+}

@@ -1,0 +1,97 @@
+{
+  "request_type": "assembly_part",
+  "assembly_context": {
+    "name": "27inch_Monitor_Assembly",
+    "summary": "27英寸显示器装配体，包含屏幕面板、两段式可调节立柱、圆形底座及VESA安装背板。支持左右旋转配合，立柱模拟上下调节后的固定状态。",
+    "global_coordinate_system": {
+      "origin": "Base_Center_Bottom",
+      "x_direction": "Front of Monitor",
+      "y_direction": "Right side of Monitor (from front view)",
+      "z_direction": "Upwards along Stand Axis"
+    },
+    "design_rules": [
+      "All dimensions in mm, convert to meters for API calls.",
+      "Use XY plane as horizontal base for all parts unless specified.",
+      "Ensure concentricity for all cylindrical connections.",
+      "Screen panel is fixed relative to bracket; rotation is simulated by bracket orientation."
+    ],
+    "instances": [
+      {
+        "instance_id": "inst_stand_base",
+        "part_id": "stand_base",
+        "name": "Stand Base Instance",
+        "instance_role": "Foundation",
+        "placement_notes": "Fixed at global origin. Bottom face on XY plane.",
+        "interface_usage": {
+          "faces": [
+            "base_top_face",
+            "base_bottom_face"
+          ],
+          "axes": [
+            "base_center_axis"
+          ],
+          "points": []
+        }
+      }
+    ],
+    "assembly_sequence": [
+      "Fix inst_stand_base to GROUND",
+      "Mate inst_stand_column_outer to inst_stand_base",
+      "Mate inst_stand_column_inner to inst_stand_column_outer",
+      "Mate inst_mount_bracket to inst_stand_column_inner",
+      "Mate inst_screen_panel to inst_mount_bracket"
+    ]
+  },
+  "part": {
+    "part_id": "stand_base",
+    "name": "Stand Base",
+    "function": "Provides stable foundation for the monitor stand.",
+    "shape": "Circular disk with flat top and bottom faces. Centered on Z-axis.",
+    "key_dimensions": [
+      "Diameter: 250mm",
+      "Thickness: 15mm"
+    ],
+    "material_or_notes": "Plastic or Metal, default appearance.",
+    "quantity": 1,
+    "instance_ids": [
+      "inst_stand_base"
+    ],
+    "interfaces": {
+      "faces": [
+        {
+          "name": "base_top_face",
+          "purpose": "Mating surface for outer tube bottom.",
+          "normal_direction_relation": "normal +Z"
+        },
+        {
+          "name": "base_bottom_face",
+          "purpose": "Contact with ground/table.",
+          "normal_direction_relation": "normal -Z"
+        }
+      ],
+      "axes": [
+        {
+          "name": "base_center_axis",
+          "purpose": "Central vertical axis for concentric mating.",
+          "direction_relation": "along local Z"
+        }
+      ],
+      "points": []
+    },
+    "assembly_relation_notes": [
+      "Fixed to global origin.",
+      "Top face mates with Outer Tube bottom face."
+    ],
+    "workspace": {
+      "part_dir": "D:\\a_src\\python\\sw_agent\\agent_output\\27inch_Monitor_Assembly-20260428_113916\\parts\\stand_base",
+      "code_file": "D:\\a_src\\python\\sw_agent\\agent_output\\27inch_Monitor_Assembly-20260428_113916\\parts\\stand_base\\stand_base_model.py",
+      "model_file": "D:\\a_src\\python\\sw_agent\\agent_output\\27inch_Monitor_Assembly-20260428_113916\\parts\\stand_base\\stand_base.SLDPRT",
+      "log_file": "D:\\a_src\\python\\sw_agent\\agent_output\\27inch_Monitor_Assembly-20260428_113916\\logs\\stand_base_model.log",
+      "spec_file": "D:\\a_src\\python\\sw_agent\\agent_output\\27inch_Monitor_Assembly-20260428_113916\\json\\stand_base_spec.json"
+    },
+    "standalone_modeling_instructions": [
+      "Sketch circle diameter 250mm on XY plane centered at origin.",
+      "Extrude boss/base 15mm in +Z direction."
+    ]
+  }
+}

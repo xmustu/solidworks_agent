@@ -1,7 +1,9 @@
 from __future__ import annotations
 
 import json
+import base64
 import re
+import threading
 from pathlib import Path
 from typing import Any
 
@@ -15,33 +17,38 @@ try:
 except ImportError:
     from config import KNOWLEDGE_BASE_ROOT, MODEL_NAME, OPENROUTER_API_KEY, OPENROUTER_BASE_URL
 
-import os
-
 client = None
+client_lock = threading.Lock()
 
 
 def get_client():
     global client
-    if client is None:
+    if client is not None:
+        return client
+
+    with client_lock:
+        if client is not None:
+            return client
+
         if OpenAI is None:
             raise RuntimeError(
                 "缺少 `openai` 依赖，无法初始化多智能体模型客户端。"
                 "请先安装 openai 包后再运行 multi_agent_src。"
             )
-        # client = OpenAI(
-        #     base_url=OPENROUTER_BASE_URL,
-        #     api_key=OPENROUTER_API_KEY,
-        # )
+        client = OpenAI(
+            base_url=OPENROUTER_BASE_URL,
+            api_key=OPENROUTER_API_KEY,
+        )
         # client = OpenAI(
         #     base_url="https://ark.cn-beijing.volces.com/api/v3",
         #     api_key=os.getenv("ARK_API_KEY"),
         # )
 
-        client = OpenAI(
-        # 如果没有配置环境变量，请用阿里云百炼API Key替换：api_key="sk-xxx"
-        api_key="sk-74ab513e45e3486ba0488ca43840b9cf",
-        base_url="https://dashscope.aliyuncs.com/compatible-mode/v1",
-        )
+        # client = OpenAI(
+        # # 如果没有配置环境变量，请用阿里云百炼API Key替换：api_key="sk-xxx"
+        # api_key=os.getenv("DASHSCOPE_API_KEY"),
+        # base_url="https://dashscope.aliyuncs.com/compatible-mode/v1",
+        # )
 
     return client
 
@@ -95,29 +102,47 @@ def extract_json_payload(text: str) -> dict[str, Any]:
     raise ValueError("Unable to extract valid JSON payload from model response.")
 
 
+TOOL_ACTION_CONTRACT = """
+
+Tool action contract:
+- Prefer local edits over regenerating an entire file when a previous attempt exists.
+- When you need workspace context, output exactly one JSON object:
+  {"thought":"short reason","next_action":{"tool":"read_file","args":{"path":"..."}}}
+- Available tools: read_file(path), write_file(path, content), run_python(script_path),
+  run_solidworks_pipeline(script_path, screenshot_dir, screenshot_base_name), list_dir(path),
+  search_in_kb(query), load_previous_attempt(part_id), summarize_log(log).
+- After a tool result is returned, either request another tool or provide the final code.
+- If you write a file, write the complete current file content to the requested path.
+"""
+
+
 class BaseAgent:
-    def __init__(self, system_prompt: str, temperature: float = 0.2):
+    def __init__(self, system_prompt: str, temperature: float = 0.2, max_history_messages: int = 20):
         self.system_prompt = system_prompt
         self.temperature = temperature
+        self.max_history_messages = max_history_messages
+        self.state_summary = ""
+        self.short_term_memory: list[str] = []
+        self._dialogue: list[dict[str, str]] = []
         self.history = [{"role": "system", "content": system_prompt}]
 
     def chat(self, user_input: str) -> str:
-        self.history.append({"role": "user", "content": user_input})
+        self._append_message("user", user_input)
         response = get_client().chat.completions.create(
             model=MODEL_NAME,
-            messages=self.history,
+            messages=self._build_messages(),
             temperature=self.temperature,
             extra_body={"enable_thinking":False},
         )
         reply = response.choices[0].message.content or ""
-        self.history.append({"role": "assistant", "content": reply})
+        self._append_message("assistant", reply)
         return reply
 
     def stream_chat(self, user_input: str):
-        self.history.append({"role": "user", "content": user_input})
+        self._append_message("user", user_input)
         stream = get_client().chat.completions.create(
             model=MODEL_NAME,
-            messages=self.history,
+            messages=self._build_messages(),
             temperature=self.temperature,
             extra_body={"enable_thinking": False},
             stream=True,
@@ -134,7 +159,93 @@ class BaseAgent:
             yield delta
 
         reply = "".join(chunks)
-        self.history.append({"role": "assistant", "content": reply})
+        self._append_message("assistant", reply)
+
+    def chat_with_images(self, user_input: str, image_paths: list[str]) -> str:
+        content: list[dict[str, Any]] = [{"type": "text", "text": user_input}]
+        for image_path in image_paths:
+            path = Path(image_path)
+            if not path.is_file():
+                continue
+            suffix = path.suffix.lower().lstrip(".") or "png"
+            if suffix == "jpg":
+                suffix = "jpeg"
+            payload = base64.b64encode(path.read_bytes()).decode("ascii")
+            content.append(
+                {
+                    "type": "image_url",
+                    "image_url": {"url": f"data:image/{suffix};base64,{payload}"},
+                }
+            )
+
+        self._dialogue.append({"role": "user", "content": user_input})
+        messages: list[dict[str, Any]] = self._build_messages()[:-1]
+        messages.append({"role": "user", "content": content})
+        try:
+            response = get_client().chat.completions.create(
+                model=MODEL_NAME,
+                messages=messages,
+                temperature=self.temperature,
+                extra_body={"enable_thinking": False},
+            )
+            reply = response.choices[0].message.content or ""
+        except Exception as exc:
+            reply = self.chat(
+                user_input
+                + "\n\n[Image feedback fallback] The current model/API could not consume screenshot images directly. "
+                + f"Use the screenshot file paths and execution log in the payload for a text-only judgment. Error: {exc}"
+            )
+            return reply
+        self._append_message("assistant", reply)
+        return reply
+
+    def remember(self, note: str) -> None:
+        note = str(note).strip()
+        if not note:
+            return
+        self.short_term_memory.append(note)
+        self.short_term_memory = self.short_term_memory[-8:]
+        self._refresh_history()
+
+    def _append_message(self, role: str, content: str) -> None:
+        self._dialogue.append({"role": role, "content": content})
+        self._compact_dialogue()
+        self._refresh_history()
+
+    def _compact_dialogue(self) -> None:
+        if len(self._dialogue) <= self.max_history_messages:
+            return
+
+        overflow = self._dialogue[: -self.max_history_messages]
+        self._dialogue = self._dialogue[-self.max_history_messages :]
+        summary_bits: list[str] = []
+        for message in overflow[-6:]:
+            content = message.get("content", "").strip().replace("\n", " ")
+            if content:
+                summary_bits.append(f"{message.get('role', 'unknown')}: {content[:500]}")
+        if summary_bits:
+            self.state_summary = ("Previous context summary:\n" + "\n".join(summary_bits))[-4000:]
+
+    def _memory_message(self) -> dict[str, str] | None:
+        chunks: list[str] = []
+        if self.state_summary:
+            chunks.append(self.state_summary)
+        if self.short_term_memory:
+            chunks.append("Short-term work memory:\n- " + "\n- ".join(self.short_term_memory))
+        if not chunks:
+            return None
+        return {"role": "system", "content": "\n\n".join(chunks)}
+
+    def _build_messages(self) -> list[dict[str, str]]:
+        messages = [{"role": "system", "content": self.system_prompt}]
+        memory = self._memory_message()
+        if memory is not None:
+            messages.append(memory)
+        messages.extend(self._dialogue)
+        return messages
+
+    def _refresh_history(self) -> None:
+        self.history = self._build_messages()
 
 
 class RequirementAgent(BaseAgent):
@@ -163,7 +274,7 @@ class RequirementAgent(BaseAgent):
             "6. 注意，在用户没有确认前，千万千万不能在输出中出现任何形式的 `[CONFIRMED]` 标签！！！！！"
             f"参考知识库：\n{kb}"
         )
-        super().__init__(system_prompt=system_prompt, temperature=0.3)
+        super().__init__(system_prompt=system_prompt, temperature=0.3, max_history_messages=60)
 
 
 class AssemblyPlanningAgent(BaseAgent):
@@ -243,7 +354,7 @@ class AssemblyPlanningAgent(BaseAgent):
             "8. 输出前必须自行检查 JSON 是否可被严格解析，字段是否完整、括号和引号是否闭合；如果你发现不合法，必须先在内部修正，再输出最终 JSON。\n"
             f"参考知识库：\n{kb}"
         )
-        super().__init__(system_prompt=system_prompt, temperature=0.1)
+        super().__init__(system_prompt=system_prompt, temperature=0.1, max_history_messages=12)
 
 
 class PartModelingAgent(BaseAgent):
@@ -261,7 +372,8 @@ class PartModelingAgent(BaseAgent):
             "5. 优先写清晰、稳定、可重试的代码；必要时打印关键步骤日志。\n"
             f"参考知识库：\n{kb}"
         )
-        super().__init__(system_prompt=system_prompt, temperature=0.2)
+        system_prompt += TOOL_ACTION_CONTRACT
+        super().__init__(system_prompt=system_prompt, temperature=0.2, max_history_messages=10)
 
 
 class PartValidationAgent(BaseAgent):
@@ -277,10 +389,43 @@ class PartValidationAgent(BaseAgent):
             "2. 零件接口名称、方向关系、保存路径是否覆盖。\n"
             "3. 是否有明显导致后续装配失败的静态问题。\n"
             "4. 关于保存路径，只要代码最终保存到规定工作区下的正确目标位置，即使通过相对路径、变量或路径拼接实现，也可视为正确，不要求完整绝对路径字面量必须直接出现。\n"
+            "5. 如果输入中带有截图，请检查模型是否出现不连续实体、明显悬空/脱节几何、特征缺失、比例异常；发现这类问题必须 pass=false 并要求重新生成或局部修复。\n"
             "如果问题轻微但不影响继续，可判定 pass=true 并在 feedback 中提示。"
             f"参考知识库：\n{kb}"
         )
-        super().__init__(system_prompt=system_prompt, temperature=0.1)
+        super().__init__(system_prompt=system_prompt, temperature=0.1, max_history_messages=12)
+
+
+class RequirementReviewAgent(BaseAgent):
+    def __init__(self) -> None:
+        system_prompt = (
+            "你是CAD需求可行性软评审智能体。你只输出JSON："
+            '{"pass": true/false, "severity": "ok/warning/fatal", '
+            '"feedback": "评审意见", '
+            '"comments_for_next_agent": ["给建模/规划智能体的注意事项或自动修正建议"]}。'
+            "评审默认不能阻断流程；除非需求在物理或拓扑上无法通过合理工程假设修正，才输出 severity=fatal。"
+            "可通过默认值、改解释、局部尺寸调整解决的问题必须输出 severity=warning，并在 comments_for_next_agent 中给出可执行修正建议。"
+            "不要把“孔半径”误判为“孔位分布半径”；例如'螺栓孔半径0.0035m'表示孔自身半径，孔位分布半径若缺失应建议默认取核心外围合理半径。"
+            "零件需求要判断几何是否合理、是否容易生成不连续实体、关键尺寸/特征是否冲突。"
+            "装配需求要判断组件职责、自由度、连接关系和约束表达是否足够合理。"
+        )
+        super().__init__(system_prompt=system_prompt, temperature=0.1, max_history_messages=8)
+
+
+class AssemblyPlanReviewAgent(BaseAgent):
+    def __init__(self) -> None:
+        system_prompt = (
+            "你是SolidWorks装配规划协议软评审智能体。你只输出JSON："
+            '{"pass": true/false, "severity": "ok/warning/fatal", '
+            '"feedback": "评审意见", '
+            '"comments_for_next_agent": ["给零件建模或装配代码智能体的建议"]}。'
+            "默认以通过为主：能通过补充建议、合理默认约束或局部修正解决的问题，必须输出 pass=true 且 severity=warning。"
+            "你的主要任务是把建议添加到装配JSON的 review_comments 中，帮助后续零件建模和装配代码生成。"
+            "只有当装配协议完全无法用当前SolidWorks库中的 coincident/concentric/parallel/distance/fix 等约束表达，"
+            "或组件/实例关系根本矛盾且无法合理假设修正时，才输出 pass=false 且 severity=fatal。"
+            "重点检查零件拆分、instance/part复用、约束可实现性、运动学自由度和静态装配特性，并给出可执行建议。"
+        )
+        super().__init__(system_prompt=system_prompt, temperature=0.1, max_history_messages=8)
 
 
 class AssemblyAgent(BaseAgent):
@@ -299,4 +444,5 @@ class AssemblyAgent(BaseAgent):
             "6. 对关键装配步骤打印简短日志，便于失败时回退重试。\n"
             f"参考知识库：\n{kb}"
         )
-        super().__init__(system_prompt=system_prompt, temperature=0.2)
+        system_prompt += TOOL_ACTION_CONTRACT
+        super().__init__(system_prompt=system_prompt, temperature=0.2, max_history_messages=10)

@@ -1,0 +1,116 @@
+{
+  "request_type": "assembly_part",
+  "assembly_context": {
+    "name": "Four_Axis_Industrial_Robot_Arm",
+    "summary": "创建一个包含底座、回转台、连杆、关节叉、销轴及夹爪的四轴工业机械臂装配体，通过同轴和平面重合实现运动副约束。",
+    "global_coordinate_system": {
+      "origin": "底座底面中心",
+      "x_direction": "机械臂正前方",
+      "y_direction": "关节旋转轴向",
+      "z_direction": "垂直向上"
+    },
+    "design_rules": [
+      "所有长度单位默认为 mm，建模时需换算为 m",
+      "销轴与孔采用 0.5mm 间隙配合",
+      "关节叉开口宽度 W1 = 连杆端部厚度 W2 + 1.0mm",
+      "优先使用 MidPlane 居中对齐以保证对称性"
+    ],
+    "review_comments": [],
+    "instances": [
+      {
+        "instance_id": "link_upper_arm",
+        "part_id": "hollow_link",
+        "name": "大臂连杆",
+        "instance_role": "第二段臂",
+        "placement_notes": "连接回转台与肘关节",
+        "interface_usage": {
+          "faces": [
+            "mid_plane_y"
+          ],
+          "axes": [
+            "start_axis_y",
+            "end_axis_y"
+          ],
+          "points": []
+        }
+      },
+      {
+        "instance_id": "link_forearm",
+        "part_id": "hollow_link",
+        "name": "小臂连杆",
+        "instance_role": "第三段臂",
+        "placement_notes": "连接肘关节与腕关节",
+        "interface_usage": {
+          "faces": [
+            "mid_plane_y"
+          ],
+          "axes": [
+            "start_axis_y",
+            "end_axis_y"
+          ],
+          "points": []
+        }
+      }
+    ],
+    "assembly_sequence": [
+      "1. 固定 base_inst",
+      "2. 将 turntable_inst 装配至 base_inst",
+      "3. 将 link_upper_arm 装配至 turntable_inst 并用 pin_shoulder 锁定",
+      "4. 将 fork_elbow 装配至 link_upper_arm 并用 pin_elbow 锁定",
+      "5. 将 link_forearm 装配至 fork_elbow",
+      "6. 将 fork_wrist 装配至 link_forearm 并用 pin_wrist 锁定",
+      "7. 将 gripper_inst 装配至 fork_wrist"
+    ]
+  },
+  "part": {
+    "part_id": "hollow_link",
+    "name": "连杆",
+    "function": "机械臂臂身，连接两个关节",
+    "shape": "长方体或圆管，两端带有连接头",
+    "key_dimensions": [
+      "长度: 400mm",
+      "端部厚度: 60mm",
+      "销轴孔径: 20mm"
+    ],
+    "material_or_notes": "碳纤维或铝管",
+    "quantity": 2,
+    "instance_ids": [
+      "link_upper_arm",
+      "link_forearm"
+    ],
+    "interfaces": {
+      "faces": [
+        {
+          "name": "mid_plane_y",
+          "purpose": "对称中心面",
+          "normal_direction_relation": "normal Y"
+        }
+      ],
+      "axes": [
+        {
+          "name": "start_axis_y",
+          "purpose": "起始端旋转轴",
+          "direction_relation": "along local Y"
+        },
+        {
+          "name": "end_axis_y",
+          "purpose": "末端旋转轴",
+          "direction_relation": "along local Y"
+        }
+      ],
+      "points": []
+    },
+    "assembly_relation_notes": [
+      "两端分别插入关节叉"
+    ],
+    "workspace": {
+      "part_dir": "D:\\a_src\\python\\sw_agent\\agent_output\\Four_Axis_Industrial_Robot_Arm-20260429_201900\\parts\\hollow_link",
+      "code_file": "D:\\a_src\\python\\sw_agent\\agent_output\\Four_Axis_Industrial_Robot_Arm-20260429_201900\\parts\\hollow_link\\hollow_link_model.py",
+      "model_file": "D:\\a_src\\python\\sw_agent\\agent_output\\Four_Axis_Industrial_Robot_Arm-20260429_201900\\parts\\hollow_link\\hollow_link.SLDPRT",
+      "log_file": "D:\\a_src\\python\\sw_agent\\agent_output\\Four_Axis_Industrial_Robot_Arm-20260429_201900\\logs\\hollow_link_model.log",
+      "screenshot_dir": "D:\\a_src\\python\\sw_agent\\agent_output\\Four_Axis_Industrial_Robot_Arm-20260429_201900\\screenshots\\hollow_link",
+      "spec_file": "D:\\a_src\\python\\sw_agent\\agent_output\\Four_Axis_Industrial_Robot_Arm-20260429_201900\\json\\hollow_link_spec.json"
+    },
+    "standalone_modeling_instructions": "拉伸400mm长臂，两端加厚至60mm并打20mm通孔，添加减重孔特征。"
+  }
+}

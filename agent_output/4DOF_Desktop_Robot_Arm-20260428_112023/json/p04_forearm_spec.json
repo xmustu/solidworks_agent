@@ -1,0 +1,118 @@
+{
+  "request_type": "assembly_part",
+  "assembly_context": {
+    "name": "4DOF_Desktop_Robot_Arm",
+    "summary": "生成一个4自由度桌面机械臂装配体，包含底座、旋转台、肩部支架、大臂、小臂、腕部法兰及两个销轴。所有零件基于米(m)单位建模，采用拉伸、切除、圆角等基础特征。装配体处于静态Home位姿（所有关节角0°），通过轴重合和面重合约束固定各部件位置。",
+    "global_coordinate_system": {
+      "origin": "P00_Base_Center_Bottom",
+      "x_direction": "Forward (Robot Front)",
+      "y_direction": "Left (Robot Left)",
+      "z_direction": "Up (Vertical Axis)"
+    },
+    "design_rules": [
+      "所有尺寸单位为米(m)",
+      "孔特征使用create_circle + extrude_cut生成，不使用阵列",
+      "参考几何(轴/面)需按指定名称创建以支持装配约束",
+      "未明确说明的倒角/圆角默认为无",
+      "装配体初始状态为静态Home位姿"
+    ],
+    "instances": [
+      {
+        "instance_id": "inst_p04_forearm",
+        "part_id": "p04_forearm",
+        "name": "Forearm Instance",
+        "instance_role": "Secondary Arm",
+        "placement_notes": "Connected to Upper Arm via J3",
+        "interface_usage": {
+          "faces": [
+            "PL_FOREARM_MID_XZ",
+            "PL_FOREARM_ZERO_XY",
+            "PL_WRIST_FRONT_FACE"
+          ],
+          "axes": [
+            "AXIS_J3_Y",
+            "AXIS_J4_X"
+          ],
+          "points": []
+        }
+      }
+    ],
+    "assembly_sequence": [
+      "Fix inst_p00_base",
+      "Mate inst_p01_yaw to inst_p00_base (Axis Coincident, Face Coincident, Zero Plane)",
+      "Mate inst_p02_shoulder to inst_p01_yaw (Axis Coincident, Face Coincident, Zero Plane)",
+      "Mate inst_p03_upperarm to inst_p02_shoulder (Axis Coincident, Face Coincident, Zero Plane)",
+      "Mate inst_p06_pin_j2 to inst_p02_shoulder (Axis Coincident, Face Coincident)",
+      "Mate inst_p04_forearm to inst_p03_upperarm (Axis Coincident, Face Coincident, Zero Plane)",
+      "Mate inst_p07_pin_j3 to inst_p03_upperarm (Axis Coincident, Face Coincident)",
+      "Mate inst_p05_wrist to inst_p04_forearm (Axis Coincident, Face Coincident, Zero Plane)"
+    ]
+  },
+  "part": {
+    "part_id": "p04_forearm",
+    "name": "Forearm",
+    "function": "连接J3与J4，次要臂",
+    "shape": "长条形实体，一端单耳(J3)，一端法兰(J4)",
+    "key_dimensions": [
+      "Length: 0.2m",
+      "Width: 0.03m",
+      "Thickness: 0.015m",
+      "J3 Ear Width: 0.01m"
+    ],
+    "material_or_notes": "Aluminum 6061",
+    "quantity": 1,
+    "instance_ids": [
+      "inst_p04_forearm"
+    ],
+    "interfaces": {
+      "faces": [
+        {
+          "name": "PL_FOREARM_MID_XZ",
+          "purpose": "与大臂中面对齐",
+          "normal_direction_relation": "normal +Y"
+        },
+        {
+          "name": "PL_FOREARM_ZERO_XY",
+          "purpose": "Home位姿零位参考面",
+          "normal_direction_relation": "normal +Z"
+        },
+        {
+          "name": "PL_WRIST_FRONT_FACE",
+          "purpose": "与腕部法兰配合",
+          "normal_direction_relation": "normal +X"
+        }
+      ],
+      "axes": [
+        {
+          "name": "AXIS_J3_Y",
+          "purpose": "J3旋转轴",
+          "direction_relation": "along local Y"
+        },
+        {
+          "name": "AXIS_J4_X",
+          "purpose": "J4旋转轴",
+          "direction_relation": "along local X"
+        }
+      ],
+      "points": []
+    },
+    "assembly_relation_notes": [
+      "AXIS_J3_Y与P03.AXIS_J3_Y同心",
+      "PL_FOREARM_MID_XZ与P03.PL_UPPERARM_MID_XZ重合",
+      "AXIS_J4_X与P05.AXIS_J4_X同心"
+    ],
+    "workspace": {
+      "part_dir": "D:\\a_src\\python\\sw_agent\\agent_output\\4DOF_Desktop_Robot_Arm-20260428_112023\\parts\\p04_forearm",
+      "code_file": "D:\\a_src\\python\\sw_agent\\agent_output\\4DOF_Desktop_Robot_Arm-20260428_112023\\parts\\p04_forearm\\p04_forearm_model.py",
+      "model_file": "D:\\a_src\\python\\sw_agent\\agent_output\\4DOF_Desktop_Robot_Arm-20260428_112023\\parts\\p04_forearm\\p04_forearm.SLDPRT",
+      "log_file": "D:\\a_src\\python\\sw_agent\\agent_output\\4DOF_Desktop_Robot_Arm-20260428_112023\\logs\\p04_forearm_model.log",
+      "spec_file": "D:\\a_src\\python\\sw_agent\\agent_output\\4DOF_Desktop_Robot_Arm-20260428_112023\\json\\p04_forearm_spec.json"
+    },
+    "standalone_modeling_instructions": [
+      "在XY平面绘制臂身轮廓，拉伸厚度",
+      "在一端构建单耳结构(J3)",
+      "在另一端构建法兰盘结构(J4)",
+      "创建参考轴AXIS_J3_Y和AXIS_J4_X"
+    ]
+  }
+}

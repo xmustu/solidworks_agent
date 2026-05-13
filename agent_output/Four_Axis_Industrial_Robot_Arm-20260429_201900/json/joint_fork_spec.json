@@ -1,0 +1,114 @@
+{
+  "request_type": "assembly_part",
+  "assembly_context": {
+    "name": "Four_Axis_Industrial_Robot_Arm",
+    "summary": "创建一个包含底座、回转台、连杆、关节叉、销轴及夹爪的四轴工业机械臂装配体，通过同轴和平面重合实现运动副约束。",
+    "global_coordinate_system": {
+      "origin": "底座底面中心",
+      "x_direction": "机械臂正前方",
+      "y_direction": "关节旋转轴向",
+      "z_direction": "垂直向上"
+    },
+    "design_rules": [
+      "所有长度单位默认为 mm，建模时需换算为 m",
+      "销轴与孔采用 0.5mm 间隙配合",
+      "关节叉开口宽度 W1 = 连杆端部厚度 W2 + 1.0mm",
+      "优先使用 MidPlane 居中对齐以保证对称性"
+    ],
+    "review_comments": [],
+    "instances": [
+      {
+        "instance_id": "fork_elbow",
+        "part_id": "joint_fork",
+        "name": "肘关节叉",
+        "instance_role": "连接大臂与小臂",
+        "placement_notes": "位于大臂末端",
+        "interface_usage": {
+          "faces": [
+            "mid_plane_y"
+          ],
+          "axes": [
+            "hinge_axis_y"
+          ],
+          "points": []
+        }
+      },
+      {
+        "instance_id": "fork_wrist",
+        "part_id": "joint_fork",
+        "name": "腕关节叉",
+        "instance_role": "连接小臂与夹爪",
+        "placement_notes": "位于小臂末端",
+        "interface_usage": {
+          "faces": [
+            "mid_plane_y"
+          ],
+          "axes": [
+            "hinge_axis_y"
+          ],
+          "points": []
+        }
+      }
+    ],
+    "assembly_sequence": [
+      "1. 固定 base_inst",
+      "2. 将 turntable_inst 装配至 base_inst",
+      "3. 将 link_upper_arm 装配至 turntable_inst 并用 pin_shoulder 锁定",
+      "4. 将 fork_elbow 装配至 link_upper_arm 并用 pin_elbow 锁定",
+      "5. 将 link_forearm 装配至 fork_elbow",
+      "6. 将 fork_wrist 装配至 link_forearm 并用 pin_wrist 锁定",
+      "7. 将 gripper_inst 装配至 fork_wrist"
+    ]
+  },
+  "part": {
+    "part_id": "joint_fork",
+    "name": "关节叉",
+    "function": "连接连杆并提供旋转支点",
+    "shape": "U形结构，底部为圆柱连接端，顶部为叉形开口",
+    "key_dimensions": [
+      "开口宽度: 61mm",
+      "销轴孔径: 20mm",
+      "总长: 120mm"
+    ],
+    "material_or_notes": "铝合金",
+    "quantity": 2,
+    "instance_ids": [
+      "fork_elbow",
+      "fork_wrist"
+    ],
+    "interfaces": {
+      "faces": [
+        {
+          "name": "base_face",
+          "purpose": "底部安装面",
+          "normal_direction_relation": "normal -X"
+        },
+        {
+          "name": "mid_plane_y",
+          "purpose": "对称中心面",
+          "normal_direction_relation": "normal Y"
+        }
+      ],
+      "axes": [
+        {
+          "name": "hinge_axis_y",
+          "purpose": "关节旋转轴",
+          "direction_relation": "along local Y"
+        }
+      ],
+      "points": []
+    },
+    "assembly_relation_notes": [
+      "通过销轴与连杆连接"
+    ],
+    "workspace": {
+      "part_dir": "D:\\a_src\\python\\sw_agent\\agent_output\\Four_Axis_Industrial_Robot_Arm-20260429_201900\\parts\\joint_fork",
+      "code_file": "D:\\a_src\\python\\sw_agent\\agent_output\\Four_Axis_Industrial_Robot_Arm-20260429_201900\\parts\\joint_fork\\joint_fork_model.py",
+      "model_file": "D:\\a_src\\python\\sw_agent\\agent_output\\Four_Axis_Industrial_Robot_Arm-20260429_201900\\parts\\joint_fork\\joint_fork.SLDPRT",
+      "log_file": "D:\\a_src\\python\\sw_agent\\agent_output\\Four_Axis_Industrial_Robot_Arm-20260429_201900\\logs\\joint_fork_model.log",
+      "screenshot_dir": "D:\\a_src\\python\\sw_agent\\agent_output\\Four_Axis_Industrial_Robot_Arm-20260429_201900\\screenshots\\joint_fork",
+      "spec_file": "D:\\a_src\\python\\sw_agent\\agent_output\\Four_Axis_Industrial_Robot_Arm-20260429_201900\\json\\joint_fork_spec.json"
+    },
+    "standalone_modeling_instructions": "拉伸U型主体，确保开口宽度为61mm，在叉部两侧打20mm同心孔。"
+  }
+}

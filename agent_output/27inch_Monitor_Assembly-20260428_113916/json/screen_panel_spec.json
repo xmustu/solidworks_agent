@@ -1,0 +1,124 @@
+{
+  "request_type": "assembly_part",
+  "assembly_context": {
+    "name": "27inch_Monitor_Assembly",
+    "summary": "27英寸显示器装配体，包含屏幕面板、两段式可调节立柱、圆形底座及VESA安装背板。支持左右旋转配合，立柱模拟上下调节后的固定状态。",
+    "global_coordinate_system": {
+      "origin": "Base_Center_Bottom",
+      "x_direction": "Front of Monitor",
+      "y_direction": "Right side of Monitor (from front view)",
+      "z_direction": "Upwards along Stand Axis"
+    },
+    "design_rules": [
+      "All dimensions in mm, convert to meters for API calls.",
+      "Use XY plane as horizontal base for all parts unless specified.",
+      "Ensure concentricity for all cylindrical connections.",
+      "Screen panel is fixed relative to bracket; rotation is simulated by bracket orientation."
+    ],
+    "instances": [
+      {
+        "instance_id": "inst_screen_panel",
+        "part_id": "screen_panel",
+        "name": "Screen Panel Instance",
+        "instance_role": "Display Unit",
+        "placement_notes": "Mounted to bracket. Facing +X.",
+        "interface_usage": {
+          "faces": [
+            "screen_back_face"
+          ],
+          "axes": [
+            "screen_vesa_axis_1",
+            "screen_vesa_axis_2",
+            "screen_vesa_axis_3",
+            "screen_vesa_axis_4"
+          ],
+          "points": [
+            "screen_center_point"
+          ]
+        }
+      }
+    ],
+    "assembly_sequence": [
+      "Fix inst_stand_base to GROUND",
+      "Mate inst_stand_column_outer to inst_stand_base",
+      "Mate inst_stand_column_inner to inst_stand_column_outer",
+      "Mate inst_mount_bracket to inst_stand_column_inner",
+      "Mate inst_screen_panel to inst_mount_bracket"
+    ]
+  },
+  "part": {
+    "part_id": "screen_panel",
+    "name": "Screen Panel",
+    "function": "Main display unit.",
+    "shape": "Rectangular prism representing the monitor body.",
+    "key_dimensions": [
+      "Width: 600mm",
+      "Height: 340mm",
+      "Depth: 20mm"
+    ],
+    "material_or_notes": "Plastic/Glass composite.",
+    "quantity": 1,
+    "instance_ids": [
+      "inst_screen_panel"
+    ],
+    "interfaces": {
+      "faces": [
+        {
+          "name": "screen_front_face",
+          "purpose": "Display surface.",
+          "normal_direction_relation": "normal +X"
+        },
+        {
+          "name": "screen_back_face",
+          "purpose": "Mounting surface for bracket.",
+          "normal_direction_relation": "normal -X"
+        }
+      ],
+      "axes": [
+        {
+          "name": "screen_vesa_axis_1",
+          "purpose": "Top-left VESA hole.",
+          "direction_relation": "parallel to local X"
+        },
+        {
+          "name": "screen_vesa_axis_2",
+          "purpose": "Top-right VESA hole.",
+          "direction_relation": "parallel to local X"
+        },
+        {
+          "name": "screen_vesa_axis_3",
+          "purpose": "Bottom-left VESA hole.",
+          "direction_relation": "parallel to local X"
+        },
+        {
+          "name": "screen_vesa_axis_4",
+          "purpose": "Bottom-right VESA hole.",
+          "direction_relation": "parallel to local X"
+        }
+      ],
+      "points": [
+        {
+          "name": "screen_center_point",
+          "purpose": "Geometric center of the panel.",
+          "location_hint": "Center of 600x340 rectangle"
+        }
+      ]
+    },
+    "assembly_relation_notes": [
+      "Back face coincident with Bracket Screen Mount Face.",
+      "VESA axes concentric with Bracket VESA axes."
+    ],
+    "workspace": {
+      "part_dir": "D:\\a_src\\python\\sw_agent\\agent_output\\27inch_Monitor_Assembly-20260428_113916\\parts\\screen_panel",
+      "code_file": "D:\\a_src\\python\\sw_agent\\agent_output\\27inch_Monitor_Assembly-20260428_113916\\parts\\screen_panel\\screen_panel_model.py",
+      "model_file": "D:\\a_src\\python\\sw_agent\\agent_output\\27inch_Monitor_Assembly-20260428_113916\\parts\\screen_panel\\screen_panel.SLDPRT",
+      "log_file": "D:\\a_src\\python\\sw_agent\\agent_output\\27inch_Monitor_Assembly-20260428_113916\\logs\\screen_panel_model.log",
+      "spec_file": "D:\\a_src\\python\\sw_agent\\agent_output\\27inch_Monitor_Assembly-20260428_113916\\json\\screen_panel_spec.json"
+    },
+    "standalone_modeling_instructions": [
+      "Sketch rectangle 600x340mm on YZ plane centered at origin.",
+      "Extrude boss/base 20mm in +X direction.",
+      "Add 4 blind holes or through holes on back face (-X normal) in 100x100 VESA pattern centered on the back face."
+    ]
+  }
+}

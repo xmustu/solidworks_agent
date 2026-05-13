@@ -1,0 +1,585 @@
+{
+  "request_type": "assembly",
+  "assembly": {
+    "name": "27inch_Monitor_Assembly",
+    "summary": "27英寸显示器装配体，包含屏幕面板、两段式可调节立柱、圆形底座及VESA安装背板。支持左右旋转配合，立柱模拟上下调节后的固定状态。",
+    "workspace": {
+      "root_dir": "D:\\a_src\\python\\sw_agent\\agent_output\\27inch_Monitor_Assembly-20260428_113916",
+      "parts_dir": "D:\\a_src\\python\\sw_agent\\agent_output\\27inch_Monitor_Assembly-20260428_113916\\parts",
+      "assembly_dir": "D:\\a_src\\python\\sw_agent\\agent_output\\27inch_Monitor_Assembly-20260428_113916\\assembly",
+      "json_dir": "D:\\a_src\\python\\sw_agent\\agent_output\\27inch_Monitor_Assembly-20260428_113916\\json",
+      "logs_dir": "D:\\a_src\\python\\sw_agent\\agent_output\\27inch_Monitor_Assembly-20260428_113916\\logs",
+      "plan_file": "D:\\a_src\\python\\sw_agent\\agent_output\\27inch_Monitor_Assembly-20260428_113916\\json\\assembly_plan.json"
+    },
+    "global_coordinate_system": {
+      "origin": "Base_Center_Bottom",
+      "x_direction": "Front of Monitor",
+      "y_direction": "Right side of Monitor (from front view)",
+      "z_direction": "Upwards along Stand Axis"
+    },
+    "design_rules": [
+      "All dimensions in mm, convert to meters for API calls.",
+      "Use XY plane as horizontal base for all parts unless specified.",
+      "Ensure concentricity for all cylindrical connections.",
+      "Screen panel is fixed relative to bracket; rotation is simulated by bracket orientation."
+    ],
+    "parts": [
+      {
+        "part_id": "stand_base",
+        "name": "Stand Base",
+        "function": "Provides stable foundation for the monitor stand.",
+        "shape": "Circular disk with flat top and bottom faces. Centered on Z-axis.",
+        "key_dimensions": [
+          "Diameter: 250mm",
+          "Thickness: 15mm"
+        ],
+        "material_or_notes": "Plastic or Metal, default appearance.",
+        "quantity": 1,
+        "instance_ids": [
+          "inst_stand_base"
+        ],
+        "interfaces": {
+          "faces": [
+            {
+              "name": "base_top_face",
+              "purpose": "Mating surface for outer tube bottom.",
+              "normal_direction_relation": "normal +Z"
+            },
+            {
+              "name": "base_bottom_face",
+              "purpose": "Contact with ground/table.",
+              "normal_direction_relation": "normal -Z"
+            }
+          ],
+          "axes": [
+            {
+              "name": "base_center_axis",
+              "purpose": "Central vertical axis for concentric mating.",
+              "direction_relation": "along local Z"
+            }
+          ],
+          "points": []
+        },
+        "assembly_relation_notes": [
+          "Fixed to global origin.",
+          "Top face mates with Outer Tube bottom face."
+        ],
+        "workspace": {
+          "part_dir": "D:\\a_src\\python\\sw_agent\\agent_output\\27inch_Monitor_Assembly-20260428_113916\\parts\\stand_base",
+          "code_file": "D:\\a_src\\python\\sw_agent\\agent_output\\27inch_Monitor_Assembly-20260428_113916\\parts\\stand_base\\stand_base_model.py",
+          "model_file": "D:\\a_src\\python\\sw_agent\\agent_output\\27inch_Monitor_Assembly-20260428_113916\\parts\\stand_base\\stand_base.SLDPRT",
+          "log_file": "D:\\a_src\\python\\sw_agent\\agent_output\\27inch_Monitor_Assembly-20260428_113916\\logs\\stand_base_model.log",
+          "spec_file": "D:\\a_src\\python\\sw_agent\\agent_output\\27inch_Monitor_Assembly-20260428_113916\\json\\stand_base_spec.json"
+        },
+        "standalone_modeling_instructions": [
+          "Sketch circle diameter 250mm on XY plane centered at origin.",
+          "Extrude boss/base 15mm in +Z direction."
+        ]
+      },
+      {
+        "part_id": "stand_column_outer",
+        "name": "Stand Column Outer Tube",
+        "function": "Outer sleeve of the height-adjustable stand.",
+        "shape": "Hollow cylinder (tube). Outer diameter 40mm, Inner diameter slightly larger than 30mm (e.g., 32mm) to allow inner tube insertion. Height 200mm.",
+        "key_dimensions": [
+          "Outer Diameter: 40mm",
+          "Inner Diameter: 32mm (assumed clearance)",
+          "Height: 200mm"
+        ],
+        "material_or_notes": "Metal or rigid plastic.",
+        "quantity": 1,
+        "instance_ids": [
+          "inst_stand_column_outer"
+        ],
+        "interfaces": {
+          "faces": [
+            {
+              "name": "outer_tube_bottom_face",
+              "purpose": "Mates with base top face.",
+              "normal_direction_relation": "normal -Z"
+            },
+            {
+              "name": "outer_tube_top_face",
+              "purpose": "Reference for inner tube extension limit.",
+              "normal_direction_relation": "normal +Z"
+            }
+          ],
+          "axes": [
+            {
+              "name": "outer_tube_center_axis",
+              "purpose": "Concentric axis for mating with base and inner tube.",
+              "direction_relation": "along local Z"
+            }
+          ],
+          "points": []
+        },
+        "assembly_relation_notes": [
+          "Bottom face coincident with Base Top Face.",
+          "Center axis concentric with Base Center Axis."
+        ],
+        "workspace": {
+          "part_dir": "D:\\a_src\\python\\sw_agent\\agent_output\\27inch_Monitor_Assembly-20260428_113916\\parts\\stand_column_outer",
+          "code_file": "D:\\a_src\\python\\sw_agent\\agent_output\\27inch_Monitor_Assembly-20260428_113916\\parts\\stand_column_outer\\stand_column_outer_model.py",
+          "model_file": "D:\\a_src\\python\\sw_agent\\agent_output\\27inch_Monitor_Assembly-20260428_113916\\parts\\stand_column_outer\\stand_column_outer.SLDPRT",
+          "log_file": "D:\\a_src\\python\\sw_agent\\agent_output\\27inch_Monitor_Assembly-20260428_113916\\logs\\stand_column_outer_model.log",
+          "spec_file": "D:\\a_src\\python\\sw_agent\\agent_output\\27inch_Monitor_Assembly-20260428_113916\\json\\stand_column_outer_spec.json"
+        },
+        "standalone_modeling_instructions": [
+          "Sketch two concentric circles on XY plane: OD 40mm, ID 32mm.",
+          "Extrude boss/base 200mm in +Z direction."
+        ]
+      },
+      {
+        "part_id": "stand_column_inner",
+        "name": "Stand Column Inner Tube",
+        "function": "Inner sliding tube that extends from the outer tube.",
+        "shape": "Solid cylinder or thick-walled tube. Outer diameter 30mm. Height 150mm.",
+        "key_dimensions": [
+          "Outer Diameter: 30mm",
+          "Height: 150mm"
+        ],
+        "material_or_notes": "Metal or rigid plastic.",
+        "quantity": 1,
+        "instance_ids": [
+          "inst_stand_column_inner"
+        ],
+        "interfaces": {
+          "faces": [
+            {
+              "name": "inner_tube_bottom_face",
+              "purpose": "Internal stop or reference inside outer tube.",
+              "normal_direction_relation": "normal -Z"
+            },
+            {
+              "name": "inner_tube_top_face",
+              "purpose": "Mounting surface for bracket.",
+              "normal_direction_relation": "normal +Z"
+            }
+          ],
+          "axes": [
+            {
+              "name": "inner_tube_center_axis",
+              "purpose": "Concentric axis for mating with outer tube and bracket.",
+              "direction_relation": "along local Z"
+            }
+          ],
+          "points": []
+        },
+        "assembly_relation_notes": [
+          "Inserted into Outer Tube.",
+          "Extended 50mm above Outer Tube Top Face (Total height from base = 200 + 50 = 250mm for top face).",
+          "Axis concentric with Outer Tube."
+        ],
+        "workspace": {
+          "part_dir": "D:\\a_src\\python\\sw_agent\\agent_output\\27inch_Monitor_Assembly-20260428_113916\\parts\\stand_column_inner",
+          "code_file": "D:\\a_src\\python\\sw_agent\\agent_output\\27inch_Monitor_Assembly-20260428_113916\\parts\\stand_column_inner\\stand_column_inner_model.py",
+          "model_file": "D:\\a_src\\python\\sw_agent\\agent_output\\27inch_Monitor_Assembly-20260428_113916\\parts\\stand_column_inner\\stand_column_inner.SLDPRT",
+          "log_file": "D:\\a_src\\python\\sw_agent\\agent_output\\27inch_Monitor_Assembly-20260428_113916\\logs\\stand_column_inner_model.log",
+          "spec_file": "D:\\a_src\\python\\sw_agent\\agent_output\\27inch_Monitor_Assembly-20260428_113916\\json\\stand_column_inner_spec.json"
+        },
+        "standalone_modeling_instructions": [
+          "Sketch circle diameter 30mm on XY plane centered at origin.",
+          "Extrude boss/base 150mm in +Z direction."
+        ]
+      },
+      {
+        "part_id": "mount_bracket",
+        "name": "Mount Bracket",
+        "function": "Connects inner tube to screen panel, allowing rotation.",
+        "shape": "L-shaped or T-shaped bracket. Vertical part connects to inner tube top. Horizontal part attaches to screen back. Includes VESA hole pattern interface.",
+        "key_dimensions": [
+          "Vertical Height: 50mm (approx)",
+          "Horizontal Depth: 100mm (approx)",
+          "VESA Pattern: 100x100mm square"
+        ],
+        "material_or_notes": "Metal.",
+        "quantity": 1,
+        "instance_ids": [
+          "inst_mount_bracket"
+        ],
+        "interfaces": {
+          "faces": [
+            {
+              "name": "bracket_vertical_back_face",
+              "purpose": "Mates with inner tube top area or surrounds it.",
+              "normal_direction_relation": "normal -Y (assuming Y is right, this faces back)"
+            },
+            {
+              "name": "bracket_screen_mount_face",
+              "purpose": "Flat face contacting screen back.",
+              "normal_direction_relation": "normal -X (facing screen back if X is front)"
+            }
+          ],
+          "axes": [
+            {
+              "name": "bracket_rotation_axis",
+              "purpose": "Axis of rotation relative to inner tube.",
+              "direction_relation": "along local Z"
+            },
+            {
+              "name": "vesa_hole_axis_1",
+              "purpose": "Top-left VESA hole axis.",
+              "direction_relation": "parallel to local X"
+            },
+            {
+              "name": "vesa_hole_axis_2",
+              "purpose": "Top-right VESA hole axis.",
+              "direction_relation": "parallel to local X"
+            },
+            {
+              "name": "vesa_hole_axis_3",
+              "purpose": "Bottom-left VESA hole axis.",
+              "direction_relation": "parallel to local X"
+            },
+            {
+              "name": "vesa_hole_axis_4",
+              "purpose": "Bottom-right VESA hole axis.",
+              "direction_relation": "parallel to local X"
+            }
+          ],
+          "points": [
+            {
+              "name": "vesa_center_point",
+              "purpose": "Center of VESA pattern.",
+              "location_hint": "Intersection of diagonals of 100x100 square"
+            }
+          ]
+        },
+        "assembly_relation_notes": [
+          "Rotation axis concentric with Inner Tube Top Axis.",
+          "Screen mount face coincident with Screen Back Face.",
+          "VESA holes concentric with Screen VESA holes."
+        ],
+        "workspace": {
+          "part_dir": "D:\\a_src\\python\\sw_agent\\agent_output\\27inch_Monitor_Assembly-20260428_113916\\parts\\mount_bracket",
+          "code_file": "D:\\a_src\\python\\sw_agent\\agent_output\\27inch_Monitor_Assembly-20260428_113916\\parts\\mount_bracket\\mount_bracket_model.py",
+          "model_file": "D:\\a_src\\python\\sw_agent\\agent_output\\27inch_Monitor_Assembly-20260428_113916\\parts\\mount_bracket\\mount_bracket.SLDPRT",
+          "log_file": "D:\\a_src\\python\\sw_agent\\agent_output\\27inch_Monitor_Assembly-20260428_113916\\logs\\mount_bracket_model.log",
+          "spec_file": "D:\\a_src\\python\\sw_agent\\agent_output\\27inch_Monitor_Assembly-20260428_113916\\json\\mount_bracket_spec.json"
+        },
+        "standalone_modeling_instructions": [
+          "Create vertical plate sketch on YZ plane.",
+          "Create horizontal plate sketch on XY plane offset.",
+          "Add 4 holes (M4 size approx 4.5mm) in 100x100 pattern on horizontal plate face.",
+          "Define rotation axis through center of vertical connection."
+        ]
+      },
+      {
+        "part_id": "screen_panel",
+        "name": "Screen Panel",
+        "function": "Main display unit.",
+        "shape": "Rectangular prism representing the monitor body.",
+        "key_dimensions": [
+          "Width: 600mm",
+          "Height: 340mm",
+          "Depth: 20mm"
+        ],
+        "material_or_notes": "Plastic/Glass composite.",
+        "quantity": 1,
+        "instance_ids": [
+          "inst_screen_panel"
+        ],
+        "interfaces": {
+          "faces": [
+            {
+              "name": "screen_front_face",
+              "purpose": "Display surface.",
+              "normal_direction_relation": "normal +X"
+            },
+            {
+              "name": "screen_back_face",
+              "purpose": "Mounting surface for bracket.",
+              "normal_direction_relation": "normal -X"
+            }
+          ],
+          "axes": [
+            {
+              "name": "screen_vesa_axis_1",
+              "purpose": "Top-left VESA hole.",
+              "direction_relation": "parallel to local X"
+            },
+            {
+              "name": "screen_vesa_axis_2",
+              "purpose": "Top-right VESA hole.",
+              "direction_relation": "parallel to local X"
+            },
+            {
+              "name": "screen_vesa_axis_3",
+              "purpose": "Bottom-left VESA hole.",
+              "direction_relation": "parallel to local X"
+            },
+            {
+              "name": "screen_vesa_axis_4",
+              "purpose": "Bottom-right VESA hole.",
+              "direction_relation": "parallel to local X"
+            }
+          ],
+          "points": [
+            {
+              "name": "screen_center_point",
+              "purpose": "Geometric center of the panel.",
+              "location_hint": "Center of 600x340 rectangle"
+            }
+          ]
+        },
+        "assembly_relation_notes": [
+          "Back face coincident with Bracket Screen Mount Face.",
+          "VESA axes concentric with Bracket VESA axes."
+        ],
+        "workspace": {
+          "part_dir": "D:\\a_src\\python\\sw_agent\\agent_output\\27inch_Monitor_Assembly-20260428_113916\\parts\\screen_panel",
+          "code_file": "D:\\a_src\\python\\sw_agent\\agent_output\\27inch_Monitor_Assembly-20260428_113916\\parts\\screen_panel\\screen_panel_model.py",
+          "model_file": "D:\\a_src\\python\\sw_agent\\agent_output\\27inch_Monitor_Assembly-20260428_113916\\parts\\screen_panel\\screen_panel.SLDPRT",
+          "log_file": "D:\\a_src\\python\\sw_agent\\agent_output\\27inch_Monitor_Assembly-20260428_113916\\logs\\screen_panel_model.log",
+          "spec_file": "D:\\a_src\\python\\sw_agent\\agent_output\\27inch_Monitor_Assembly-20260428_113916\\json\\screen_panel_spec.json"
+        },
+        "standalone_modeling_instructions": [
+          "Sketch rectangle 600x340mm on YZ plane centered at origin.",
+          "Extrude boss/base 20mm in +X direction.",
+          "Add 4 blind holes or through holes on back face (-X normal) in 100x100 VESA pattern centered on the back face."
+        ]
+      }
+    ],
+    "instances": [
+      {
+        "instance_id": "inst_stand_base",
+        "part_id": "stand_base",
+        "name": "Stand Base Instance",
+        "instance_role": "Foundation",
+        "placement_notes": "Fixed at global origin. Bottom face on XY plane.",
+        "interface_usage": {
+          "faces": [
+            "base_top_face",
+            "base_bottom_face"
+          ],
+          "axes": [
+            "base_center_axis"
+          ],
+          "points": []
+        }
+      },
+      {
+        "instance_id": "inst_stand_column_outer",
+        "part_id": "stand_column_outer",
+        "name": "Outer Tube Instance",
+        "instance_role": "Lower Stand Section",
+        "placement_notes": "Sits on base. Axis aligned with Z.",
+        "interface_usage": {
+          "faces": [
+            "outer_tube_bottom_face",
+            "outer_tube_top_face"
+          ],
+          "axes": [
+            "outer_tube_center_axis"
+          ],
+          "points": []
+        }
+      },
+      {
+        "instance_id": "inst_stand_column_inner",
+        "part_id": "stand_column_inner",
+        "name": "Inner Tube Instance",
+        "instance_role": "Upper Stand Section",
+        "placement_notes": "Inserted into outer tube. Extended 50mm above outer tube top.",
+        "interface_usage": {
+          "faces": [
+            "inner_tube_top_face"
+          ],
+          "axes": [
+            "inner_tube_center_axis"
+          ],
+          "points": []
+        }
+      },
+      {
+        "instance_id": "inst_mount_bracket",
+        "part_id": "mount_bracket",
+        "name": "Mount Bracket Instance",
+        "instance_role": "Connector",
+        "placement_notes": "Attached to inner tube top. Rotated 0 degrees (centered).",
+        "interface_usage": {
+          "faces": [
+            "bracket_screen_mount_face"
+          ],
+          "axes": [
+            "bracket_rotation_axis",
+            "vesa_hole_axis_1",
+            "vesa_hole_axis_2",
+            "vesa_hole_axis_3",
+            "vesa_hole_axis_4"
+          ],
+          "points": [
+            "vesa_center_point"
+          ]
+        }
+      },
+      {
+        "instance_id": "inst_screen_panel",
+        "part_id": "screen_panel",
+        "name": "Screen Panel Instance",
+        "instance_role": "Display Unit",
+        "placement_notes": "Mounted to bracket. Facing +X.",
+        "interface_usage": {
+          "faces": [
+            "screen_back_face"
+          ],
+          "axes": [
+            "screen_vesa_axis_1",
+            "screen_vesa_axis_2",
+            "screen_vesa_axis_3",
+            "screen_vesa_axis_4"
+          ],
+          "points": [
+            "screen_center_point"
+          ]
+        }
+      }
+    ],
+    "assembly_sequence": [
+      "Fix inst_stand_base to GROUND",
+      "Mate inst_stand_column_outer to inst_stand_base",
+      "Mate inst_stand_column_inner to inst_stand_column_outer",
+      "Mate inst_mount_bracket to inst_stand_column_inner",
+      "Mate inst_screen_panel to inst_mount_bracket"
+    ],
+    "constraints": [
+      {
+        "source_instance_id": "inst_stand_base",
+        "source_part_id": "stand_base",
+        "source_interface": "base_bottom_face",
+        "target_instance_id": "GROUND",
+        "target_part_id": "GROUND",
+        "target_interface": "XY_PLANE",
+        "relation": "coincident",
+        "alignment": "aligned",
+        "offset_mm": 0,
+        "notes": "Fix base to ground plane"
+      },
+      {
+        "source_instance_id": "inst_stand_base",
+        "source_part_id": "stand_base",
+        "source_interface": "base_center_axis",
+        "target_instance_id": "GROUND",
+        "target_part_id": "GROUND",
+        "target_interface": "Z_AXIS",
+        "relation": "concentric",
+        "alignment": "na",
+        "offset_mm": 0,
+        "notes": "Align base axis with global Z"
+      },
+      {
+        "source_instance_id": "inst_stand_column_outer",
+        "source_part_id": "stand_column_outer",
+        "source_interface": "outer_tube_bottom_face",
+        "target_instance_id": "inst_stand_base",
+        "target_part_id": "stand_base",
+        "target_interface": "base_top_face",
+        "relation": "coincident",
+        "alignment": "opposed",
+        "offset_mm": 0,
+        "notes": "Outer tube sits on base"
+      },
+      {
+        "source_instance_id": "inst_stand_column_outer",
+        "source_part_id": "stand_column_outer",
+        "source_interface": "outer_tube_center_axis",
+        "target_instance_id": "inst_stand_base",
+        "target_part_id": "stand_base",
+        "target_interface": "base_center_axis",
+        "relation": "concentric",
+        "alignment": "na",
+        "offset_mm": 0,
+        "notes": "Outer tube concentric with base"
+      },
+      {
+        "source_instance_id": "inst_stand_column_inner",
+        "source_part_id": "stand_column_inner",
+        "source_interface": "inner_tube_center_axis",
+        "target_instance_id": "inst_stand_column_outer",
+        "target_part_id": "stand_column_outer",
+        "target_interface": "outer_tube_center_axis",
+        "relation": "concentric",
+        "alignment": "na",
+        "offset_mm": 0,
+        "notes": "Inner tube concentric with outer tube"
+      },
+      {
+        "source_instance_id": "inst_stand_column_inner",
+        "source_part_id": "stand_column_inner",
+        "source_interface": "inner_tube_top_face",
+        "target_instance_id": "inst_stand_column_outer",
+        "target_part_id": "stand_column_outer",
+        "target_interface": "outer_tube_top_face",
+        "relation": "distance",
+        "alignment": "na",
+        "offset_mm": 50,
+        "notes": "Inner tube extended 50mm above outer tube top"
+      },
+      {
+        "source_instance_id": "inst_mount_bracket",
+        "source_part_id": "mount_bracket",
+        "source_interface": "bracket_rotation_axis",
+        "target_instance_id": "inst_stand_column_inner",
+        "target_part_id": "stand_column_inner",
+        "target_interface": "inner_tube_center_axis",
+        "relation": "concentric",
+        "alignment": "na",
+        "offset_mm": 0,
+        "notes": "Bracket rotates around inner tube axis"
+      },
+      {
+        "source_instance_id": "inst_mount_bracket",
+        "source_part_id": "mount_bracket",
+        "source_interface": "bracket_vertical_back_face",
+        "target_instance_id": "inst_stand_column_inner",
+        "target_part_id": "stand_column_inner",
+        "target_interface": "inner_tube_top_face",
+        "relation": "coincident",
+        "alignment": "opposed",
+        "offset_mm": 0,
+        "notes": "Bracket attached to top of inner tube"
+      },
+      {
+        "source_instance_id": "inst_screen_panel",
+        "source_part_id": "screen_panel",
+        "source_interface": "screen_back_face",
+        "target_instance_id": "inst_mount_bracket",
+        "target_part_id": "mount_bracket",
+        "target_interface": "bracket_screen_mount_face",
+        "relation": "coincident",
+        "alignment": "opposed",
+        "offset_mm": 0,
+        "notes": "Screen mounted to bracket"
+      },
+      {
+        "source_instance_id": "inst_screen_panel",
+        "source_part_id": "screen_panel",
+        "source_interface": "screen_vesa_axis_1",
+        "target_instance_id": "inst_mount_bracket",
+        "target_part_id": "mount_bracket",
+        "target_interface": "vesa_hole_axis_1",
+        "relation": "concentric",
+        "alignment": "na",
+        "offset_mm": 0,
+        "notes": "VESA hole 1 alignment"
+      },
+      {
+        "source_instance_id": "inst_screen_panel",
+        "source_part_id": "screen_panel",
+        "source_interface": "screen_vesa_axis_2",
+        "target_instance_id": "inst_mount_bracket",
+        "target_part_id": "mount_bracket",
+        "target_interface": "vesa_hole_axis_2",
+        "relation": "concentric",
+        "alignment": "na",
+        "offset_mm": 0,
+        "notes": "VESA hole 2 alignment"
+      }
+    ],
+    "assembly_output": {
+      "code_file": "D:\\a_src\\python\\sw_agent\\agent_output\\27inch_Monitor_Assembly-20260428_113916\\assembly\\assembly_build.py",
+      "model_file": "D:\\a_src\\python\\sw_agent\\agent_output\\27inch_Monitor_Assembly-20260428_113916\\assembly\\27inch_Monitor_Assembly.SLDASM",
+      "log_file": "D:\\a_src\\python\\sw_agent\\agent_output\\27inch_Monitor_Assembly-20260428_113916\\logs\\assembly.log"
+    }
+  }
+}

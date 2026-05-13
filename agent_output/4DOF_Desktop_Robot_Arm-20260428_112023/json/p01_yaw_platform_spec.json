@@ -1,0 +1,117 @@
+{
+  "request_type": "assembly_part",
+  "assembly_context": {
+    "name": "4DOF_Desktop_Robot_Arm",
+    "summary": "生成一个4自由度桌面机械臂装配体，包含底座、旋转台、肩部支架、大臂、小臂、腕部法兰及两个销轴。所有零件基于米(m)单位建模，采用拉伸、切除、圆角等基础特征。装配体处于静态Home位姿（所有关节角0°），通过轴重合和面重合约束固定各部件位置。",
+    "global_coordinate_system": {
+      "origin": "P00_Base_Center_Bottom",
+      "x_direction": "Forward (Robot Front)",
+      "y_direction": "Left (Robot Left)",
+      "z_direction": "Up (Vertical Axis)"
+    },
+    "design_rules": [
+      "所有尺寸单位为米(m)",
+      "孔特征使用create_circle + extrude_cut生成，不使用阵列",
+      "参考几何(轴/面)需按指定名称创建以支持装配约束",
+      "未明确说明的倒角/圆角默认为无",
+      "装配体初始状态为静态Home位姿"
+    ],
+    "instances": [
+      {
+        "instance_id": "inst_p01_yaw",
+        "part_id": "p01_yaw_platform",
+        "name": "Yaw Platform Instance",
+        "instance_role": "J1 Rotator",
+        "placement_notes": "Mounted on Base",
+        "interface_usage": {
+          "faces": [
+            "PL_YAW_BOTTOM",
+            "PL_SHOULDER_TOP",
+            "PL_YAW_ZERO_XZ"
+          ],
+          "axes": [
+            "AXIS_J1_Z",
+            "AXIS_SHOULDER_MOUNT_Z"
+          ],
+          "points": []
+        }
+      }
+    ],
+    "assembly_sequence": [
+      "Fix inst_p00_base",
+      "Mate inst_p01_yaw to inst_p00_base (Axis Coincident, Face Coincident, Zero Plane)",
+      "Mate inst_p02_shoulder to inst_p01_yaw (Axis Coincident, Face Coincident, Zero Plane)",
+      "Mate inst_p03_upperarm to inst_p02_shoulder (Axis Coincident, Face Coincident, Zero Plane)",
+      "Mate inst_p06_pin_j2 to inst_p02_shoulder (Axis Coincident, Face Coincident)",
+      "Mate inst_p04_forearm to inst_p03_upperarm (Axis Coincident, Face Coincident, Zero Plane)",
+      "Mate inst_p07_pin_j3 to inst_p03_upperarm (Axis Coincident, Face Coincident)",
+      "Mate inst_p05_wrist to inst_p04_forearm (Axis Coincident, Face Coincident, Zero Plane)"
+    ]
+  },
+  "part": {
+    "part_id": "p01_yaw_platform",
+    "name": "Yaw Platform",
+    "function": "J1旋转平台，连接底座与肩部",
+    "shape": "圆柱形或方形平台，底部有凹槽与底座凸台配合，顶部有肩部安装接口",
+    "key_dimensions": [
+      "Diameter/Width: 0.08m",
+      "Height: 0.03m",
+      "Bottom Recess Depth: 0.01m"
+    ],
+    "material_or_notes": "Aluminum 6061",
+    "quantity": 1,
+    "instance_ids": [
+      "inst_p01_yaw"
+    ],
+    "interfaces": {
+      "faces": [
+        {
+          "name": "PL_YAW_BOTTOM",
+          "purpose": "与底座顶面配合",
+          "normal_direction_relation": "normal -Z"
+        },
+        {
+          "name": "PL_SHOULDER_TOP",
+          "purpose": "与肩部支架底面配合",
+          "normal_direction_relation": "normal +Z"
+        },
+        {
+          "name": "PL_YAW_ZERO_XZ",
+          "purpose": "Home位姿零位参考面",
+          "normal_direction_relation": "normal +Y"
+        }
+      ],
+      "axes": [
+        {
+          "name": "AXIS_J1_Z",
+          "purpose": "J1旋转轴",
+          "direction_relation": "along local Z"
+        },
+        {
+          "name": "AXIS_SHOULDER_MOUNT_Z",
+          "purpose": "肩部安装轴",
+          "direction_relation": "along local Z"
+        }
+      ],
+      "points": []
+    },
+    "assembly_relation_notes": [
+      "绕AXIS_J1_Z旋转",
+      "PL_YAW_BOTTOM与P00.PL_BASE_TOP重合",
+      "AXIS_SHOULDER_MOUNT_Z与P02.AXIS_MOUNT_Z同心"
+    ],
+    "workspace": {
+      "part_dir": "D:\\a_src\\python\\sw_agent\\agent_output\\4DOF_Desktop_Robot_Arm-20260428_112023\\parts\\p01_yaw_platform",
+      "code_file": "D:\\a_src\\python\\sw_agent\\agent_output\\4DOF_Desktop_Robot_Arm-20260428_112023\\parts\\p01_yaw_platform\\p01_yaw_platform_model.py",
+      "model_file": "D:\\a_src\\python\\sw_agent\\agent_output\\4DOF_Desktop_Robot_Arm-20260428_112023\\parts\\p01_yaw_platform\\p01_yaw_platform.SLDPRT",
+      "log_file": "D:\\a_src\\python\\sw_agent\\agent_output\\4DOF_Desktop_Robot_Arm-20260428_112023\\logs\\p01_yaw_platform_model.log",
+      "spec_file": "D:\\a_src\\python\\sw_agent\\agent_output\\4DOF_Desktop_Robot_Arm-20260428_112023\\json\\p01_yaw_platform_spec.json"
+    },
+    "standalone_modeling_instructions": [
+      "在XY平面绘制主体轮廓，拉伸0.03m",
+      "在底面中心切除凹槽以配合P00凸台",
+      "创建参考轴AXIS_J1_Z和AXIS_SHOULDER_MOUNT_Z",
+      "创建参考面PL_YAW_ZERO_XZ"
+    ]
+  }
+}

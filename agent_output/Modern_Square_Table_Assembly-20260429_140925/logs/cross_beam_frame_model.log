@@ -1,0 +1,26 @@
+[pysw] 检测到已有 SOLIDWORKS 任务正在执行，当前进程自动等待...
+[pysw] 已获得 SOLIDWORKS 跨进程任务锁: C:\Users\12617\AppData\Local\Temp\pysw_solidworks_task.lock
+----------------------------------------
+Python 成功接收到的新零件名称: CrossBeamFrame
+----------------------------------------
+
+[C# 调试日志]:
+[DEBUG] 14:11:21 - 接收到参数，尝试创建并激活文档: CrossBeamFrame
+[DEBUG] 14:11:21 - 尝试连接 SolidWorks...
+[DEBUG] 14:11:21 - 成功连接到已运行的实例。
+
+建模参数: 外长=1.12, 外宽=0.52, 管厚=0.03, 高=0.03
+矩形对象信息: (<COMObject CreateCenterRectangle>, <COMObject CreateCenterRectangle>, <COMObject CreateCenterRectangle>, <COMObject CreateCenterRectangle>, <COMObject CreateCenterRectangle>, <COMObject CreateCenterRectangle>)
+矩形对象信息: (<COMObject CreateCenterRectangle>, <COMObject CreateCenterRectangle>, <COMObject CreateCenterRectangle>, <COMObject CreateCenterRectangle>, <COMObject CreateCenterRectangle>, <COMObject CreateCenterRectangle>)
+检测到当前有未退出的草图，正在自动退出以继续操作...
+草图选择成功，准备拉伸
+拉伸成功
+框架主体拉伸完成
+端面参考面创建完成
+✅ 成功创建基准轴 [axis_x_center]
+✅ 成功创建基准轴 [axis_y_center]
+中心轴线创建完成
+正在保存零件到: D:\a_src\python\sw_agent\agent_output\Modern_Square_Table_Assembly-20260429_140925\parts\cross_beam_frame\cross_beam_frame.SLDPRT ...
+零件已保存至: D:\a_src\python\sw_agent\agent_output\Modern_Square_Table_Assembly-20260429_140925\parts\cross_beam_frame\cross_beam_frame.SLDPRT
+零件已成功保存至: D:\a_src\python\sw_agent\agent_output\Modern_Square_Table_Assembly-20260429_140925\parts\cross_beam_frame\cross_beam_frame.SLDPRT
+[pysw] 已释放 SOLIDWORKS 跨进程任务锁

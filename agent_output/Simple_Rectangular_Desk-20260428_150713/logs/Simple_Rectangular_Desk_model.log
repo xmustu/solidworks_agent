@@ -1,0 +1,75 @@
+[pysw] 已获得 SOLIDWORKS 跨进程任务锁: C:\Users\12617\AppData\Local\Temp\pysw_solidworks_task.lock
+----------------------------------------
+Python 成功接收到的新零件名称: Simple_Rectangular_Desk
+----------------------------------------
+
+[C# 调试日志]:
+[DEBUG] 15:08:17 - 接收到参数，尝试创建并激活文档: Simple_Rectangular_Desk
+[DEBUG] 15:08:17 - 尝试连接 SolidWorks...
+[DEBUG] 15:08:17 - 成功连接到已运行的实例。
+
+开始建模零件: Simple_Rectangular_Desk
+矩形对象信息: (<COMObject CreateCenterRectangle>, <COMObject CreateCenterRectangle>, <COMObject CreateCenterRectangle>, <COMObject CreateCenterRectangle>, <COMObject CreateCenterRectangle>, <COMObject CreateCenterRectangle>)
+检测到当前有未退出的草图，正在自动退出以继续操作...
+草图选择成功，准备拉伸
+拉伸成功
+桌面创建完成
+矩形对象信息: (<COMObject CreateCenterRectangle>, <COMObject CreateCenterRectangle>, <COMObject CreateCenterRectangle>, <COMObject CreateCenterRectangle>, <COMObject CreateCenterRectangle>, <COMObject CreateCenterRectangle>)
+矩形对象信息: (<COMObject CreateCenterRectangle>, <COMObject CreateCenterRectangle>, <COMObject CreateCenterRectangle>, <COMObject CreateCenterRectangle>, <COMObject CreateCenterRectangle>, <COMObject CreateCenterRectangle>)
+矩形对象信息: (<COMObject CreateCenterRectangle>, <COMObject CreateCenterRectangle>, <COMObject CreateCenterRectangle>, <COMObject CreateCenterRectangle>, <COMObject CreateCenterRectangle>, <COMObject CreateCenterRectangle>)
+矩形对象信息: (<COMObject CreateCenterRectangle>, <COMObject CreateCenterRectangle>, <COMObject CreateCenterRectangle>, <COMObject CreateCenterRectangle>, <COMObject CreateCenterRectangle>, <COMObject CreateCenterRectangle>)
+检测到当前有未退出的草图，正在自动退出以继续操作...
+草图选择成功，准备拉伸
+拉伸成功
+桌腿创建完成
+矩形对象信息: (<COMObject CreateCenterRectangle>, <COMObject CreateCenterRectangle>, <COMObject CreateCenterRectangle>, <COMObject CreateCenterRectangle>, <COMObject CreateCenterRectangle>, <COMObject CreateCenterRectangle>)
+检测到当前有未退出的草图，正在自动退出以继续操作...
+草图选择成功，准备拉伸
+拉伸成功
+桌面创建完成
+正在选中 4 条边以进行倒角...
+[SelectionHelper] Edge 选择成功，误差=0 m
+[SelectionHelper] Edge 选择成功，误差=0 m
+[SelectionHelper] Edge 选择成功，误差=0 m
+[SelectionHelper] Edge 选择成功，误差=0 m
+倒角成功 (D=0.002m, A=45.0°)
+桌面边缘倒角完成
+正在尝试选中 16 条边...
+[SelectionHelper] Edge 选择失败，最近距离=0.025, 最近点=(-0.5399999999999999, -0.26, 0.025), tol=1e-05
+[Warn] 未能在坐标 (-0.5399999999999999, -0.26, 0.0) 处选中边
+[SelectionHelper] Edge 选择失败，最近距离=0.020000000000000018, 最近点=(-0.6, -0.26, 0.0), tol=1e-05
+[Warn] 未能在坐标 (-0.58, -0.26, 0.0) 处选中边
+[SelectionHelper] Edge 选择失败，最近距离=0.025, 最近点=(-0.5599999999999999, -0.24000000000000002, 0.025), tol=1e-05
+[Warn] 未能在坐标 (-0.5599999999999999, -0.24000000000000002, 0.0) 处选中边
+[SelectionHelper] Edge 选择失败，最近距离=0.019999999999999962, 最近点=(-0.5599999999999999, -0.3, 0.0), tol=1e-05
+[Warn] 未能在坐标 (-0.5599999999999999, -0.28, 0.0) 处选中边
+[SelectionHelper] Edge 选择失败，最近距离=0.020000000000000018, 最近点=(0.6, -0.26, 0.0), tol=1e-05
+[Warn] 未能在坐标 (0.58, -0.26, 0.0) 处选中边
+[SelectionHelper] Edge 选择失败，最近距离=0.025, 最近点=(0.5399999999999999, -0.26, 0.025), tol=1e-05
+[Warn] 未能在坐标 (0.5399999999999999, -0.26, 0.0) 处选中边
+[SelectionHelper] Edge 选择失败，最近距离=0.025, 最近点=(0.5599999999999999, -0.24000000000000002, 0.025), tol=1e-05
+[Warn] 未能在坐标 (0.5599999999999999, -0.24000000000000002, 0.0) 处选中边
+[SelectionHelper] Edge 选择失败，最近距离=0.019999999999999962, 最近点=(0.5599999999999999, -0.3, 0.0), tol=1e-05
+[Warn] 未能在坐标 (0.5599999999999999, -0.28, 0.0) 处选中边
+[SelectionHelper] Edge 选择失败，最近距离=0.020000000000000018, 最近点=(0.6, 0.26000000000000006, 0.0), tol=1e-05
+[Warn] 未能在坐标 (0.58, 0.26, 0.0) 处选中边
+[SelectionHelper] Edge 选择失败，最近距离=0.025, 最近点=(0.5399999999999999, 0.26, 0.025), tol=1e-05
+[Warn] 未能在坐标 (0.5399999999999999, 0.26, 0.0) 处选中边
+[SelectionHelper] Edge 选择失败，最近距离=0.019999999999999962, 最近点=(0.5599999999999999, 0.3, 0.0), tol=1e-05
+[Warn] 未能在坐标 (0.5599999999999999, 0.28, 0.0) 处选中边
+[SelectionHelper] Edge 选择失败，最近距离=0.025, 最近点=(0.5599999999999999, 0.24, 0.025), tol=1e-05
+[Warn] 未能在坐标 (0.5599999999999999, 0.24000000000000002, 0.0) 处选中边
+[SelectionHelper] Edge 选择失败，最近距离=0.025, 最近点=(-0.5399999999999999, 0.26, 0.025), tol=1e-05
+[Warn] 未能在坐标 (-0.5399999999999999, 0.26, 0.0) 处选中边
+[SelectionHelper] Edge 选择失败，最近距离=0.020000000000000018, 最近点=(-0.6, 0.26000000000000006, 0.0), tol=1e-05
+[Warn] 未能在坐标 (-0.58, 0.26, 0.0) 处选中边
+[SelectionHelper] Edge 选择失败，最近距离=0.019999999999999962, 最近点=(-0.5599999999999999, 0.3, 0.0), tol=1e-05
+[Warn] 未能在坐标 (-0.5599999999999999, 0.28, 0.0) 处选中边
+[SelectionHelper] Edge 选择失败，最近距离=0.025, 最近点=(-0.5599999999999999, 0.24, 0.025), tol=1e-05
+[Warn] 未能在坐标 (-0.5599999999999999, 0.24000000000000002, 0.0) 处选中边
+未选中任何边，无法执行倒角
+桌腿底部圆角完成
+正在保存零件到: D:\a_src\python\sw_agent\agent_output\Simple_Rectangular_Desk-20260428_150713\part\Simple_Rectangular_Desk.SLDPRT ...
+零件已保存至: D:\a_src\python\sw_agent\agent_output\Simple_Rectangular_Desk-20260428_150713\part\Simple_Rectangular_Desk.SLDPRT
+模型已成功保存至: D:\a_src\python\sw_agent\agent_output\Simple_Rectangular_Desk-20260428_150713\part\Simple_Rectangular_Desk.SLDPRT
+[pysw] 已释放 SOLIDWORKS 跨进程任务锁

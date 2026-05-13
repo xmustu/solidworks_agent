@@ -1,0 +1,132 @@
+{
+  "request_type": "assembly_part",
+  "assembly_context": {
+    "name": "27inch_Monitor_Assembly",
+    "summary": "27英寸显示器装配体，包含屏幕面板、两段式可调节立柱、圆形底座及VESA安装背板。支持左右旋转配合，立柱模拟上下调节后的固定状态。",
+    "global_coordinate_system": {
+      "origin": "Base_Center_Bottom",
+      "x_direction": "Front of Monitor",
+      "y_direction": "Right side of Monitor (from front view)",
+      "z_direction": "Upwards along Stand Axis"
+    },
+    "design_rules": [
+      "All dimensions in mm, convert to meters for API calls.",
+      "Use XY plane as horizontal base for all parts unless specified.",
+      "Ensure concentricity for all cylindrical connections.",
+      "Screen panel is fixed relative to bracket; rotation is simulated by bracket orientation."
+    ],
+    "instances": [
+      {
+        "instance_id": "inst_mount_bracket",
+        "part_id": "mount_bracket",
+        "name": "Mount Bracket Instance",
+        "instance_role": "Connector",
+        "placement_notes": "Attached to inner tube top. Rotated 0 degrees (centered).",
+        "interface_usage": {
+          "faces": [
+            "bracket_screen_mount_face"
+          ],
+          "axes": [
+            "bracket_rotation_axis",
+            "vesa_hole_axis_1",
+            "vesa_hole_axis_2",
+            "vesa_hole_axis_3",
+            "vesa_hole_axis_4"
+          ],
+          "points": [
+            "vesa_center_point"
+          ]
+        }
+      }
+    ],
+    "assembly_sequence": [
+      "Fix inst_stand_base to GROUND",
+      "Mate inst_stand_column_outer to inst_stand_base",
+      "Mate inst_stand_column_inner to inst_stand_column_outer",
+      "Mate inst_mount_bracket to inst_stand_column_inner",
+      "Mate inst_screen_panel to inst_mount_bracket"
+    ]
+  },
+  "part": {
+    "part_id": "mount_bracket",
+    "name": "Mount Bracket",
+    "function": "Connects inner tube to screen panel, allowing rotation.",
+    "shape": "L-shaped or T-shaped bracket. Vertical part connects to inner tube top. Horizontal part attaches to screen back. Includes VESA hole pattern interface.",
+    "key_dimensions": [
+      "Vertical Height: 50mm (approx)",
+      "Horizontal Depth: 100mm (approx)",
+      "VESA Pattern: 100x100mm square"
+    ],
+    "material_or_notes": "Metal.",
+    "quantity": 1,
+    "instance_ids": [
+      "inst_mount_bracket"
+    ],
+    "interfaces": {
+      "faces": [
+        {
+          "name": "bracket_vertical_back_face",
+          "purpose": "Mates with inner tube top area or surrounds it.",
+          "normal_direction_relation": "normal -Y (assuming Y is right, this faces back)"
+        },
+        {
+          "name": "bracket_screen_mount_face",
+          "purpose": "Flat face contacting screen back.",
+          "normal_direction_relation": "normal -X (facing screen back if X is front)"
+        }
+      ],
+      "axes": [
+        {
+          "name": "bracket_rotation_axis",
+          "purpose": "Axis of rotation relative to inner tube.",
+          "direction_relation": "along local Z"
+        },
+        {
+          "name": "vesa_hole_axis_1",
+          "purpose": "Top-left VESA hole axis.",
+          "direction_relation": "parallel to local X"
+        },
+        {
+          "name": "vesa_hole_axis_2",
+          "purpose": "Top-right VESA hole axis.",
+          "direction_relation": "parallel to local X"
+        },
+        {
+          "name": "vesa_hole_axis_3",
+          "purpose": "Bottom-left VESA hole axis.",
+          "direction_relation": "parallel to local X"
+        },
+        {
+          "name": "vesa_hole_axis_4",
+          "purpose": "Bottom-right VESA hole axis.",
+          "direction_relation": "parallel to local X"
+        }
+      ],
+      "points": [
+        {
+          "name": "vesa_center_point",
+          "purpose": "Center of VESA pattern.",
+          "location_hint": "Intersection of diagonals of 100x100 square"
+        }
+      ]
+    },
+    "assembly_relation_notes": [
+      "Rotation axis concentric with Inner Tube Top Axis.",
+      "Screen mount face coincident with Screen Back Face.",
+      "VESA holes concentric with Screen VESA holes."
+    ],
+    "workspace": {
+      "part_dir": "D:\\a_src\\python\\sw_agent\\agent_output\\27inch_Monitor_Assembly-20260428_113916\\parts\\mount_bracket",
+      "code_file": "D:\\a_src\\python\\sw_agent\\agent_output\\27inch_Monitor_Assembly-20260428_113916\\parts\\mount_bracket\\mount_bracket_model.py",
+      "model_file": "D:\\a_src\\python\\sw_agent\\agent_output\\27inch_Monitor_Assembly-20260428_113916\\parts\\mount_bracket\\mount_bracket.SLDPRT",
+      "log_file": "D:\\a_src\\python\\sw_agent\\agent_output\\27inch_Monitor_Assembly-20260428_113916\\logs\\mount_bracket_model.log",
+      "spec_file": "D:\\a_src\\python\\sw_agent\\agent_output\\27inch_Monitor_Assembly-20260428_113916\\json\\mount_bracket_spec.json"
+    },
+    "standalone_modeling_instructions": [
+      "Create vertical plate sketch on YZ plane.",
+      "Create horizontal plate sketch on XY plane offset.",
+      "Add 4 holes (M4 size approx 4.5mm) in 100x100 pattern on horizontal plate face.",
+      "Define rotation axis through center of vertical connection."
+    ]
+  }
+}

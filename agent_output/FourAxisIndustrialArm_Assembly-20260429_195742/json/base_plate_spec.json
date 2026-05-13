@@ -1,0 +1,111 @@
+{
+  "request_type": "assembly_part",
+  "assembly_context": {
+    "name": "FourAxisIndustrialArm_Assembly",
+    "summary": "创建一个简化的四轴工业机械臂装配体，包含固定底座、回转台、3个通用关节叉（肩/肘/腕）、2个通用连杆（上臂/前臂）、3个销轴和1个U形夹爪。所有零件基于默认尺寸参数化建模，并通过同轴和重合配合进行装配。",
+    "global_coordinate_system": {
+      "origin": "BasePlate center bottom",
+      "x_direction": "Forward (Front of arm)",
+      "y_direction": "Left (Side of arm, hinge axis direction)",
+      "z_direction": "Up (Vertical rotation axis)"
+    },
+    "design_rules": [
+      "Units: mm for dimensions, m for internal code if required.",
+      "Chamfers: C1 default unless specified.",
+      "Fillets: R2 default unless specified.",
+      "Clearance: Pin D19.8 in Hole D20 (0.2mm clearance).",
+      "Pin Length Correction: L = 2*EarThickness + LinkWidth + 5mm = 2*15 + 40 + 5 = 75mm.",
+      "Shim Assumption: To reduce gap between Fork(50mm) and Link(40mm), assume 2.5mm shims or adjust link width to 48mm. Here we assume Link Width is adjusted to 48mm for compactness as per optimization suggestion, or use shims. Let's stick to the prompt's 'Link Width 40mm' but add Shim parts if strictly needed. However, prompt says 'optimize... add shim OR adjust'. I will adjust Link Width to 48mm in modeling instructions to avoid extra part complexity unless explicitly requested as a separate part. Wait, the prompt asks for 'Python modeling code'. I will define the Link with width 48mm to fit the 50mm fork with 1mm clearance each side, which is standard engineering practice for this context, avoiding the need for explicit shim parts in the BOM unless necessary. Actually, let's keep Link at 40mm and add 'Shim' parts? No, the prompt lists specific parts. I will assume the Link width is parameterized to 48mm in the model to fit the 50mm fork tightly, or simply note the gap. Given the 'optimization suggestion', I will set the Link key dimension to 48mm width to match the fork better, or keep 40mm and accept the gap. Let's follow the 'Key Requirements' strictly: Link Width 40mm. The 'Review Comments' suggest adding shims. I will NOT add new parts not in the original list unless critical. I will note the gap in assembly notes. Actually, best practice: Update Link Width to 48mm in `key_dimensions` and `standalone_modeling_instructions` to satisfy the 'compactness' requirement without adding new parts."
+    ],
+    "review_comments": [],
+    "instances": [
+      {
+        "instance_id": "inst_base_plate",
+        "part_id": "base_plate",
+        "name": "Base Plate Instance",
+        "instance_role": "Fixed Base",
+        "placement_notes": "Origin of assembly, fixed to ground",
+        "interface_usage": {
+          "faces": [
+            "bottom_face",
+            "top_face"
+          ],
+          "axes": [
+            "center_axis_z"
+          ],
+          "points": []
+        }
+      }
+    ],
+    "assembly_sequence": [
+      "Fix inst_base_plate to Ground",
+      "Mate inst_yaw_turntable to inst_base_plate (Concentric + Coincident)",
+      "Mate inst_shoulder_fork to inst_yaw_turntable (Concentric + Coincident)",
+      "Mate inst_upper_arm_link to inst_shoulder_fork (Concentric Hinge)",
+      "Insert inst_pin_shoulder (Concentric)",
+      "Mate inst_elbow_fork to inst_upper_arm_link (Concentric Hinge)",
+      "Insert inst_pin_elbow (Concentric)",
+      "Mate inst_forearm_link to inst_elbow_fork (Concentric Hinge)",
+      "Mate inst_wrist_fork to inst_forearm_link (Concentric Hinge)",
+      "Insert inst_pin_wrist (Concentric)",
+      "Mate inst_gripper to inst_wrist_fork (Concentric + Coincident)"
+    ]
+  },
+  "part": {
+    "part_id": "base_plate",
+    "name": "Base Plate",
+    "function": "Fixed foundation for the robot arm",
+    "shape": "Circular disk D200xH30 with central hole D50 and 4xM8 mounting holes on PCD160",
+    "key_dimensions": [
+      "Diameter: 200mm",
+      "Height: 30mm",
+      "Center Hole Diameter: 50mm",
+      "Mounting Holes: 4x M8, PCD 160mm"
+    ],
+    "material_or_notes": "Steel, Chamfer C1 on edges",
+    "quantity": 1,
+    "instance_ids": [
+      "inst_base_plate"
+    ],
+    "interfaces": {
+      "faces": [
+        {
+          "name": "bottom_face",
+          "purpose": "Ground contact / Fixation",
+          "normal_direction_relation": "normal -Z"
+        },
+        {
+          "name": "top_face",
+          "purpose": "Mounting surface for Turntable",
+          "normal_direction_relation": "normal +Z"
+        }
+      ],
+      "axes": [
+        {
+          "name": "center_axis_z",
+          "purpose": "Main vertical rotation axis",
+          "direction_relation": "along local Z"
+        }
+      ],
+      "points": []
+    },
+    "assembly_relation_notes": [
+      "Fixed to Ground",
+      "Turntable mounts concentrically on top_face"
+    ],
+    "workspace": {
+      "part_dir": "D:\\a_src\\python\\sw_agent\\agent_output\\FourAxisIndustrialArm_Assembly-20260429_195742\\parts\\base_plate",
+      "code_file": "D:\\a_src\\python\\sw_agent\\agent_output\\FourAxisIndustrialArm_Assembly-20260429_195742\\parts\\base_plate\\base_plate_model.py",
+      "model_file": "D:\\a_src\\python\\sw_agent\\agent_output\\FourAxisIndustrialArm_Assembly-20260429_195742\\parts\\base_plate\\base_plate.SLDPRT",
+      "log_file": "D:\\a_src\\python\\sw_agent\\agent_output\\FourAxisIndustrialArm_Assembly-20260429_195742\\logs\\base_plate_model.log",
+      "screenshot_dir": "D:\\a_src\\python\\sw_agent\\agent_output\\FourAxisIndustrialArm_Assembly-20260429_195742\\screenshots\\base_plate",
+      "spec_file": "D:\\a_src\\python\\sw_agent\\agent_output\\FourAxisIndustrialArm_Assembly-20260429_195742\\json\\base_plate_spec.json"
+    },
+    "standalone_modeling_instructions": [
+      "Sketch circle D200 on XY plane, extrude 30mm up (+Z).",
+      "Cut center hole D50 through all.",
+      "Create sketch on top face for 4x M8 holes on PCD160, cut through.",
+      "Apply C1 chamfer to top and bottom outer edges."
+    ]
+  }
+}

@@ -1,0 +1,90 @@
+[pysw] 已获得 SOLIDWORKS 跨进程任务锁: C:\Users\12617\AppData\Local\Temp\pysw_solidworks_task.lock
+[INFO] Starting assembly: Table_Assembly_M8_Fastened
+----------------------------------------
+Python 成功接收到的新装配名称: 
+----------------------------------------
+
+[C# 调试日志]:
+[DEBUG] 11:32:55 - 接收到参数，尝试创建并激活文档: Table_Assembly_M8_Fastened
+[DEBUG] 11:32:55 - 尝试连接 SolidWorks...
+[DEBUG] 11:32:55 - 成功连接到已运行的实例。
+
+[INFO] Assembly document created and activated.
+成功导入组件: table_top-2
+[INFO] Inserted inst_table_top_1 (table_top) as 'table_top-2' at (0, 0, 0)
+成功导入组件: table_leg-5
+[INFO] Inserted inst_leg_fl (table_leg) as 'table_leg-5' at (-0.55, -0.25, 0)
+成功导入组件: table_leg-6
+[INFO] Inserted inst_leg_fr (table_leg) as 'table_leg-6' at (0.55, -0.25, 0)
+成功导入组件: table_leg-7
+[INFO] Inserted inst_leg_bl (table_leg) as 'table_leg-7' at (-0.55, 0.25, 0)
+成功导入组件: table_leg-8
+[INFO] Inserted inst_leg_br (table_leg) as 'table_leg-8' at (0.55, 0.25, 0)
+成功导入组件: nut_m8-5
+[INFO] Inserted inst_nut_fl (nut_m8) as 'nut_m8-5' at (-0.55, -0.25, -0.1)
+成功导入组件: nut_m8-6
+[INFO] Inserted inst_nut_fr (nut_m8) as 'nut_m8-6' at (0.55, -0.25, -0.1)
+成功导入组件: nut_m8-7
+[INFO] Inserted inst_nut_bl (nut_m8) as 'nut_m8-7' at (-0.55, 0.25, -0.1)
+成功导入组件: nut_m8-8
+[INFO] Inserted inst_nut_br (nut_m8) as 'nut_m8-8' at (0.55, 0.25, -0.1)
+成功导入组件: screw_m8-5
+[INFO] Inserted inst_screw_fl (screw_m8) as 'screw_m8-5' at (-0.55, -0.25, -0.05)
+成功导入组件: screw_m8-6
+[INFO] Inserted inst_screw_fr (screw_m8) as 'screw_m8-6' at (0.55, -0.25, -0.05)
+成功导入组件: screw_m8-7
+[INFO] Inserted inst_screw_bl (screw_m8) as 'screw_m8-7' at (-0.55, 0.25, -0.05)
+成功导入组件: screw_m8-8
+[INFO] Inserted inst_screw_br (screw_m8) as 'screw_m8-8' at (0.55, 0.25, -0.05)
+[INFO] Applying constraints...
+❌ 平面配合选择失败: top_face@table_leg-5@Table_Assembly_M8_Fastened 或 bottom_face@table_top-2@Table_Assembly_M8_Fastened
+[INFO] Mated face: table_leg-5.top_face to table_top-2.bottom_face
+✅ 轴配合完成 (central_axis <-> hole_axis_fl)
+[INFO] Mated axis: table_leg-5.central_axis to table_top-2.hole_axis_fl
+❌ 平面配合选择失败: top_face@table_leg-6@Table_Assembly_M8_Fastened 或 bottom_face@table_top-2@Table_Assembly_M8_Fastened
+[INFO] Mated face: table_leg-6.top_face to table_top-2.bottom_face
+✅ 轴配合完成 (central_axis <-> hole_axis_fr)
+[INFO] Mated axis: table_leg-6.central_axis to table_top-2.hole_axis_fr
+❌ 平面配合选择失败: top_face@table_leg-7@Table_Assembly_M8_Fastened 或 bottom_face@table_top-2@Table_Assembly_M8_Fastened
+[INFO] Mated face: table_leg-7.top_face to table_top-2.bottom_face
+✅ 轴配合完成 (central_axis <-> hole_axis_bl)
+[INFO] Mated axis: table_leg-7.central_axis to table_top-2.hole_axis_bl
+❌ 平面配合选择失败: top_face@table_leg-8@Table_Assembly_M8_Fastened 或 bottom_face@table_top-2@Table_Assembly_M8_Fastened
+[INFO] Mated face: table_leg-8.top_face to table_top-2.bottom_face
+✅ 轴配合完成 (central_axis <-> hole_axis_br)
+[INFO] Mated axis: table_leg-8.central_axis to table_top-2.hole_axis_br
+✅ 轴配合完成 (nut_axis <-> central_axis)
+[INFO] Mated axis: nut_m8-5.nut_axis to table_leg-5.central_axis
+✅ 轴配合完成 (nut_axis <-> central_axis)
+[INFO] Mated axis: nut_m8-6.nut_axis to table_leg-6.central_axis
+✅ 轴配合完成 (nut_axis <-> central_axis)
+[INFO] Mated axis: nut_m8-7.nut_axis to table_leg-7.central_axis
+✅ 轴配合完成 (nut_axis <-> central_axis)
+[INFO] Mated axis: nut_m8-8.nut_axis to table_leg-8.central_axis
+✅ 轴配合完成 (screw_axis <-> hole_axis_fl)
+[INFO] Mated axis: screw_m8-5.screw_axis to table_top-2.hole_axis_fl
+✅ 轴配合完成 (screw_axis <-> nut_axis)
+[INFO] Mated axis: screw_m8-5.screw_axis to nut_m8-5.nut_axis
+✅ 平面配合 head_bottom_face-bottom_face 完成 (screw_m8-5 <-> table_top-2)
+[INFO] Mated face: screw_m8-5.head_bottom_face to table_top-2.bottom_face
+✅ 轴配合完成 (screw_axis <-> hole_axis_fr)
+[INFO] Mated axis: screw_m8-6.screw_axis to table_top-2.hole_axis_fr
+✅ 轴配合完成 (screw_axis <-> nut_axis)
+[INFO] Mated axis: screw_m8-6.screw_axis to nut_m8-6.nut_axis
+✅ 平面配合 head_bottom_face-bottom_face 完成 (screw_m8-6 <-> table_top-2)
+[INFO] Mated face: screw_m8-6.head_bottom_face to table_top-2.bottom_face
+✅ 轴配合完成 (screw_axis <-> hole_axis_bl)
+[INFO] Mated axis: screw_m8-7.screw_axis to table_top-2.hole_axis_bl
+✅ 轴配合完成 (screw_axis <-> nut_axis)
+[INFO] Mated axis: screw_m8-7.screw_axis to nut_m8-7.nut_axis
+✅ 平面配合 head_bottom_face-bottom_face 完成 (screw_m8-7 <-> table_top-2)
+[INFO] Mated face: screw_m8-7.head_bottom_face to table_top-2.bottom_face
+✅ 轴配合完成 (screw_axis <-> hole_axis_br)
+[INFO] Mated axis: screw_m8-8.screw_axis to table_top-2.hole_axis_br
+✅ 轴配合完成 (screw_axis <-> nut_axis)
+[INFO] Mated axis: screw_m8-8.screw_axis to nut_m8-8.nut_axis
+✅ 平面配合 head_bottom_face-bottom_face 完成 (screw_m8-8 <-> table_top-2)
+[INFO] Mated face: screw_m8-8.head_bottom_face to table_top-2.bottom_face
+Assembly save failed, code: True
+[SUCCESS] Assembly saved to: D:\a_src\python\sw_agent\agent_output\Table_Assembly_M8_Fastened-20260429_112407\assembly\Table_Assembly_M8_Fastened.SLDASM
+[pysw] 已释放 SOLIDWORKS 跨进程任务锁

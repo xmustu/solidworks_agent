@@ -1,0 +1,158 @@
+{
+  "request_type": "assembly_part",
+  "assembly_context": {
+    "name": "Table_Assembly_M8_Fastened",
+    "summary": "由矩形桌面、4根中空圆柱桌腿及M8螺丝螺母组成的装配体。螺丝从桌面下方穿过桌面通孔，旋入桌腿顶部内部的螺母中，实现固定。忽略螺纹细节，使用几何体模拟。",
+    "global_coordinate_system": {
+      "origin": "桌面中心点 (0,0,0)",
+      "x_direction": "沿桌面长边方向 (1200mm)",
+      "y_direction": "沿桌面短边方向 (600mm)",
+      "z_direction": "垂直向上，指向桌面上表面法向"
+    },
+    "design_rules": [
+      "所有尺寸单位为毫米(mm)，建模时需转换为米(m)",
+      "桌面基准面为XY平面，Z轴向上",
+      "桌腿对称分布于桌面四角，中心距边缘50mm",
+      "紧固件简化为无螺纹几何体：螺丝为圆柱杆+盘头，螺母为六棱柱",
+      "装配约束优先使用面重合(face_coincident)和轴同心(axi_coincident)"
+    ],
+    "instances": [
+      {
+        "instance_id": "inst_leg_fl",
+        "part_id": "table_leg",
+        "name": "Front Left Leg",
+        "instance_role": "Support",
+        "placement_notes": "位于桌面左前角，X=-550, Y=-250 (相对中心)",
+        "interface_usage": {
+          "faces": [
+            "top_face"
+          ],
+          "axes": [
+            "central_axis"
+          ],
+          "points": []
+        }
+      },
+      {
+        "instance_id": "inst_leg_fr",
+        "part_id": "table_leg",
+        "name": "Front Right Leg",
+        "instance_role": "Support",
+        "placement_notes": "位于桌面右前角，X=550, Y=-250",
+        "interface_usage": {
+          "faces": [
+            "top_face"
+          ],
+          "axes": [
+            "central_axis"
+          ],
+          "points": []
+        }
+      },
+      {
+        "instance_id": "inst_leg_bl",
+        "part_id": "table_leg",
+        "name": "Back Left Leg",
+        "instance_role": "Support",
+        "placement_notes": "位于桌面左后角，X=-550, Y=250",
+        "interface_usage": {
+          "faces": [
+            "top_face"
+          ],
+          "axes": [
+            "central_axis"
+          ],
+          "points": []
+        }
+      },
+      {
+        "instance_id": "inst_leg_br",
+        "part_id": "table_leg",
+        "name": "Back Right Leg",
+        "instance_role": "Support",
+        "placement_notes": "位于桌面右后角，X=550, Y=250",
+        "interface_usage": {
+          "faces": [
+            "top_face"
+          ],
+          "axes": [
+            "central_axis"
+          ],
+          "points": []
+        }
+      }
+    ],
+    "assembly_sequence": [
+      "Fix inst_table_top_1",
+      "Mate inst_leg_fl to inst_table_top_1",
+      "Mate inst_leg_fr to inst_table_top_1",
+      "Mate inst_leg_bl to inst_table_top_1",
+      "Mate inst_leg_br to inst_table_top_1",
+      "Mate inst_nut_fl to inst_leg_fl",
+      "Mate inst_nut_fr to inst_leg_fr",
+      "Mate inst_nut_bl to inst_leg_bl",
+      "Mate inst_nut_br to inst_leg_br",
+      "Mate inst_screw_fl to inst_table_top_1 and inst_nut_fl",
+      "Mate inst_screw_fr to inst_table_top_1 and inst_nut_fr",
+      "Mate inst_screw_bl to inst_table_top_1 and inst_nut_bl",
+      "Mate inst_screw_br to inst_table_top_1 and inst_nut_br"
+    ]
+  },
+  "part": {
+    "part_id": "table_leg",
+    "name": "Table Leg",
+    "function": "支撑桌面，内部容纳螺母",
+    "shape": "外径40mm，内径30mm，高度750mm的空心圆柱",
+    "key_dimensions": [
+      "Outer Diameter: 40 mm",
+      "Inner Diameter: 30 mm",
+      "Height: 750 mm"
+    ],
+    "material_or_notes": "金属或硬塑料，空心结构",
+    "quantity": 4,
+    "instance_ids": [
+      "inst_leg_fl",
+      "inst_leg_fr",
+      "inst_leg_bl",
+      "inst_leg_br"
+    ],
+    "interfaces": {
+      "faces": [
+        {
+          "name": "top_face",
+          "purpose": "桌腿顶端面，与桌面下表面重合",
+          "normal_direction_relation": "normal +Z (local)"
+        },
+        {
+          "name": "bottom_face",
+          "purpose": "桌腿底端面，接触地面",
+          "normal_direction_relation": "normal -Z (local)"
+        }
+      ],
+      "axes": [
+        {
+          "name": "central_axis",
+          "purpose": "桌腿中心轴线，用于同心配合",
+          "direction_relation": "along local Z"
+        }
+      ],
+      "points": []
+    },
+    "assembly_relation_notes": [
+      "顶部端面与桌面bottom_face重合",
+      "中心轴线与桌面相应hole_axis同心"
+    ],
+    "workspace": {
+      "part_dir": "D:\\a_src\\python\\sw_agent\\agent_output\\Table_Assembly_M8_Fastened-20260429_112407\\parts\\table_leg",
+      "code_file": "D:\\a_src\\python\\sw_agent\\agent_output\\Table_Assembly_M8_Fastened-20260429_112407\\parts\\table_leg\\table_leg_model.py",
+      "model_file": "D:\\a_src\\python\\sw_agent\\agent_output\\Table_Assembly_M8_Fastened-20260429_112407\\parts\\table_leg\\table_leg.SLDPRT",
+      "log_file": "D:\\a_src\\python\\sw_agent\\agent_output\\Table_Assembly_M8_Fastened-20260429_112407\\logs\\table_leg_model.log",
+      "spec_file": "D:\\a_src\\python\\sw_agent\\agent_output\\Table_Assembly_M8_Fastened-20260429_112407\\json\\table_leg_spec.json"
+    },
+    "standalone_modeling_instructions": [
+      "在XY平面绘制两个同心圆，直径分别为40mm和30mm",
+      "拉伸750mm生成空心圆柱",
+      "定义局部坐标系，Z轴沿圆柱轴向"
+    ]
+  }
+}

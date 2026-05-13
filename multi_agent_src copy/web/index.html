@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Multi-Agent Demo</title>
+    <link rel="stylesheet" href="/app.css" />
+  </head>
+  <body>
+    <main class="app-shell">
+      <section class="hero">
+        <p class="eyebrow">Multi-Agent CAD Demo</p>
+        <h1>SolidWorks Agent</h1>
+        <p class="hero-copy">用户只需要进行对话，后端会根据当前阶段自动切换 Agent，并以流式方式展示完整对话过程。</p>
+      </section>
+
+      <section class="chat-panel">
+        <div class="toolbar toolbar-simple">
+          <div class="toolbar-note">
+            当前模式：自动路由到合适的 Agent
+          </div>
+        </div>
+
+        <div id="chat-log" class="chat-log" aria-live="polite"></div>
+
+        <form id="chat-form" class="composer">
+          <textarea
+            id="message-input"
+            rows="4"
+            placeholder="输入你想让 agent 回答的内容..."
+          ></textarea>
+          <button id="send-button" type="submit">发送</button>
+        </form>
+      </section>
+    </main>
+
+    <script src="/app.js"></script>
+  </body>
+</html>

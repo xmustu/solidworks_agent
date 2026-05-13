@@ -1,0 +1,155 @@
+{
+  "request_type": "assembly_part",
+  "assembly_context": {
+    "name": "FourAxisIndustrialArm_Assembly",
+    "summary": "创建一个工业风四轴机械臂装配体，包含底座、回转台、3个通用关节叉、2个通用连杆、3个销轴和1个夹爪。所有零件基于默认尺寸参数化建模，并通过同轴和重合配合进行装配。初始姿态为竖直向上伸展（修正：为避免奇异点，肩关节设为90度水平伸出，其余关节伸直）。",
+    "global_coordinate_system": {
+      "origin": "BasePlate bottom center",
+      "x_direction": "Forward (Front of arm)",
+      "y_direction": "Right (Side of arm)",
+      "z_direction": "Up (Vertical axis)"
+    },
+    "design_rules": [
+      "Unit: mm for dimensions, convert to m for API calls if necessary.",
+      "Fillet R2 on all exposed sharp edges.",
+      "Chamfer C1 on mounting faces.",
+      "Clearance fit: Pin D18mm into Hole D20mm.",
+      "Link thickness 20mm < Fork gap 40mm."
+    ],
+    "review_comments": [],
+    "instances": [
+      {
+        "instance_id": "inst_joint_fork_shoulder",
+        "part_id": "joint_fork",
+        "name": "Shoulder Joint Fork",
+        "instance_role": "Second Axis (Shoulder) Support",
+        "placement_notes": "Mounted on Yaw Turntable. Initial angle 90 deg (horizontal) to avoid singularity.",
+        "interface_usage": {
+          "faces": [
+            "bottom_face",
+            "mid_plane_yz"
+          ],
+          "axes": [
+            "mount_axis_z",
+            "hinge_axis_y"
+          ],
+          "points": []
+        }
+      },
+      {
+        "instance_id": "inst_joint_fork_elbow",
+        "part_id": "joint_fork",
+        "name": "Elbow Joint Fork",
+        "instance_role": "Third Axis (Elbow) Support",
+        "placement_notes": "Mounted on Upper Arm Link end via pin. Initial angle 0 deg (straight relative to Link1).",
+        "interface_usage": {
+          "faces": [
+            "mid_plane_yz"
+          ],
+          "axes": [
+            "hinge_axis_y"
+          ],
+          "points": []
+        }
+      },
+      {
+        "instance_id": "inst_joint_fork_wrist",
+        "part_id": "joint_fork",
+        "name": "Wrist Joint Fork",
+        "instance_role": "Fourth Axis (Wrist) Support",
+        "placement_notes": "Mounted on Forearm Link end via pin. Initial angle 0 deg.",
+        "interface_usage": {
+          "faces": [
+            "mid_plane_yz"
+          ],
+          "axes": [
+            "hinge_axis_y"
+          ],
+          "points": []
+        }
+      }
+    ],
+    "assembly_sequence": [
+      "Fix inst_base_plate to GROUND",
+      "Mate inst_yaw_turntable to inst_base_plate (Face Coincident + Axis Concentric)",
+      "Mate inst_joint_fork_shoulder to inst_yaw_turntable (Face Coincident + Axis Concentric)",
+      "Mate inst_hollow_link_1 to inst_joint_fork_shoulder (Axis Concentric + Plane Coincident + Angle Constraint)",
+      "Insert inst_hinge_pin_1 (Axis Concentric)",
+      "Mate inst_joint_fork_elbow to inst_hollow_link_1 (Axis Concentric + Plane Coincident + Angle Constraint)",
+      "Mate inst_hollow_link_2 to inst_joint_fork_elbow (Axis Concentric + Plane Coincident + Angle Constraint)",
+      "Insert inst_hinge_pin_2 (Axis Concentric)",
+      "Mate inst_joint_fork_wrist to inst_hollow_link_2 (Axis Concentric + Plane Coincident + Angle Constraint)",
+      "Mate inst_simple_gripper to inst_joint_fork_wrist (Axis Concentric + Plane Coincident + Angle Constraint)",
+      "Insert inst_hinge_pin_3 (Axis Concentric)"
+    ]
+  },
+  "part": {
+    "part_id": "joint_fork",
+    "name": "Joint Fork",
+    "function": "Connects links via hinge pins, provides rotational joints",
+    "shape": "U-shaped fork with two ears. Gap 40mm. Ear thickness 10mm. Hinge hole diameter 20mm.",
+    "key_dimensions": [
+      "Gap Width: 40mm",
+      "Ear Thickness: 10mm",
+      "Total Width: 60mm",
+      "Hinge Hole Dia: 20mm",
+      "Base Height: 30mm"
+    ],
+    "material_or_notes": "Aluminum Alloy. Fillet R2 on external edges. Chamfer C1 on mating faces.",
+    "quantity": 3,
+    "instance_ids": [
+      "inst_joint_fork_shoulder",
+      "inst_joint_fork_elbow",
+      "inst_joint_fork_wrist"
+    ],
+    "interfaces": {
+      "faces": [
+        {
+          "name": "bottom_face",
+          "purpose": "Mates with previous stage flat surface (Turntable only for Shoulder; Links use pin connection)",
+          "normal_direction_relation": "normal -Z (local)"
+        },
+        {
+          "name": "mid_plane_yz",
+          "purpose": "Symmetry plane for centering links/pins",
+          "normal_direction_relation": "normal +X (local, bisecting the gap)"
+        }
+      ],
+      "axes": [
+        {
+          "name": "mount_axis_z",
+          "purpose": "Vertical axis for mounting to Turntable (Shoulder only)",
+          "direction_relation": "along local Z"
+        },
+        {
+          "name": "hinge_axis_y",
+          "purpose": "Horizontal axis for connecting link/gripper",
+          "direction_relation": "along local Y (through ear holes)"
+        }
+      ],
+      "points": []
+    },
+    "assembly_relation_notes": [
+      "Used 3 times: Shoulder, Elbow, Wrist.",
+      "Shoulder: Bottom mates with Turntable Top (Flange style). Mount Axis Z aligns with Turntable Z.",
+      "Elbow/Wrist: Connected via Hinge Pin only. No face contact with Link ends.",
+      "Hinge Axis aligns with Link Start/End Axis.",
+      "Mid Plane centers the Link/Gripper."
+    ],
+    "workspace": {
+      "part_dir": "D:\\a_src\\python\\sw_agent\\agent_output\\FourAxisIndustrialArm_Assembly-20260429_194124\\parts\\joint_fork",
+      "code_file": "D:\\a_src\\python\\sw_agent\\agent_output\\FourAxisIndustrialArm_Assembly-20260429_194124\\parts\\joint_fork\\joint_fork_model.py",
+      "model_file": "D:\\a_src\\python\\sw_agent\\agent_output\\FourAxisIndustrialArm_Assembly-20260429_194124\\parts\\joint_fork\\joint_fork.SLDPRT",
+      "log_file": "D:\\a_src\\python\\sw_agent\\agent_output\\FourAxisIndustrialArm_Assembly-20260429_194124\\logs\\joint_fork_model.log",
+      "screenshot_dir": "D:\\a_src\\python\\sw_agent\\agent_output\\FourAxisIndustrialArm_Assembly-20260429_194124\\screenshots\\joint_fork",
+      "spec_file": "D:\\a_src\\python\\sw_agent\\agent_output\\FourAxisIndustrialArm_Assembly-20260429_194124\\json\\joint_fork_spec.json"
+    },
+    "standalone_modeling_instructions": [
+      "Sketch U-shape profile on XZ plane.",
+      "Extrude along Y to create width (60mm total, 40mm gap).",
+      "Cut hinge holes (D20) through ears.",
+      "Add weight reduction holes (D10) in ears.",
+      "Apply fillets and chamfers."
+    ]
+  }
+}

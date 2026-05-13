@@ -1,0 +1,127 @@
+{
+  "request_type": "assembly_part",
+  "assembly_context": {
+    "name": "Table_Assembly_M8_Fastened",
+    "summary": "由矩形桌面、4根中空圆柱桌腿及M8螺丝螺母组成的装配体。螺丝从桌面下方穿过桌面通孔，旋入桌腿顶部内部的螺母中，实现固定。忽略螺纹细节，使用几何体模拟。",
+    "global_coordinate_system": {
+      "origin": "桌面中心点 (0,0,0)",
+      "x_direction": "沿桌面长边方向 (1200mm)",
+      "y_direction": "沿桌面短边方向 (600mm)",
+      "z_direction": "垂直向上，指向桌面上表面法向"
+    },
+    "design_rules": [
+      "所有尺寸单位为毫米(mm)，建模时需转换为米(m)",
+      "桌面基准面为XY平面，Z轴向上",
+      "桌腿对称分布于桌面四角，中心距边缘50mm",
+      "紧固件简化为无螺纹几何体：螺丝为圆柱杆+盘头，螺母为六棱柱",
+      "装配约束优先使用面重合(face_coincident)和轴同心(axi_coincident)"
+    ],
+    "instances": [
+      {
+        "instance_id": "inst_table_top_1",
+        "part_id": "table_top",
+        "name": "Table Top Instance",
+        "instance_role": "Base Component",
+        "placement_notes": "固定在装配原点，XY平面为基准",
+        "interface_usage": {
+          "faces": [
+            "bottom_face"
+          ],
+          "axes": [
+            "hole_axis_fl",
+            "hole_axis_fr",
+            "hole_axis_bl",
+            "hole_axis_br"
+          ],
+          "points": []
+        }
+      }
+    ],
+    "assembly_sequence": [
+      "Fix inst_table_top_1",
+      "Mate inst_leg_fl to inst_table_top_1",
+      "Mate inst_leg_fr to inst_table_top_1",
+      "Mate inst_leg_bl to inst_table_top_1",
+      "Mate inst_leg_br to inst_table_top_1",
+      "Mate inst_nut_fl to inst_leg_fl",
+      "Mate inst_nut_fr to inst_leg_fr",
+      "Mate inst_nut_bl to inst_leg_bl",
+      "Mate inst_nut_br to inst_leg_br",
+      "Mate inst_screw_fl to inst_table_top_1 and inst_nut_fl",
+      "Mate inst_screw_fr to inst_table_top_1 and inst_nut_fr",
+      "Mate inst_screw_bl to inst_table_top_1 and inst_nut_bl",
+      "Mate inst_screw_br to inst_table_top_1 and inst_nut_br"
+    ]
+  },
+  "part": {
+    "part_id": "table_top",
+    "name": "Table Top",
+    "function": "提供主要支撑平面及安装孔位",
+    "shape": "1200x600x25mm的矩形板，四角距边缘50mm处有Φ9mm通孔",
+    "key_dimensions": [
+      "Length: 1200 mm",
+      "Width: 600 mm",
+      "Thickness: 25 mm",
+      "Hole Diameter: 9 mm",
+      "Hole Position: 50 mm from edges"
+    ],
+    "material_or_notes": "木材或复合材料，假设密度均匀",
+    "quantity": 1,
+    "instance_ids": [
+      "inst_table_top_1"
+    ],
+    "interfaces": {
+      "faces": [
+        {
+          "name": "top_face",
+          "purpose": "桌面上表面，工作平面",
+          "normal_direction_relation": "normal +Z"
+        },
+        {
+          "name": "bottom_face",
+          "purpose": "桌面下表面，与桌腿顶面配合",
+          "normal_direction_relation": "normal -Z"
+        }
+      ],
+      "axes": [
+        {
+          "name": "hole_axis_fl",
+          "purpose": "左前角安装孔轴线",
+          "direction_relation": "along local Z"
+        },
+        {
+          "name": "hole_axis_fr",
+          "purpose": "右前角安装孔轴线",
+          "direction_relation": "along local Z"
+        },
+        {
+          "name": "hole_axis_bl",
+          "purpose": "左后角安装孔轴线",
+          "direction_relation": "along local Z"
+        },
+        {
+          "name": "hole_axis_br",
+          "purpose": "右后角安装孔轴线",
+          "direction_relation": "along local Z"
+        }
+      ],
+      "points": []
+    },
+    "assembly_relation_notes": [
+      "作为装配基准件，固定在原点",
+      "四个安装孔轴线用于定位桌腿和螺丝"
+    ],
+    "workspace": {
+      "part_dir": "D:\\a_src\\python\\sw_agent\\agent_output\\Table_Assembly_M8_Fastened-20260429_112407\\parts\\table_top",
+      "code_file": "D:\\a_src\\python\\sw_agent\\agent_output\\Table_Assembly_M8_Fastened-20260429_112407\\parts\\table_top\\table_top_model.py",
+      "model_file": "D:\\a_src\\python\\sw_agent\\agent_output\\Table_Assembly_M8_Fastened-20260429_112407\\parts\\table_top\\table_top.SLDPRT",
+      "log_file": "D:\\a_src\\python\\sw_agent\\agent_output\\Table_Assembly_M8_Fastened-20260429_112407\\logs\\table_top_model.log",
+      "spec_file": "D:\\a_src\\python\\sw_agent\\agent_output\\Table_Assembly_M8_Fastened-20260429_112407\\json\\table_top_spec.json"
+    },
+    "standalone_modeling_instructions": [
+      "在XY平面绘制1200x600矩形草图，拉伸25mm生成主体",
+      "在底面(或顶面投影)创建四个直径9mm的通孔，圆心坐标分别为(-550, -250), (550, -250), (-550, 250), (550, 250)相对于中心",
+      "确保孔贯穿整个厚度"
+    ]
+  }
+}

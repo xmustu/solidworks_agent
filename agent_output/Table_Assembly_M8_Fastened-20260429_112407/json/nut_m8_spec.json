@@ -1,0 +1,159 @@
+{
+  "request_type": "assembly_part",
+  "assembly_context": {
+    "name": "Table_Assembly_M8_Fastened",
+    "summary": "由矩形桌面、4根中空圆柱桌腿及M8螺丝螺母组成的装配体。螺丝从桌面下方穿过桌面通孔，旋入桌腿顶部内部的螺母中，实现固定。忽略螺纹细节，使用几何体模拟。",
+    "global_coordinate_system": {
+      "origin": "桌面中心点 (0,0,0)",
+      "x_direction": "沿桌面长边方向 (1200mm)",
+      "y_direction": "沿桌面短边方向 (600mm)",
+      "z_direction": "垂直向上，指向桌面上表面法向"
+    },
+    "design_rules": [
+      "所有尺寸单位为毫米(mm)，建模时需转换为米(m)",
+      "桌面基准面为XY平面，Z轴向上",
+      "桌腿对称分布于桌面四角，中心距边缘50mm",
+      "紧固件简化为无螺纹几何体：螺丝为圆柱杆+盘头，螺母为六棱柱",
+      "装配约束优先使用面重合(face_coincident)和轴同心(axi_coincident)"
+    ],
+    "instances": [
+      {
+        "instance_id": "inst_nut_fl",
+        "part_id": "nut_m8",
+        "name": "Front Left Nut",
+        "instance_role": "Fastener",
+        "placement_notes": "位于左前桌腿内部顶部",
+        "interface_usage": {
+          "faces": [
+            "bottom_face"
+          ],
+          "axes": [
+            "nut_axis"
+          ],
+          "points": []
+        }
+      },
+      {
+        "instance_id": "inst_nut_fr",
+        "part_id": "nut_m8",
+        "name": "Front Right Nut",
+        "instance_role": "Fastener",
+        "placement_notes": "位于右前桌腿内部顶部",
+        "interface_usage": {
+          "faces": [
+            "bottom_face"
+          ],
+          "axes": [
+            "nut_axis"
+          ],
+          "points": []
+        }
+      },
+      {
+        "instance_id": "inst_nut_bl",
+        "part_id": "nut_m8",
+        "name": "Back Left Nut",
+        "instance_role": "Fastener",
+        "placement_notes": "位于左后桌腿内部顶部",
+        "interface_usage": {
+          "faces": [
+            "bottom_face"
+          ],
+          "axes": [
+            "nut_axis"
+          ],
+          "points": []
+        }
+      },
+      {
+        "instance_id": "inst_nut_br",
+        "part_id": "nut_m8",
+        "name": "Back Right Nut",
+        "instance_role": "Fastener",
+        "placement_notes": "位于右后桌腿内部顶部",
+        "interface_usage": {
+          "faces": [
+            "bottom_face"
+          ],
+          "axes": [
+            "nut_axis"
+          ],
+          "points": []
+        }
+      }
+    ],
+    "assembly_sequence": [
+      "Fix inst_table_top_1",
+      "Mate inst_leg_fl to inst_table_top_1",
+      "Mate inst_leg_fr to inst_table_top_1",
+      "Mate inst_leg_bl to inst_table_top_1",
+      "Mate inst_leg_br to inst_table_top_1",
+      "Mate inst_nut_fl to inst_leg_fl",
+      "Mate inst_nut_fr to inst_leg_fr",
+      "Mate inst_nut_bl to inst_leg_bl",
+      "Mate inst_nut_br to inst_leg_br",
+      "Mate inst_screw_fl to inst_table_top_1 and inst_nut_fl",
+      "Mate inst_screw_fr to inst_table_top_1 and inst_nut_fr",
+      "Mate inst_screw_bl to inst_table_top_1 and inst_nut_bl",
+      "Mate inst_screw_br to inst_table_top_1 and inst_nut_br"
+    ]
+  },
+  "part": {
+    "part_id": "nut_m8",
+    "name": "Nut M8 Simplified",
+    "function": "与螺丝配合固定桌腿",
+    "shape": "简化M8六角螺母：对边13mm，厚度6mm，中心孔8mm",
+    "key_dimensions": [
+      "Width Across Flats: 13 mm",
+      "Thickness: 6 mm",
+      "Hole Diameter: 8 mm"
+    ],
+    "material_or_notes": "钢制，简化几何无螺纹",
+    "quantity": 4,
+    "instance_ids": [
+      "inst_nut_fl",
+      "inst_nut_fr",
+      "inst_nut_bl",
+      "inst_nut_br"
+    ],
+    "interfaces": {
+      "faces": [
+        {
+          "name": "top_face",
+          "purpose": "螺母顶面",
+          "normal_direction_relation": "normal +Z (local)"
+        },
+        {
+          "name": "bottom_face",
+          "purpose": "螺母底面",
+          "normal_direction_relation": "normal -Z (local)"
+        }
+      ],
+      "axes": [
+        {
+          "name": "nut_axis",
+          "purpose": "螺母中心轴线",
+          "direction_relation": "along local Z"
+        }
+      ],
+      "points": []
+    },
+    "assembly_relation_notes": [
+      "位于桌腿内部顶部",
+      "轴线与桌腿中心轴同心",
+      "底面可能与桌腿顶面内壁接触或略下沉"
+    ],
+    "workspace": {
+      "part_dir": "D:\\a_src\\python\\sw_agent\\agent_output\\Table_Assembly_M8_Fastened-20260429_112407\\parts\\nut_m8",
+      "code_file": "D:\\a_src\\python\\sw_agent\\agent_output\\Table_Assembly_M8_Fastened-20260429_112407\\parts\\nut_m8\\nut_m8_model.py",
+      "model_file": "D:\\a_src\\python\\sw_agent\\agent_output\\Table_Assembly_M8_Fastened-20260429_112407\\parts\\nut_m8\\nut_m8.SLDPRT",
+      "log_file": "D:\\a_src\\python\\sw_agent\\agent_output\\Table_Assembly_M8_Fastened-20260429_112407\\logs\\nut_m8_model.log",
+      "spec_file": "D:\\a_src\\python\\sw_agent\\agent_output\\Table_Assembly_M8_Fastened-20260429_112407\\json\\nut_m8_spec.json"
+    },
+    "standalone_modeling_instructions": [
+      "在XY平面绘制正六边形，对边距离13mm",
+      "拉伸6mm生成主体",
+      "在中心切除直径8mm的通孔"
+    ]
+  }
+}

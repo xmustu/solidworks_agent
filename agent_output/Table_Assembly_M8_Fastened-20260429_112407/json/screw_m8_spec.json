@@ -1,0 +1,159 @@
+{
+  "request_type": "assembly_part",
+  "assembly_context": {
+    "name": "Table_Assembly_M8_Fastened",
+    "summary": "由矩形桌面、4根中空圆柱桌腿及M8螺丝螺母组成的装配体。螺丝从桌面下方穿过桌面通孔，旋入桌腿顶部内部的螺母中，实现固定。忽略螺纹细节，使用几何体模拟。",
+    "global_coordinate_system": {
+      "origin": "桌面中心点 (0,0,0)",
+      "x_direction": "沿桌面长边方向 (1200mm)",
+      "y_direction": "沿桌面短边方向 (600mm)",
+      "z_direction": "垂直向上，指向桌面上表面法向"
+    },
+    "design_rules": [
+      "所有尺寸单位为毫米(mm)，建模时需转换为米(m)",
+      "桌面基准面为XY平面，Z轴向上",
+      "桌腿对称分布于桌面四角，中心距边缘50mm",
+      "紧固件简化为无螺纹几何体：螺丝为圆柱杆+盘头，螺母为六棱柱",
+      "装配约束优先使用面重合(face_coincident)和轴同心(axi_coincident)"
+    ],
+    "instances": [
+      {
+        "instance_id": "inst_screw_fl",
+        "part_id": "screw_m8",
+        "name": "Front Left Screw",
+        "instance_role": "Fastener",
+        "placement_notes": "穿过桌面左前孔，进入左前桌腿",
+        "interface_usage": {
+          "faces": [
+            "head_bottom_face"
+          ],
+          "axes": [
+            "screw_axis"
+          ],
+          "points": []
+        }
+      },
+      {
+        "instance_id": "inst_screw_fr",
+        "part_id": "screw_m8",
+        "name": "Front Right Screw",
+        "instance_role": "Fastener",
+        "placement_notes": "穿过桌面右前孔，进入右前桌腿",
+        "interface_usage": {
+          "faces": [
+            "head_bottom_face"
+          ],
+          "axes": [
+            "screw_axis"
+          ],
+          "points": []
+        }
+      },
+      {
+        "instance_id": "inst_screw_bl",
+        "part_id": "screw_m8",
+        "name": "Back Left Screw",
+        "instance_role": "Fastener",
+        "placement_notes": "穿过桌面左后孔，进入左后桌腿",
+        "interface_usage": {
+          "faces": [
+            "head_bottom_face"
+          ],
+          "axes": [
+            "screw_axis"
+          ],
+          "points": []
+        }
+      },
+      {
+        "instance_id": "inst_screw_br",
+        "part_id": "screw_m8",
+        "name": "Back Right Screw",
+        "instance_role": "Fastener",
+        "placement_notes": "穿过桌面右后孔，进入右后桌腿",
+        "interface_usage": {
+          "faces": [
+            "head_bottom_face"
+          ],
+          "axes": [
+            "screw_axis"
+          ],
+          "points": []
+        }
+      }
+    ],
+    "assembly_sequence": [
+      "Fix inst_table_top_1",
+      "Mate inst_leg_fl to inst_table_top_1",
+      "Mate inst_leg_fr to inst_table_top_1",
+      "Mate inst_leg_bl to inst_table_top_1",
+      "Mate inst_leg_br to inst_table_top_1",
+      "Mate inst_nut_fl to inst_leg_fl",
+      "Mate inst_nut_fr to inst_leg_fr",
+      "Mate inst_nut_bl to inst_leg_bl",
+      "Mate inst_nut_br to inst_leg_br",
+      "Mate inst_screw_fl to inst_table_top_1 and inst_nut_fl",
+      "Mate inst_screw_fr to inst_table_top_1 and inst_nut_fr",
+      "Mate inst_screw_bl to inst_table_top_1 and inst_nut_bl",
+      "Mate inst_screw_br to inst_table_top_1 and inst_nut_br"
+    ]
+  },
+  "part": {
+    "part_id": "screw_m8",
+    "name": "Screw M8 Simplified",
+    "function": "连接桌面与桌腿内的螺母",
+    "shape": "简化M8螺丝：杆部直径8mm长30mm，头部为盘头(直径16mm厚5mm)",
+    "key_dimensions": [
+      "Shank Diameter: 8 mm",
+      "Shank Length: 30 mm",
+      "Head Diameter: 16 mm",
+      "Head Thickness: 5 mm"
+    ],
+    "material_or_notes": "钢制，简化几何无螺纹",
+    "quantity": 4,
+    "instance_ids": [
+      "inst_screw_fl",
+      "inst_screw_fr",
+      "inst_screw_bl",
+      "inst_screw_br"
+    ],
+    "interfaces": {
+      "faces": [
+        {
+          "name": "head_bottom_face",
+          "purpose": "螺丝头底面，贴合桌面下表面或沉头孔",
+          "normal_direction_relation": "normal -Z (local)"
+        },
+        {
+          "name": "shank_end_face",
+          "purpose": "螺丝杆末端面",
+          "normal_direction_relation": "normal +Z (local)"
+        }
+      ],
+      "axes": [
+        {
+          "name": "screw_axis",
+          "purpose": "螺丝中心轴线",
+          "direction_relation": "along local Z"
+        }
+      ],
+      "points": []
+    },
+    "assembly_relation_notes": [
+      "轴线与桌面孔/桌腿轴同心",
+      "头部底面通常位于桌面下方，此处假设直接穿过孔，头部在桌面下方或与桌面下表面平齐（根据需求'从桌面下方插入'，头部应在桌面下方）"
+    ],
+    "workspace": {
+      "part_dir": "D:\\a_src\\python\\sw_agent\\agent_output\\Table_Assembly_M8_Fastened-20260429_112407\\parts\\screw_m8",
+      "code_file": "D:\\a_src\\python\\sw_agent\\agent_output\\Table_Assembly_M8_Fastened-20260429_112407\\parts\\screw_m8\\screw_m8_model.py",
+      "model_file": "D:\\a_src\\python\\sw_agent\\agent_output\\Table_Assembly_M8_Fastened-20260429_112407\\parts\\screw_m8\\screw_m8.SLDPRT",
+      "log_file": "D:\\a_src\\python\\sw_agent\\agent_output\\Table_Assembly_M8_Fastened-20260429_112407\\logs\\screw_m8_model.log",
+      "spec_file": "D:\\a_src\\python\\sw_agent\\agent_output\\Table_Assembly_M8_Fastened-20260429_112407\\json\\screw_m8_spec.json"
+    },
+    "standalone_modeling_instructions": [
+      "在XY平面绘制直径16mm圆，拉伸5mm生成头部",
+      "在头部顶面中心绘制直径8mm圆，拉伸30mm生成杆部",
+      "注意：根据装配逻辑'从桌面下方插入'，螺丝方向应使得杆部向上进入桌腿，头部在下。建模时可按标准方向，装配时旋转或调整约束"
+    ]
+  }
+}

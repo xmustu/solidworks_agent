@@ -1,0 +1,22 @@
+[pysw] 已获得 SOLIDWORKS 跨进程任务锁: C:\Users\12617\AppData\Local\Temp\pysw_solidworks_task.lock
+----------------------------------------
+Python 成功接收到的新零件名称: Table Top
+----------------------------------------
+
+[C# 调试日志]:
+[DEBUG] 14:12:12 - 接收到参数，尝试创建并激活文档: Table Top
+[DEBUG] 14:12:12 - 尝试连接 SolidWorks...
+[DEBUG] 14:12:12 - 成功连接到已运行的实例。
+
+开始建模零件: Table Top
+矩形对象信息: (<COMObject CreateCenterRectangle>, <COMObject CreateCenterRectangle>, <COMObject CreateCenterRectangle>, <COMObject CreateCenterRectangle>, <COMObject CreateCenterRectangle>, <COMObject CreateCenterRectangle>)
+检测到当前有未退出的草图，正在自动退出以继续操作...
+草图选择成功，准备拉伸
+拉伸成功
+主体拉伸完成
+创建底部参考面: bottom_face
+创建顶部参考面: top_face
+正在保存零件到: D:\a_src\python\sw_agent\agent_output\Modern_Square_Table_Assembly-20260429_140925\parts\table_top\table_top.SLDPRT ...
+保存失败，错误代码: False
+零件保存失败
+[pysw] 已释放 SOLIDWORKS 跨进程任务锁

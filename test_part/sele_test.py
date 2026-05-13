@@ -1,4 +1,4 @@
-from pyswassem import SldWorksApp, PartDoc
+from pysw import SldWorksApp, PartDoc
 
 # 1. 初始化应用
 app = SldWorksApp()
@@ -35,6 +35,8 @@ if sw_doc:
     #     print("✅ 成功选择顶部面")
     # else:        print("❌ 选择顶部面失败")
     part.shell([(0,0,0.01)], 0.002)  # 壳体厚度 2mm
+
+    part.color("orange", transparency=0.0)
     
     print("✅ 零件创建成功！")
 else:

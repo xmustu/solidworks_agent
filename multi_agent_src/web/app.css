@@ -161,6 +161,57 @@ textarea {
   line-height: 1.6;
 }
 
+.parallel-panel {
+  width: min(78%, 760px);
+}
+
+.parallel-title {
+  margin-bottom: 10px;
+  font-weight: 700;
+}
+
+.parallel-bar {
+  height: 8px;
+  overflow: hidden;
+  border-radius: 999px;
+  background: #d7e6e7;
+}
+
+.parallel-bar-fill {
+  width: 0;
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, var(--accent), #2f9f8f);
+  transition: width 180ms ease;
+}
+
+.parallel-list {
+  display: grid;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.parallel-row {
+  padding: 8px 10px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.72);
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.parallel-row.success {
+  border-color: rgba(19, 111, 99, 0.28);
+  background: #e8f7f2;
+  color: var(--accent-strong);
+}
+
+.parallel-row.failed {
+  border-color: rgba(172, 54, 54, 0.28);
+  background: #fff0f0;
+  color: #8c2f2f;
+}
+
 .composer {
   display: grid;
   grid-template-columns: 1fr 120px;
