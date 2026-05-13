@@ -1,0 +1,18 @@
+Execution Failed (exit=1):
+--- stderr ---
+Traceback (most recent call last):
+  File "D:\CAutoD\solidworks_agent\agent_output\cude100-20260429_130318\part\cude100_model.py", line 61, in <module>
+    main()
+  File "D:\CAutoD\solidworks_agent\agent_output\cude100-20260429_130318\part\cude100_model.py", line 11, in main
+    sw_doc = PartDoc(app.createAndActivate_sw_part(part_name))
+  File "D:\CAutoD\pysw_assem\pyswassem\PySolidworksClass.py", line 101, in __init__
+    self.partDoc.SetUserPreferenceToggle(constants.swSketchInference, False)
+AttributeError: 'NoneType' object has no attribute 'SetUserPreferenceToggle'
+
+--- stdout ---
+正在启动 SolidWorks 应用...
+正在创建零件: cude100
+C# 程序运行失败，返回代码: 2148734720
+错误信息 (Stderr):
+--- script ---
+D:\CAutoD\solidworks_agent\agent_output\cude100-20260429_130318\part\cude100_model.py

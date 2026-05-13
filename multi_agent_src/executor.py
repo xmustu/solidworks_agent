@@ -17,6 +17,50 @@ class ExecutionResult:
     script_path: Path
 
 
+def _syntax_error_context(source: str, lineno: int | None) -> str:
+    lines_list = source.splitlines()
+    ln = (lineno or 1) - 1
+    ctx_start = max(0, ln - 2)
+    ctx_end = min(len(lines_list), ln + 3)
+    return "\n".join(f"{i + 1:4d} | {lines_list[i]}" for i in range(ctx_start, ctx_end))
+
+
+def format_execution_failure_summary(log: str, *, max_len: int = 700) -> str:
+    """从完整执行日志抽取短摘要，避免 orchestrator 只取最后一行丢失 File/line 信息。"""
+    text = (log or "").strip()
+    if not text:
+        return "执行失败（无日志）"
+    lines = [ln.rstrip() for ln in text.splitlines() if ln.strip()]
+    key_lines: list[str] = []
+    for ln in lines:
+        if 'File "' in ln and ", line " in ln:
+            s = ln.strip()
+            if s not in key_lines:
+                key_lines.append(s)
+    for ln in lines:
+        low = ln.lower()
+        if any(
+            x in low
+            for x in (
+                "syntaxerror",
+                "indentationerror",
+                "taberror",
+                "modulenotfounderror",
+                "nameerror",
+                "typeerror",
+            )
+        ):
+            s = ln.strip()
+            if s not in key_lines:
+                key_lines.append(s)
+    if not key_lines:
+        key_lines = lines[-min(5, len(lines)) :]
+    out = " | ".join(key_lines)
+    if len(out) > max_len:
+        out = out[: max_len - 1] + "…"
+    return out
+
+
 def execute_python_code(code: str, workdir: Path, script_name: str) -> ExecutionResult:
     workdir.mkdir(parents=True, exist_ok=True)
     script_path = workdir / script_name
@@ -27,8 +71,27 @@ def execute_python_code(code: str, workdir: Path, script_name: str) -> Execution
                 file.write("# -*- coding: utf-8 -*-\n")
             file.write(code)
 
+        full_source = script_path.read_text(encoding="utf-8")
+        try:
+            ast.parse(full_source)
+        except SyntaxError as se:
+            ctx = _syntax_error_context(full_source, se.lineno)
+            return ExecutionResult(
+                success=False,
+                log=(
+                    f"语法错误（子进程未启动）: {se}\n"
+                    f"--- 行 {se.lineno or '?'} 附近 ---\n{ctx}\n"
+                    f"--- 脚本 ---\n{script_path}"
+                ),
+                script_path=script_path,
+            )
+
         custom_env = os.environ.copy()
         custom_env["PYTHONIOENCODING"] = "utf-8"
+        extra_pp = os.environ.get("PYSWASSEM_PYTHONPATH", "").strip()
+        if extra_pp:
+            prev = (custom_env.get("PYTHONPATH") or "").strip()
+            custom_env["PYTHONPATH"] = os.pathsep.join([p for p in (extra_pp, prev) if p])
 
         result = subprocess.run(
             [sys.executable, str(script_path)],
@@ -55,10 +118,26 @@ def execute_python_code(code: str, workdir: Path, script_name: str) -> Execution
                 script_path=script_path,
             )
 
-        error_log = stderr or stdout or f"Process exited with code {result.returncode}"
+        blocks: list[str] = []
+        if stderr:
+            blocks.append("--- stderr ---\n" + stderr)
+        if stdout:
+            blocks.append("--- stdout ---\n" + stdout)
+        error_log = "\n\n".join(blocks) if blocks else f"(no stderr/stdout) exit={result.returncode}"
+        error_log = f"Execution Failed (exit={result.returncode}):\n{error_log}\n--- script ---\n{script_path}"
+
+        # 子进程仍报语法错时，再解析一次文件给出稳定行号（应对编码/拼接差异）
+        try:
+            ast.parse(full_source)
+        except SyntaxError as se2:
+            error_log += (
+                f"\n\n--- ast.parse(磁盘文件) ---\n{se2}\n"
+                f"{_syntax_error_context(full_source, se2.lineno)}"
+            )
+
         return ExecutionResult(
             success=False,
-            log=f"Execution Failed with error:\n{error_log}",
+            log=error_log,
             script_path=script_path,
         )
     except Exception:

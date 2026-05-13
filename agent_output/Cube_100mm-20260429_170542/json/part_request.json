@@ -1,0 +1,57 @@
+{
+  "request_type": "part",
+  "name": "Cube_100mm",
+  "summary": "创建一个边长为100mm的实心立方体零件。",
+  "key_requirements": [
+    "几何形状：正方体",
+    "尺寸：边长 100mm",
+    "实体类型：实心（无壳、无孔）"
+  ],
+  "assumptions": [
+    "主草图面默认为 XY 平面",
+    "拉伸方向沿 Z 轴正向",
+    "默认原点位于立方体一角或中心（通常建模习惯为角点，若需中心对称可后续调整，此处按常规角点基准处理）",
+    "单位：mm"
+  ],
+  "requested_outputs": [
+    "零件文件 (.SLDPRT)",
+    "Python 建模代码"
+  ],
+  "interfaces": [],
+  "workspace": {
+    "root_dir": "D:\\CAutoD\\solidworks_agent\\agent_output\\Cube_100mm-20260429_170542",
+    "part_dir": "D:\\CAutoD\\solidworks_agent\\agent_output\\Cube_100mm-20260429_170542\\part",
+    "json_dir": "D:\\CAutoD\\solidworks_agent\\agent_output\\Cube_100mm-20260429_170542\\json",
+    "logs_dir": "D:\\CAutoD\\solidworks_agent\\agent_output\\Cube_100mm-20260429_170542\\logs",
+    "plan_file": "D:\\CAutoD\\solidworks_agent\\agent_output\\Cube_100mm-20260429_170542\\json\\part_request.json"
+  },
+  "part": {
+    "part_id": "Cube_100mm",
+    "name": "Cube_100mm",
+    "function": "创建一个边长为100mm的实心立方体零件。",
+    "shape": "根据需求分析结果由建模智能体细化",
+    "key_dimensions": [
+      "几何形状：正方体",
+      "尺寸：边长 100mm",
+      "实体类型：实心（无壳、无孔）"
+    ],
+    "material_or_notes": "主草图面默认为 XY 平面; 拉伸方向沿 Z 轴正向; 默认原点位于立方体一角或中心（通常建模习惯为角点，若需中心对称可后续调整，此处按常规角点基准处理）; 单位：mm",
+    "interfaces": {
+      "faces": [],
+      "axes": [],
+      "points": []
+    },
+    "standalone_modeling_instructions": [
+      "几何形状：正方体",
+      "尺寸：边长 100mm",
+      "实体类型：实心（无壳、无孔）"
+    ],
+    "workspace": {
+      "part_dir": "D:\\CAutoD\\solidworks_agent\\agent_output\\Cube_100mm-20260429_170542\\part",
+      "code_file": "D:\\CAutoD\\solidworks_agent\\agent_output\\Cube_100mm-20260429_170542\\part\\Cube_100mm_model.py",
+      "model_file": "D:\\CAutoD\\solidworks_agent\\agent_output\\Cube_100mm-20260429_170542\\part\\Cube_100mm.SLDPRT",
+      "log_file": "D:\\CAutoD\\solidworks_agent\\agent_output\\Cube_100mm-20260429_170542\\logs\\Cube_100mm_model.log",
+      "spec_file": "D:\\CAutoD\\solidworks_agent\\agent_output\\Cube_100mm-20260429_170542\\json\\Cube_100mm_spec.json"
+    }
+  }
+}

@@ -1,0 +1,57 @@
+{
+  "request_type": "part",
+  "name": "cube_100mm",
+  "summary": "创建一个边长为100mm的实心立方体零件，基于XY平面草图沿Z轴拉伸成型。",
+  "key_requirements": [
+    "主体为正方体，边长100mm",
+    "建模方式：在XY平面绘制100x100mm正方形，沿Z轴正向拉伸100mm",
+    "无倒角、圆角或孔特征"
+  ],
+  "assumptions": [
+    "尺寸单位默认为mm",
+    "主草图面为XY平面",
+    "拉伸方向为Z轴正向",
+    "材料默认为普通钢或塑料（不影响几何建模）"
+  ],
+  "requested_outputs": [
+    ".SLDPRT 文件",
+    "Python 建模代码"
+  ],
+  "interfaces": [],
+  "workspace": {
+    "root_dir": "D:\\CAutoD\\solidworks_agent\\agent_output\\cube_100mm-20260429_154712",
+    "part_dir": "D:\\CAutoD\\solidworks_agent\\agent_output\\cube_100mm-20260429_154712\\part",
+    "json_dir": "D:\\CAutoD\\solidworks_agent\\agent_output\\cube_100mm-20260429_154712\\json",
+    "logs_dir": "D:\\CAutoD\\solidworks_agent\\agent_output\\cube_100mm-20260429_154712\\logs",
+    "plan_file": "D:\\CAutoD\\solidworks_agent\\agent_output\\cube_100mm-20260429_154712\\json\\part_request.json"
+  },
+  "part": {
+    "part_id": "cube_100mm",
+    "name": "cube_100mm",
+    "function": "创建一个边长为100mm的实心立方体零件，基于XY平面草图沿Z轴拉伸成型。",
+    "shape": "根据需求分析结果由建模智能体细化",
+    "key_dimensions": [
+      "主体为正方体，边长100mm",
+      "建模方式：在XY平面绘制100x100mm正方形，沿Z轴正向拉伸100mm",
+      "无倒角、圆角或孔特征"
+    ],
+    "material_or_notes": "尺寸单位默认为mm; 主草图面为XY平面; 拉伸方向为Z轴正向; 材料默认为普通钢或塑料（不影响几何建模）",
+    "interfaces": {
+      "faces": [],
+      "axes": [],
+      "points": []
+    },
+    "standalone_modeling_instructions": [
+      "主体为正方体，边长100mm",
+      "建模方式：在XY平面绘制100x100mm正方形，沿Z轴正向拉伸100mm",
+      "无倒角、圆角或孔特征"
+    ],
+    "workspace": {
+      "part_dir": "D:\\CAutoD\\solidworks_agent\\agent_output\\cube_100mm-20260429_154712\\part",
+      "code_file": "D:\\CAutoD\\solidworks_agent\\agent_output\\cube_100mm-20260429_154712\\part\\cube_100mm_model.py",
+      "model_file": "D:\\CAutoD\\solidworks_agent\\agent_output\\cube_100mm-20260429_154712\\part\\cube_100mm.SLDPRT",
+      "log_file": "D:\\CAutoD\\solidworks_agent\\agent_output\\cube_100mm-20260429_154712\\logs\\cube_100mm_model.log",
+      "spec_file": "D:\\CAutoD\\solidworks_agent\\agent_output\\cube_100mm-20260429_154712\\json\\cube_100mm_spec.json"
+    }
+  }
+}

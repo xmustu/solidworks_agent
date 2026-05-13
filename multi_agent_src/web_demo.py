@@ -1,13 +1,35 @@
 from __future__ import annotations
 
 import json
+import logging
+import os
 import queue
+import sys
 import threading
+import time
+import traceback
 from http import HTTPStatus
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
 from urllib.parse import urlparse
 from uuid import uuid4
+
+
+def _configure_logging() -> logging.Logger:
+    log = logging.getLogger("solidworks_agent.web_demo")
+    if log.handlers:
+        return log
+    handler = logging.StreamHandler(sys.stderr)
+    handler.setFormatter(
+        logging.Formatter("%(asctime)s [%(levelname)s] %(name)s: %(message)s")
+    )
+    log.addHandler(handler)
+    log.setLevel(logging.INFO)
+    log.propagate = False
+    return log
+
+
+LOG = _configure_logging()
 
 try:
     from .agents import extract_json_payload
@@ -29,34 +51,59 @@ class DemoConversationSession:
         self.stage = "requirement"
 
     def push_event(self, event: dict):
+        et = event.get("type") if isinstance(event, dict) else None
+        LOG.debug("push_event type=%s keys=%s", et, list(event.keys()) if isinstance(event, dict) else None)
         self.event_queue.put(event)
 
     def iter_turn_events(self, user_message: str):
         if self.stage == "requirement":
+            LOG.info(
+                "turn_start stage=requirement msg_len=%d preview=%r",
+                len(user_message),
+                user_message[:200],
+            )
+            t0 = time.perf_counter()
             yield {"type": "message_start", "role": "agent", "agent_name": "RequirementAgent"}
-            for chunk in self.orchestrator.requirement_agent.stream_chat(user_message):
-                yield {"type": "delta", "content": chunk}
+            try:
+                for chunk in self.orchestrator.requirement_agent.stream_chat(user_message):
+                    yield {"type": "delta", "content": chunk}
+            except Exception as exc:
+                LOG.exception("requirement_agent.stream_chat failed: %s", exc)
+                yield {"type": "error", "error": f"RequirementAgent 流式调用失败: {exc!s}"}
+                return
             yield {"type": "message_end"}
+            LOG.info("requirement_stream_done elapsed_s=%.2f", time.perf_counter() - t0)
 
             latest_reply = self.orchestrator.requirement_agent.history[-1]["content"]
             if "[CONFIRMED]" not in latest_reply:
+                LOG.info("requirement_not_confirmed_no_pipeline")
                 return
 
             try:
                 requirement_payload = extract_json_payload(latest_reply)
             except ValueError:
+                LOG.warning(
+                    "requirement_json_parse_failed reply_preview=%r",
+                    latest_reply[:800],
+                )
                 yield {
                     "type": "status",
                     "message": "需求分析阶段已确认，但确认消息中的 JSON 无法解析，后续流程未启动。",
                 }
                 return
 
+            LOG.info(
+                "requirement_confirmed request_type=%s",
+                requirement_payload.get("request_type"),
+            )
             self.stage = "executing"
             yield from self._run_pipeline(requirement_payload)
             self.stage = "finished"
+            LOG.info("pipeline_finished stage=finished")
             return
 
         if self.stage == "executing":
+            LOG.info("turn_blocked stage=executing")
             yield {
                 "type": "status",
                 "message": "当前任务仍在执行中，请等待本轮自动流程完成。",
@@ -64,6 +111,7 @@ class DemoConversationSession:
             return
 
         if self.stage == "finished":
+            LOG.info("turn_blocked stage=finished")
             yield {
                 "type": "status",
                 "message": "当前会话的自动流程已完成。如需重新开始，请刷新页面开启新会话。",
@@ -74,8 +122,12 @@ class DemoConversationSession:
 
         def worker():
             try:
+                LOG.info("pipeline_worker_start payload_keys=%s", list(requirement_payload.keys()))
                 self.orchestrator.process_confirmed_requirement(requirement_payload)
+                LOG.info("pipeline_worker_ok")
             except Exception as exc:
+                tb = traceback.format_exc()
+                LOG.error("pipeline_worker_failed err=%s\n%s", exc, tb)
                 self.push_event({"type": "error", "error": str(exc)})
             finally:
                 self.push_event(sentinel)
@@ -85,7 +137,15 @@ class DemoConversationSession:
         while True:
             event = self.event_queue.get()
             if event is sentinel or event.get("type") == "_pipeline_done":
+                LOG.info("pipeline_queue_drained")
                 break
+            et = event.get("type")
+            if et == "error":
+                LOG.error("pipeline_event_error %s", event)
+            elif et == "status":
+                LOG.info("pipeline_event_status %s", event.get("message", "")[:200])
+            else:
+                LOG.debug("pipeline_event type=%s", et)
             yield event
 
 
@@ -126,8 +186,16 @@ class DemoHandler(BaseHTTPRequestHandler):
 
         user_message, session_id, session = self.parse_chat_request()
         if user_message is None or session_id is None or session is None:
+            LOG.warning("post_%s_bad_request path=%s", parsed.path.strip("/"), self.path)
             return
 
+        LOG.info(
+            "post_%s session_id=%s msg_len=%d client=%s",
+            parsed.path.strip("/"),
+            session_id,
+            len(user_message),
+            self.address_string(),
+        )
         if parsed.path == "/api/chat-sse":
             self.stream_sse_events(session_id, session, user_message)
             return
@@ -187,12 +255,22 @@ class DemoHandler(BaseHTTPRequestHandler):
         self.end_headers()
         self.close_connection = True
 
+        t0 = time.perf_counter()
+        n_events = 0
         try:
             for event in session.iter_turn_events(user_message):
+                n_events += 1
                 self.write_sse_event("message", event)
 
             self.write_sse_event("message", {"type": "done"})
+            LOG.info(
+                "sse_complete session_id=%s events=%d elapsed_s=%.2f",
+                session_id,
+                n_events,
+                time.perf_counter() - t0,
+            )
         except Exception as exc:
+            LOG.exception("sse_handler_error session_id=%s: %s", session_id, exc)
             try:
                 self.write_sse_event("message", {"type": "error", "error": str(exc)})
             except BrokenPipeError:
@@ -228,10 +306,18 @@ class DemoHandler(BaseHTTPRequestHandler):
         self.wfile.write(body)
 
     def log_message(self, format: str, *args):
-        return
+        LOG.info("http %s - %s", self.address_string(), format % args if args else format)
 
 
-def run(host: str = "127.0.0.1", port: int = 8000):
+def run(host: str = "127.0.0.1", port: int = 8500):
+    pp = os.environ.get("PYSWASSEM_PYTHONPATH", "").strip()
+    if pp:
+        LOG.info("PYSWASSEM_PYTHONPATH=%s (子进程建模脚本将前置此路径)", pp)
+    else:
+        LOG.info(
+            "未设置 PYSWASSEM_PYTHONPATH；若子进程报 ModuleNotFoundError: pyswassem，"
+            "请设为包含该包的目录（可与生成代码中的 sys.path 一致）。"
+        )
     server = ThreadingHTTPServer((host, port), DemoHandler)
     print(f"Multi-agent demo server running at http://{host}:{port}")
     server.serve_forever()

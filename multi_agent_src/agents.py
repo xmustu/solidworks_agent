@@ -39,7 +39,7 @@ def get_client():
 
         client = OpenAI(
         # 如果没有配置环境变量，请用阿里云百炼API Key替换：api_key="sk-xxx"
-        api_key=os.getenv("DASHSCOPE_API_KEY"),
+        api_key="sk-74ab513e45e3486ba0488ca43840b9cf",
         base_url="https://dashscope.aliyuncs.com/compatible-mode/v1",
         )
 

@@ -1,0 +1,55 @@
+{
+  "request_type": "part",
+  "part_context": {
+    "name": "SolidCube_100mm",
+    "summary": "创建一个边长为100mm的实心立方体零件。主体通过在XY平面绘制100x100mm正方形草图，并沿Z轴拉伸100mm生成。无圆角、倒角或其他切除特征。",
+    "key_requirements": [
+      "几何形状：正方体",
+      "关键尺寸：边长 100mm",
+      "建模方式：XY平面草图拉伸",
+      "特征：无圆角/倒角，实心"
+    ],
+    "assumptions": [
+      "单位默认为 mm",
+      "主草图面为 XY 平面",
+      "拉伸方向为 Z 轴正向",
+      "无其他附加特征（如孔、槽）"
+    ],
+    "requested_outputs": [
+      ".SLDPRT 文件",
+      "Python 建模代码"
+    ],
+    "interfaces": []
+  },
+  "part": {
+    "part_id": "SolidCube_100mm",
+    "name": "SolidCube_100mm",
+    "function": "创建一个边长为100mm的实心立方体零件。主体通过在XY平面绘制100x100mm正方形草图，并沿Z轴拉伸100mm生成。无圆角、倒角或其他切除特征。",
+    "shape": "根据需求分析结果由建模智能体细化",
+    "key_dimensions": [
+      "几何形状：正方体",
+      "关键尺寸：边长 100mm",
+      "建模方式：XY平面草图拉伸",
+      "特征：无圆角/倒角，实心"
+    ],
+    "material_or_notes": "单位默认为 mm; 主草图面为 XY 平面; 拉伸方向为 Z 轴正向; 无其他附加特征（如孔、槽）",
+    "interfaces": {
+      "faces": [],
+      "axes": [],
+      "points": []
+    },
+    "standalone_modeling_instructions": [
+      "几何形状：正方体",
+      "关键尺寸：边长 100mm",
+      "建模方式：XY平面草图拉伸",
+      "特征：无圆角/倒角，实心"
+    ],
+    "workspace": {
+      "part_dir": "D:\\CAutoD\\solidworks_agent\\agent_output\\SolidCube_100mm-20260429_141557\\part",
+      "code_file": "D:\\CAutoD\\solidworks_agent\\agent_output\\SolidCube_100mm-20260429_141557\\part\\SolidCube_100mm_model.py",
+      "model_file": "D:\\CAutoD\\solidworks_agent\\agent_output\\SolidCube_100mm-20260429_141557\\part\\SolidCube_100mm.SLDPRT",
+      "log_file": "D:\\CAutoD\\solidworks_agent\\agent_output\\SolidCube_100mm-20260429_141557\\logs\\SolidCube_100mm_model.log",
+      "spec_file": "D:\\CAutoD\\solidworks_agent\\agent_output\\SolidCube_100mm-20260429_141557\\json\\SolidCube_100mm_spec.json"
+    }
+  }
+}

@@ -1,0 +1,57 @@
+Execution Failed (exit=1):
+--- stderr ---
+Traceback (most recent call last):
+  File "D:\CAutoD\solidworks_agent\agent_output\SolidCube_100mm-20260429_141557\part\SolidCube_100mm_model.py", line 109, in <module>
+    main()
+  File "D:\CAutoD\solidworks_agent\agent_output\SolidCube_100mm-20260429_141557\part\SolidCube_100mm_model.py", line 48, in main
+    raise Exception("Failed to create or activate part document. SolidWorks might not be running or accessible.")
+Exception: Failed to create or activate part document. SolidWorks might not be running or accessible.
+
+--- stdout ---
+[INFO] 开始建模零件: SolidCube_100mm
+[INFO] 边长: 100.0 mm (0.1 m)
+[INFO] 尝试连接 SolidWorks (Attempt 1/3)...
+C# 程序运行失败，返回代码: 3762504530
+错误信息 (Stderr):
+[DEBUG] 14:17:28 - 接收到参数，尝试创建并激活文档: SolidCube_100mm
+[DEBUG] 14:17:28 - 尝试连接 SolidWorks...
+
+未经处理的异常:  System.Runtime.InteropServices.COMException: 检索 COM 类工厂中 CLSID 为 {666AAEE2-7A21-40FC-B768-2078840A88C3} 的组件失败，原因是出现以下错误: 80040154 没有注册类 (异常来自 HRESULT:0x80040154 (REGDB_E_CLASSNOTREG))。
+   在 System.RuntimeTypeHandle.CreateInstance(RuntimeType type, Boolean publicOnly, Boolean noCheck, Boolean& canBeCached, RuntimeMethodHandleInternal& ctor, Boolean& bNeedSecurityCheck)
+   在 System.RuntimeType.CreateInstanceSlow(Boolean publicOnly, Boolean skipCheckThis, Boolean fillCache, StackCrawlMark& stackMark)
+   在 System.Activator.CreateInstance(Type type, Boolean nonPublic)
+   在 System.Activator.CreateInstance(Type type)
+   在 new_part.NewPart.Main(String[] args) 位置 D:\a_src\c#\new_part\Program.cs:行号 42
+
+[WARN] createAndActivate_sw_part 返回 None，可能正在初始化...
+[INFO] 尝试连接 SolidWorks (Attempt 2/3)...
+C# 程序运行失败，返回代码: 3762504530
+错误信息 (Stderr):
+[DEBUG] 14:17:31 - 接收到参数，尝试创建并激活文档: SolidCube_100mm
+[DEBUG] 14:17:31 - 尝试连接 SolidWorks...
+
+未经处理的异常:  System.Runtime.InteropServices.COMException: 检索 COM 类工厂中 CLSID 为 {666AAEE2-7A21-40FC-B768-2078840A88C3} 的组件失败，原因是出现以下错误: 80040154 没有注册类 (异常来自 HRESULT:0x80040154 (REGDB_E_CLASSNOTREG))。
+   在 System.RuntimeTypeHandle.CreateInstance(RuntimeType type, Boolean publicOnly, Boolean noCheck, Boolean& canBeCached, RuntimeMethodHandleInternal& ctor, Boolean& bNeedSecurityCheck)
+   在 System.RuntimeType.CreateInstanceSlow(Boolean publicOnly, Boolean skipCheckThis, Boolean fillCache, StackCrawlMark& stackMark)
+   在 System.Activator.CreateInstance(Type type, Boolean nonPublic)
+   在 System.Activator.CreateInstance(Type type)
+   在 new_part.NewPart.Main(String[] args) 位置 D:\a_src\c#\new_part\Program.cs:行号 42
+
+[WARN] createAndActivate_sw_part 返回 None，可能正在初始化...
+[INFO] 尝试连接 SolidWorks (Attempt 3/3)...
+C# 程序运行失败，返回代码: 3762504530
+错误信息 (Stderr):
+[DEBUG] 14:17:33 - 接收到参数，尝试创建并激活文档: SolidCube_100mm
+[DEBUG] 14:17:33 - 尝试连接 SolidWorks...
+
+未经处理的异常:  System.Runtime.InteropServices.COMException: 检索 COM 类工厂中 CLSID 为 {666AAEE2-7A21-40FC-B768-2078840A88C3} 的组件失败，原因是出现以下错误: 80040154 没有注册类 (异常来自 HRESULT:0x80040154 (REGDB_E_CLASSNOTREG))。
+   在 System.RuntimeTypeHandle.CreateInstance(RuntimeType type, Boolean publicOnly, Boolean noCheck, Boolean& canBeCached, RuntimeMethodHandleInternal& ctor, Boolean& bNeedSecurityCheck)
+   在 System.RuntimeType.CreateInstanceSlow(Boolean publicOnly, Boolean skipCheckThis, Boolean fillCache, StackCrawlMark& stackMark)
+   在 System.Activator.CreateInstance(Type type, Boolean nonPublic)
+   在 System.Activator.CreateInstance(Type type)
+   在 new_part.NewPart.Main(String[] args) 位置 D:\a_src\c#\new_part\Program.cs:行号 42
+
+[WARN] createAndActivate_sw_part 返回 None，可能正在初始化...
+[ERROR] 建模过程中发生错误: Failed to create or activate part document. SolidWorks might not be running or accessible.
+--- script ---
+D:\CAutoD\solidworks_agent\agent_output\SolidCube_100mm-20260429_141557\part\SolidCube_100mm_model.py

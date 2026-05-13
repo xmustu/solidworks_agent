@@ -1,0 +1,125 @@
+# ---------- Python ----------
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+*.pyd
+
+# Distribution / packaging
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# Virtual environments
+.env
+.env.*
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# PyInstaller
+*.manifest
+*.spec
+
+# Installer logs
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Unit test / coverage reports
+htmlcov/
+.tox/
+.nox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+*.py,cover
+.hypothesis/
+.pytest_cache/
+cover/
+
+# Jupyter Notebook
+.ipynb_checkpoints
+*.ipynb_checkpoints/
+
+# mypy / Pyre / Pyright
+.mypy_cache/
+.dmypy.json
+dmypy.json
+.pyre/
+.pytype/
+
+# Ruff / Black
+.ruff_cache/
+
+# ---------- IDE / Editor ----------
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# ---------- OS ----------
+.DS_Store
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# ---------- Logs ----------
+*.log
+logs/
+log/
+debug.log
+logdebug.txt
+
+# ---------- Secrets / Local config ----------
+*.local
+.secret
+.secrets
+secrets.*
+
+# ---------- SolidWorks / CAD ----------
+~$*
+*.bak
+*.bak1
+*.bak2
+*.BAK
+*.SLDPRT.bak
+*.SLDASM.bak
+*.SLDDRW.bak
+*.swp
+*.swo
+*.cwr
+*.CWR
+
+# ---------- 项目运行产物 ----------
+agent_output/
+workspace/
+test_part/
+**/agent_output/
+**/__pycache__/
+
+# 允许保留各目录占位（如有需要可显式取消注释）
+# !agent_output/.gitkeep
+# !workspace/.gitkeep

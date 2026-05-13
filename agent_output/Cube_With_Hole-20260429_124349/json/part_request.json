@@ -1,0 +1,57 @@
+{
+  "request_type": "part",
+  "name": "Cube_With_Hole",
+  "summary": "边长100mm的正方体，顶面中心有直径20mm的通孔",
+  "key_requirements": [
+    "主体为边长100mm的正方体",
+    "在顶面（Z轴正向面）中心位置创建直径20mm的圆形通孔",
+    "孔贯穿整个实体"
+  ],
+  "assumptions": [
+    "尺寸单位默认为 mm",
+    "主草图面为 XY 平面，拉伸方向沿 Z 轴",
+    "无圆角、倒角或其他额外特征",
+    "材料默认未指定，仅几何建模"
+  ],
+  "requested_outputs": [
+    ".SLDPRT 文件",
+    "Python 建模代码"
+  ],
+  "interfaces": [],
+  "workspace": {
+    "root_dir": "D:\\CAutoD\\solidworks_agent\\agent_output\\Cube_With_Hole-20260429_124349",
+    "part_dir": "D:\\CAutoD\\solidworks_agent\\agent_output\\Cube_With_Hole-20260429_124349\\part",
+    "json_dir": "D:\\CAutoD\\solidworks_agent\\agent_output\\Cube_With_Hole-20260429_124349\\json",
+    "logs_dir": "D:\\CAutoD\\solidworks_agent\\agent_output\\Cube_With_Hole-20260429_124349\\logs",
+    "plan_file": "D:\\CAutoD\\solidworks_agent\\agent_output\\Cube_With_Hole-20260429_124349\\json\\part_request.json"
+  },
+  "part": {
+    "part_id": "Cube_With_Hole",
+    "name": "Cube_With_Hole",
+    "function": "边长100mm的正方体，顶面中心有直径20mm的通孔",
+    "shape": "根据需求分析结果由建模智能体细化",
+    "key_dimensions": [
+      "主体为边长100mm的正方体",
+      "在顶面（Z轴正向面）中心位置创建直径20mm的圆形通孔",
+      "孔贯穿整个实体"
+    ],
+    "material_or_notes": "尺寸单位默认为 mm; 主草图面为 XY 平面，拉伸方向沿 Z 轴; 无圆角、倒角或其他额外特征; 材料默认未指定，仅几何建模",
+    "interfaces": {
+      "faces": [],
+      "axes": [],
+      "points": []
+    },
+    "standalone_modeling_instructions": [
+      "主体为边长100mm的正方体",
+      "在顶面（Z轴正向面）中心位置创建直径20mm的圆形通孔",
+      "孔贯穿整个实体"
+    ],
+    "workspace": {
+      "part_dir": "D:\\CAutoD\\solidworks_agent\\agent_output\\Cube_With_Hole-20260429_124349\\part",
+      "code_file": "D:\\CAutoD\\solidworks_agent\\agent_output\\Cube_With_Hole-20260429_124349\\part\\Cube_With_Hole_model.py",
+      "model_file": "D:\\CAutoD\\solidworks_agent\\agent_output\\Cube_With_Hole-20260429_124349\\part\\Cube_With_Hole.SLDPRT",
+      "log_file": "D:\\CAutoD\\solidworks_agent\\agent_output\\Cube_With_Hole-20260429_124349\\logs\\Cube_With_Hole_model.log",
+      "spec_file": "D:\\CAutoD\\solidworks_agent\\agent_output\\Cube_With_Hole-20260429_124349\\json\\Cube_With_Hole_spec.json"
+    }
+  }
+}

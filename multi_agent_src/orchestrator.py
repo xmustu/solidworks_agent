@@ -20,6 +20,7 @@ try:
     from .config import AGENT_OUTPUT_ROOT
     from .executor import (
         execute_python_code,
+        format_execution_failure_summary,
         run_assembly_plan_checks,
         run_part_plan_checks,
     )
@@ -34,7 +35,12 @@ except ImportError:
         extract_python_code,
     )
     from config import AGENT_OUTPUT_ROOT
-    from executor import execute_python_code, run_assembly_plan_checks, run_part_plan_checks
+    from executor import (
+        execute_python_code,
+        format_execution_failure_summary,
+        run_assembly_plan_checks,
+        run_part_plan_checks,
+    )
 
 
 def slugify(value: str, fallback: str) -> str:
@@ -130,6 +136,16 @@ class MultiAgentOrchestrator:
         )
         if success:
             print("\n=== 单零件需求执行完成 ===")
+            part_workspace = plan["part"]["workspace"]
+            # 通过结构化事件把生成的文件路径透传给上游（例如 cautod_fastapi）
+            self.emit_event(
+                "pipeline_result",
+                request_type="part",
+                part_id=str(plan["part"].get("part_id", "")),
+                model_file=str(part_workspace["model_file"]),
+                code_file=str(part_workspace["code_file"]),
+                log_file=str(part_workspace["log_file"]),
+            )
         else:
             print("\n=== 单零件需求执行失败，请根据日志调整需求或知识库 ===")
 
@@ -156,6 +172,8 @@ class MultiAgentOrchestrator:
                     "name": part_spec["name"],
                     "success": success,
                     "model_file": part_spec["workspace"]["model_file"],
+                    "code_file": part_spec["workspace"]["code_file"],
+                    "log_file": part_spec["workspace"]["log_file"],
                 }
             )
             if not success:
@@ -167,6 +185,24 @@ class MultiAgentOrchestrator:
         assembly_success = self.run_assembly_pipeline(plan, part_results)
         if assembly_success:
             print("\n=== 装配需求执行完成 ===")
+            assembly_output = plan["assembly"]["assembly_output"]
+            self.emit_event(
+                "pipeline_result",
+                request_type="assembly",
+                assembly_model_file=str(assembly_output["model_file"]),
+                assembly_code_file=str(assembly_output["code_file"]),
+                assembly_log_file=str(assembly_output["log_file"]),
+                parts=[
+                    {
+                        "part_id": pr.get("part_id"),
+                        "model_file": pr.get("model_file"),
+                        "code_file": pr.get("code_file"),
+                        "log_file": pr.get("log_file"),
+                    }
+                    for pr in part_results
+                    if pr.get("success")
+                ],
+            )
         else:
             print("\n=== 装配阶段失败，请查看输出目录日志 ===")
 
@@ -681,7 +717,7 @@ class MultiAgentOrchestrator:
             self.emit_event("execution_log", title=f"{part_spec['name']} 执行日志", content=execution.log)
 
             if not execution.success:
-                summary = execution.log.splitlines()[-1] if execution.log.splitlines() else execution.log
+                summary = format_execution_failure_summary(execution.log)
                 print(f"    [执行失败] {summary}")
                 self.emit_status(f"[执行失败] {summary}")
                 current_prompt = self.build_part_prompt(full_plan, part_spec, execution.log)
@@ -798,7 +834,7 @@ class MultiAgentOrchestrator:
             self.emit_event("execution_log", title="装配执行日志", content=execution.log)
 
             if not execution.success:
-                summary = execution.log.splitlines()[-1] if execution.log.splitlines() else execution.log
+                summary = format_execution_failure_summary(execution.log)
                 print(f"  [装配执行失败] {summary}")
                 self.emit_status(f"[装配执行失败] {summary}")
                 current_prompt = self.build_assembly_prompt(plan, part_results, execution.log)

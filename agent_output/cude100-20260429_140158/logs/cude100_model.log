@@ -1,0 +1,15 @@
+正在启动 SolidWorks 应用...
+正在创建零件: cude100
+C# 程序运行失败，返回代码: 3762504530
+错误信息 (Stderr):
+[DEBUG] 14:03:05 - 接收到参数，尝试创建并激活文档: cude100
+[DEBUG] 14:03:05 - 尝试连接 SolidWorks...
+
+未经处理的异常:  System.Runtime.InteropServices.COMException: 检索 COM 类工厂中 CLSID 为 {666AAEE2-7A21-40FC-B768-2078840A88C3} 的组件失败，原因是出现以下错误: 80040154 没有注册类 (异常来自 HRESULT:0x80040154 (REGDB_E_CLASSNOTREG))。
+   在 System.RuntimeTypeHandle.CreateInstance(RuntimeType type, Boolean publicOnly, Boolean noCheck, Boolean& canBeCached, RuntimeMethodHandleInternal& ctor, Boolean& bNeedSecurityCheck)
+   在 System.RuntimeType.CreateInstanceSlow(Boolean publicOnly, Boolean skipCheckThis, Boolean fillCache, StackCrawlMark& stackMark)
+   在 System.Activator.CreateInstance(Type type, Boolean nonPublic)
+   在 System.Activator.CreateInstance(Type type)
+   在 new_part.NewPart.Main(String[] args) 位置 D:\a_src\c#\new_part\Program.cs:行号 42
+
+错误：无法创建或激活零件文档。请检查 SolidWorks 是否已正确安装并注册 COM 组件。

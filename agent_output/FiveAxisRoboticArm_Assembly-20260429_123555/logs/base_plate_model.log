@@ -1,0 +1,5 @@
+Execution Failed with error:
+Traceback (most recent call last):
+  File "D:\CAutoD\solidworks_agent\agent_output\FiveAxisRoboticArm_Assembly-20260429_123555\parts\base_plate\base_plate_model.py", line 9, in <module>
+    from pyswassem import SldWorksApp, PartDoc
+ModuleNotFoundError: No module named 'pyswassem'

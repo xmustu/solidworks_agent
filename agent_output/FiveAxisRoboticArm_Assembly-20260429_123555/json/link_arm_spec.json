@@ -1,0 +1,181 @@
+{
+  "request_type": "assembly_part",
+  "assembly_context": {
+    "name": "FiveAxisRoboticArm_Assembly",
+    "summary": "基于SolidWorks API自动生成一个五轴串联机械臂装配体。包含底座、大臂、小臂、手腕旋转部、末端法兰及5根连接轴。所有连杆简化为带安装凸台的圆柱体，轴为标准圆柱零件。初始姿态为竖直向上伸直状态。",
+    "global_coordinate_system": {
+      "origin": "Base bottom center",
+      "x_direction": "Global X (Right)",
+      "y_direction": "Global Y (Front)",
+      "z_direction": "Global Z (Up, Main Assembly Axis)"
+    },
+    "design_rules": [
+      "All dimensions in mm, convert to meters for modeling code.",
+      "Initial pose: All links aligned along +Z axis.",
+      "Shafts are standard cylinders, length slightly larger than link width for assembly clearance.",
+      "Links are simplified as cylinders with mounting bosses at ends."
+    ],
+    "instances": [
+      {
+        "instance_id": "inst_link1",
+        "part_id": "link_arm",
+        "name": "Link1 (Upper Arm)",
+        "instance_role": "First moving link (L2=200mm)",
+        "placement_notes": "Vertical, above Base. Bottom hole mates with J1 Shaft.",
+        "interface_usage": {
+          "faces": [
+            "end_face_bottom",
+            "end_face_top"
+          ],
+          "axes": [
+            "longitudinal_axis",
+            "hole_axis_bottom",
+            "hole_axis_top"
+          ],
+          "points": []
+        }
+      },
+      {
+        "instance_id": "inst_link2",
+        "part_id": "link_arm",
+        "name": "Link2 (Forearm)",
+        "instance_role": "Second moving link (L3=150mm)",
+        "placement_notes": "Vertical, above Link1. Bottom hole mates with J2 Shaft.",
+        "interface_usage": {
+          "faces": [
+            "end_face_bottom",
+            "end_face_top"
+          ],
+          "axes": [
+            "longitudinal_axis",
+            "hole_axis_bottom",
+            "hole_axis_top"
+          ],
+          "points": []
+        }
+      },
+      {
+        "instance_id": "inst_wrist1",
+        "part_id": "link_arm",
+        "name": "Wrist1 (Wrist Rotate)",
+        "instance_role": "Third moving link (L4=60mm)",
+        "placement_notes": "Vertical, above Link2. Bottom hole mates with J3 Shaft.",
+        "interface_usage": {
+          "faces": [
+            "end_face_bottom",
+            "end_face_top"
+          ],
+          "axes": [
+            "longitudinal_axis",
+            "hole_axis_bottom",
+            "hole_axis_top"
+          ],
+          "points": []
+        }
+      },
+      {
+        "instance_id": "inst_wrist2",
+        "part_id": "link_arm",
+        "name": "Wrist2 (End Effector Flange)",
+        "instance_role": "Fourth moving link (L5=40mm)",
+        "placement_notes": "Vertical, above Wrist1. Bottom hole mates with J4 Shaft. Top is free/end.",
+        "interface_usage": {
+          "faces": [
+            "end_face_bottom",
+            "end_face_top"
+          ],
+          "axes": [
+            "longitudinal_axis",
+            "hole_axis_bottom",
+            "hole_axis_top"
+          ],
+          "points": []
+        }
+      }
+    ],
+    "assembly_sequence": [
+      "Fix inst_base to Ground",
+      "Insert inst_shaft_j1, Concentric with inst_base.central_axis_z",
+      "Insert inst_link1, Concentric hole_axis_bottom with inst_shaft_j1.shaft_axis, Coincident end_face_bottom with inst_base.top_face_boss (or offset)",
+      "Insert inst_shaft_j2, Concentric with inst_link1.hole_axis_top",
+      "Insert inst_link2, Concentric hole_axis_bottom with inst_shaft_j2.shaft_axis, Coincident end_face_bottom with inst_link1.end_face_top",
+      "Insert inst_shaft_j3, Concentric with inst_link2.hole_axis_top",
+      "Insert inst_wrist1, Concentric hole_axis_bottom with inst_shaft_j3.shaft_axis, Coincident end_face_bottom with inst_link2.end_face_top",
+      "Insert inst_shaft_j4, Concentric with inst_wrist1.hole_axis_top",
+      "Insert inst_wrist2, Concentric hole_axis_bottom with inst_shaft_j4.shaft_axis, Coincident end_face_bottom with inst_wrist1.end_face_top",
+      "Insert inst_shaft_j5, Concentric with inst_wrist2.hole_axis_top"
+    ]
+  },
+  "part": {
+    "part_id": "link_arm",
+    "name": "Generic Arm Link",
+    "function": "Structural link between joints. Used for Link1 (L2), Link2 (L3), Wrist1 (L4), Wrist2 (L5).",
+    "shape": "Cylindrical body with two circular mounting bosses at opposite ends along the longitudinal axis. Body diameter 40mm. Bosses have through-holes for shafts.",
+    "key_dimensions": [
+      "Body Diameter: 40mm",
+      "Boss Diameter: 40mm",
+      "Boss Thickness: 10mm",
+      "Hole Diameter: 20mm (for Shaft)",
+      "Length varies by instance: L2=200, L3=150, L4=60, L5=40"
+    ],
+    "material_or_notes": "Aluminum. Length is parameterized per instance.",
+    "quantity": 4,
+    "instance_ids": [
+      "inst_link1",
+      "inst_link2",
+      "inst_wrist1",
+      "inst_wrist2"
+    ],
+    "interfaces": {
+      "faces": [
+        {
+          "name": "end_face_bottom",
+          "purpose": "Bottom mounting interface (connects to previous joint/shaft)",
+          "normal_direction_relation": "normal -Local_Z"
+        },
+        {
+          "name": "end_face_top",
+          "purpose": "Top mounting interface (connects to next joint/shaft)",
+          "normal_direction_relation": "normal +Local_Z"
+        }
+      ],
+      "axes": [
+        {
+          "name": "longitudinal_axis",
+          "purpose": "Main structural axis",
+          "direction_relation": "along local Z"
+        },
+        {
+          "name": "hole_axis_bottom",
+          "purpose": "Axis for bottom shaft connection",
+          "direction_relation": "along local Z"
+        },
+        {
+          "name": "hole_axis_top",
+          "purpose": "Axis for top shaft connection",
+          "direction_relation": "along local Z"
+        }
+      ],
+      "points": []
+    },
+    "assembly_relation_notes": [
+      "Instances differ only by length (extrusion distance).",
+      "Bottom hole connects to previous shaft/link.",
+      "Top hole connects to next shaft/link."
+    ],
+    "workspace": {
+      "part_dir": "D:\\CAutoD\\solidworks_agent\\agent_output\\FiveAxisRoboticArm_Assembly-20260429_123555\\parts\\link_arm",
+      "code_file": "D:\\CAutoD\\solidworks_agent\\agent_output\\FiveAxisRoboticArm_Assembly-20260429_123555\\parts\\link_arm\\link_arm_model.py",
+      "model_file": "D:\\CAutoD\\solidworks_agent\\agent_output\\FiveAxisRoboticArm_Assembly-20260429_123555\\parts\\link_arm\\link_arm.SLDPRT",
+      "log_file": "D:\\CAutoD\\solidworks_agent\\agent_output\\FiveAxisRoboticArm_Assembly-20260429_123555\\logs\\link_arm_model.log",
+      "spec_file": "D:\\CAutoD\\solidworks_agent\\agent_output\\FiveAxisRoboticArm_Assembly-20260429_123555\\json\\link_arm_spec.json"
+    },
+    "standalone_modeling_instructions": [
+      "Sketch circle dia 40mm on XY plane.",
+      "Extrude to specified length (L) along +Z.",
+      "On bottom face, sketch circle dia 40mm, extrude cut 10mm deep? No, bosses are additive. Better: Extrude main body. Then add bosses.",
+      "Alternative: Sketch profile with bosses included. Or: Extrude cylinder length L. On bottom face, sketch circle dia 40, extrude 10mm down (boss). On top face, sketch circle dia 40, extrude 10mm up (boss).",
+      "Cut hole dia 20mm through entire part along Z axis."
+    ]
+  }
+}

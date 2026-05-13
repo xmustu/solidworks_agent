@@ -1,0 +1,105 @@
+{
+  "request_type": "assembly_part",
+  "assembly_context": {
+    "name": "FiveAxisRoboticArm_Assembly",
+    "summary": "基于SolidWorks API自动生成一个五轴串联机械臂装配体。包含底座、大臂、小臂、手腕旋转部、末端法兰及5根连接轴。所有连杆简化为带安装凸台的圆柱体，轴为标准圆柱零件。初始姿态为竖直向上伸直状态。",
+    "global_coordinate_system": {
+      "origin": "Base bottom center",
+      "x_direction": "Global X (Right)",
+      "y_direction": "Global Y (Front)",
+      "z_direction": "Global Z (Up, Main Assembly Axis)"
+    },
+    "design_rules": [
+      "All dimensions in mm, convert to meters for modeling code.",
+      "Initial pose: All links aligned along +Z axis.",
+      "Shafts are standard cylinders, length slightly larger than link width for assembly clearance.",
+      "Links are simplified as cylinders with mounting bosses at ends."
+    ],
+    "instances": [
+      {
+        "instance_id": "inst_base",
+        "part_id": "base_plate",
+        "name": "Base Instance",
+        "instance_role": "Ground/Fixed Base",
+        "placement_notes": "Origin at bottom center. Aligned with Global CS.",
+        "interface_usage": {
+          "faces": [
+            "bottom_face",
+            "top_face_boss"
+          ],
+          "axes": [
+            "central_axis_z"
+          ],
+          "points": []
+        }
+      }
+    ],
+    "assembly_sequence": [
+      "Fix inst_base to Ground",
+      "Insert inst_shaft_j1, Concentric with inst_base.central_axis_z",
+      "Insert inst_link1, Concentric hole_axis_bottom with inst_shaft_j1.shaft_axis, Coincident end_face_bottom with inst_base.top_face_boss (or offset)",
+      "Insert inst_shaft_j2, Concentric with inst_link1.hole_axis_top",
+      "Insert inst_link2, Concentric hole_axis_bottom with inst_shaft_j2.shaft_axis, Coincident end_face_bottom with inst_link1.end_face_top",
+      "Insert inst_shaft_j3, Concentric with inst_link2.hole_axis_top",
+      "Insert inst_wrist1, Concentric hole_axis_bottom with inst_shaft_j3.shaft_axis, Coincident end_face_bottom with inst_link2.end_face_top",
+      "Insert inst_shaft_j4, Concentric with inst_wrist1.hole_axis_top",
+      "Insert inst_wrist2, Concentric hole_axis_bottom with inst_shaft_j4.shaft_axis, Coincident end_face_bottom with inst_wrist1.end_face_top",
+      "Insert inst_shaft_j5, Concentric with inst_wrist2.hole_axis_top"
+    ]
+  },
+  "part": {
+    "part_id": "base_plate",
+    "name": "Base Plate",
+    "function": "Fixed base of the robot arm, supports J1 rotation.",
+    "shape": "Rectangular block with a central cylindrical boss on top. Height 80mm, Width 100mm (square footprint). Central boss diameter 40mm, height 10mm.",
+    "key_dimensions": [
+      "Width: 100mm",
+      "Depth: 100mm",
+      "Height: 80mm",
+      "Boss Diameter: 40mm",
+      "Boss Height: 10mm"
+    ],
+    "material_or_notes": "Steel or Aluminum. Fixed to ground.",
+    "quantity": 1,
+    "instance_ids": [
+      "inst_base"
+    ],
+    "interfaces": {
+      "faces": [
+        {
+          "name": "bottom_face",
+          "purpose": "Mounting to ground/floor",
+          "normal_direction_relation": "normal -Z"
+        },
+        {
+          "name": "top_face_boss",
+          "purpose": "Interface for J1 shaft and Link1 bottom",
+          "normal_direction_relation": "normal +Z"
+        }
+      ],
+      "axes": [
+        {
+          "name": "central_axis_z",
+          "purpose": "J1 Rotation Axis",
+          "direction_relation": "along local Z"
+        }
+      ],
+      "points": []
+    },
+    "assembly_relation_notes": [
+      "Fixed to global origin.",
+      "Top face boss aligns with Link1 bottom hole via J1 shaft."
+    ],
+    "workspace": {
+      "part_dir": "D:\\CAutoD\\solidworks_agent\\agent_output\\FiveAxisRoboticArm_Assembly-20260429_123555\\parts\\base_plate",
+      "code_file": "D:\\CAutoD\\solidworks_agent\\agent_output\\FiveAxisRoboticArm_Assembly-20260429_123555\\parts\\base_plate\\base_plate_model.py",
+      "model_file": "D:\\CAutoD\\solidworks_agent\\agent_output\\FiveAxisRoboticArm_Assembly-20260429_123555\\parts\\base_plate\\base_plate.SLDPRT",
+      "log_file": "D:\\CAutoD\\solidworks_agent\\agent_output\\FiveAxisRoboticArm_Assembly-20260429_123555\\logs\\base_plate_model.log",
+      "spec_file": "D:\\CAutoD\\solidworks_agent\\agent_output\\FiveAxisRoboticArm_Assembly-20260429_123555\\json\\base_plate_spec.json"
+    },
+    "standalone_modeling_instructions": [
+      "Sketch rectangle 100x100 on XY plane, extrude 80mm up.",
+      "On top face, sketch circle dia 40mm centered, extrude 10mm up."
+    ]
+  }
+}

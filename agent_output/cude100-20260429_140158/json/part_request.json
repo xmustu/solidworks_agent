@@ -1,0 +1,59 @@
+{
+  "request_type": "part",
+  "name": "cude100",
+  "summary": "创建一个边长为100mm的立方体零件，以原点为中心对称分布。",
+  "key_requirements": [
+    "几何形状：正方体",
+    "关键尺寸：边长 100mm",
+    "位置基准：以全局坐标系原点 (0,0,0) 为几何中心",
+    "无额外特征：无圆角、倒角、孔或壳"
+  ],
+  "assumptions": [
+    "用户口头尺寸单位默认为 mm，代码内部计算转换为 m",
+    "主草图面默认使用 XY 平面",
+    "交付物包含 .SLDPRT 文件和 Python 建模代码"
+  ],
+  "requested_outputs": [
+    ".SLDPRT",
+    "Python Code"
+  ],
+  "interfaces": [],
+  "workspace": {
+    "root_dir": "D:\\CAutoD\\solidworks_agent\\agent_output\\cude100-20260429_140158",
+    "part_dir": "D:\\CAutoD\\solidworks_agent\\agent_output\\cude100-20260429_140158\\part",
+    "json_dir": "D:\\CAutoD\\solidworks_agent\\agent_output\\cude100-20260429_140158\\json",
+    "logs_dir": "D:\\CAutoD\\solidworks_agent\\agent_output\\cude100-20260429_140158\\logs",
+    "plan_file": "D:\\CAutoD\\solidworks_agent\\agent_output\\cude100-20260429_140158\\json\\part_request.json"
+  },
+  "part": {
+    "part_id": "cude100",
+    "name": "cude100",
+    "function": "创建一个边长为100mm的立方体零件，以原点为中心对称分布。",
+    "shape": "根据需求分析结果由建模智能体细化",
+    "key_dimensions": [
+      "几何形状：正方体",
+      "关键尺寸：边长 100mm",
+      "位置基准：以全局坐标系原点 (0,0,0) 为几何中心",
+      "无额外特征：无圆角、倒角、孔或壳"
+    ],
+    "material_or_notes": "用户口头尺寸单位默认为 mm，代码内部计算转换为 m; 主草图面默认使用 XY 平面; 交付物包含 .SLDPRT 文件和 Python 建模代码",
+    "interfaces": {
+      "faces": [],
+      "axes": [],
+      "points": []
+    },
+    "standalone_modeling_instructions": [
+      "几何形状：正方体",
+      "关键尺寸：边长 100mm",
+      "位置基准：以全局坐标系原点 (0,0,0) 为几何中心",
+      "无额外特征：无圆角、倒角、孔或壳"
+    ],
+    "workspace": {
+      "part_dir": "D:\\CAutoD\\solidworks_agent\\agent_output\\cude100-20260429_140158\\part",
+      "code_file": "D:\\CAutoD\\solidworks_agent\\agent_output\\cude100-20260429_140158\\part\\cude100_model.py",
+      "model_file": "D:\\CAutoD\\solidworks_agent\\agent_output\\cude100-20260429_140158\\part\\cude100.SLDPRT",
+      "log_file": "D:\\CAutoD\\solidworks_agent\\agent_output\\cude100-20260429_140158\\logs\\cude100_model.log",
+      "spec_file": "D:\\CAutoD\\solidworks_agent\\agent_output\\cude100-20260429_140158\\json\\cude100_spec.json"
+    }
+  }
+}

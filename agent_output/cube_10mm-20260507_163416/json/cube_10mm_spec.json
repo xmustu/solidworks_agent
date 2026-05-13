@@ -1,0 +1,56 @@
+{
+  "request_type": "part",
+  "part_context": {
+    "name": "cube_10mm",
+    "summary": "创建一个边长为10mm的实心立方体零件。在XY基准面上绘制10x10mm正方形草图，并沿Z轴方向拉伸10mm。",
+    "key_requirements": [
+      "主体为正方体",
+      "边长: 10mm",
+      "主草图面: XY",
+      "拉伸方向: Z轴",
+      "拉伸深度: 10mm"
+    ],
+    "assumptions": [
+      "默认无圆角/倒角",
+      "默认材质未指定",
+      "默认原点位于立方体一角或中心（通常建模习惯以原点为角点或中心，此处按常规拉伸逻辑，草图中心或角点对齐原点需后续代码确定，通常默认草图关于原点对称或从原点开始，此处假设为标准拉伸）"
+    ],
+    "requested_outputs": [
+      ".SLDPRT file"
+    ],
+    "interfaces": []
+  },
+  "part": {
+    "part_id": "cube_10mm",
+    "name": "cube_10mm",
+    "function": "创建一个边长为10mm的实心立方体零件。在XY基准面上绘制10x10mm正方形草图，并沿Z轴方向拉伸10mm。",
+    "shape": "根据需求分析结果由建模智能体细化",
+    "key_dimensions": [
+      "主体为正方体",
+      "边长: 10mm",
+      "主草图面: XY",
+      "拉伸方向: Z轴",
+      "拉伸深度: 10mm"
+    ],
+    "material_or_notes": "默认无圆角/倒角; 默认材质未指定; 默认原点位于立方体一角或中心（通常建模习惯以原点为角点或中心，此处按常规拉伸逻辑，草图中心或角点对齐原点需后续代码确定，通常默认草图关于原点对称或从原点开始，此处假设为标准拉伸）",
+    "interfaces": {
+      "faces": [],
+      "axes": [],
+      "points": []
+    },
+    "standalone_modeling_instructions": [
+      "主体为正方体",
+      "边长: 10mm",
+      "主草图面: XY",
+      "拉伸方向: Z轴",
+      "拉伸深度: 10mm"
+    ],
+    "workspace": {
+      "part_dir": "D:\\CAutoD\\solidworks_agent\\agent_output\\cube_10mm-20260507_163416\\part",
+      "code_file": "D:\\CAutoD\\solidworks_agent\\agent_output\\cube_10mm-20260507_163416\\part\\cube_10mm_model.py",
+      "model_file": "D:\\CAutoD\\solidworks_agent\\agent_output\\cube_10mm-20260507_163416\\part\\cube_10mm.SLDPRT",
+      "log_file": "D:\\CAutoD\\solidworks_agent\\agent_output\\cube_10mm-20260507_163416\\logs\\cube_10mm_model.log",
+      "spec_file": "D:\\CAutoD\\solidworks_agent\\agent_output\\cube_10mm-20260507_163416\\json\\cube_10mm_spec.json"
+    }
+  }
+}

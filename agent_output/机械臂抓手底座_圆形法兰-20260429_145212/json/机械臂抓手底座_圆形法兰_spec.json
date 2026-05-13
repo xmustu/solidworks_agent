@@ -1,0 +1,66 @@
+{
+  "request_type": "part",
+  "part_context": {
+    "name": "机械臂抓手底座_圆形法兰",
+    "summary": "设计一个用于连接机械臂末端和抓手的圆形法兰底座零件。主体为外径80mm、厚10mm的圆盘，中心有直径30mm深5mm的定位止口，上表面分布4个直径5.0mm的安装孔（PCD=50mm），边缘倒角C1。",
+    "key_requirements": [
+      "主体形状：圆形法兰盘",
+      "主要尺寸：外径80mm，厚度10mm",
+      "中心特征：直径30mm，深度5mm的定位孔/止口",
+      "安装接口：4个直径5.0mm的通孔或盲孔，分布在直径50mm的圆周上",
+      "细节处理：上下边缘倒角C1",
+      "主草图面：XY平面"
+    ],
+    "assumptions": [
+      "单位默认为mm",
+      "未指定孔深时，安装孔默认为通孔或根据厚度合理设定（此处设为通孔以简化，若需盲孔可后续调整）",
+      "材料属性不影响几何建模，默认忽略",
+      "交付物包含.SLDPRT文件和Python代码"
+    ],
+    "requested_outputs": [
+      ".SLDPRT文件",
+      "Python建模代码"
+    ],
+    "interfaces": [
+      "上表面：机械臂安装面，含4个M6底孔（直径5.0mm）",
+      "中心轴：Z轴为中心对称轴",
+      "下表面：抓手连接基准面",
+      "中心孔：直径30mm定位止口"
+    ]
+  },
+  "part": {
+    "part_id": "机械臂抓手底座_圆形法兰",
+    "name": "机械臂抓手底座_圆形法兰",
+    "function": "设计一个用于连接机械臂末端和抓手的圆形法兰底座零件。主体为外径80mm、厚10mm的圆盘，中心有直径30mm深5mm的定位止口，上表面分布4个直径5.0mm的安装孔（PCD=50mm），边缘倒角C1。",
+    "shape": "根据需求分析结果由建模智能体细化",
+    "key_dimensions": [
+      "主体形状：圆形法兰盘",
+      "主要尺寸：外径80mm，厚度10mm",
+      "中心特征：直径30mm，深度5mm的定位孔/止口",
+      "安装接口：4个直径5.0mm的通孔或盲孔，分布在直径50mm的圆周上",
+      "细节处理：上下边缘倒角C1",
+      "主草图面：XY平面"
+    ],
+    "material_or_notes": "单位默认为mm; 未指定孔深时，安装孔默认为通孔或根据厚度合理设定（此处设为通孔以简化，若需盲孔可后续调整）; 材料属性不影响几何建模，默认忽略; 交付物包含.SLDPRT文件和Python代码",
+    "interfaces": {
+      "faces": [],
+      "axes": [],
+      "points": []
+    },
+    "standalone_modeling_instructions": [
+      "主体形状：圆形法兰盘",
+      "主要尺寸：外径80mm，厚度10mm",
+      "中心特征：直径30mm，深度5mm的定位孔/止口",
+      "安装接口：4个直径5.0mm的通孔或盲孔，分布在直径50mm的圆周上",
+      "细节处理：上下边缘倒角C1",
+      "主草图面：XY平面"
+    ],
+    "workspace": {
+      "part_dir": "D:\\CAutoD\\solidworks_agent\\agent_output\\机械臂抓手底座_圆形法兰-20260429_145212\\part",
+      "code_file": "D:\\CAutoD\\solidworks_agent\\agent_output\\机械臂抓手底座_圆形法兰-20260429_145212\\part\\机械臂抓手底座_圆形法兰_model.py",
+      "model_file": "D:\\CAutoD\\solidworks_agent\\agent_output\\机械臂抓手底座_圆形法兰-20260429_145212\\part\\机械臂抓手底座_圆形法兰.SLDPRT",
+      "log_file": "D:\\CAutoD\\solidworks_agent\\agent_output\\机械臂抓手底座_圆形法兰-20260429_145212\\logs\\机械臂抓手底座_圆形法兰_model.log",
+      "spec_file": "D:\\CAutoD\\solidworks_agent\\agent_output\\机械臂抓手底座_圆形法兰-20260429_145212\\json\\机械臂抓手底座_圆形法兰_spec.json"
+    }
+  }
+}

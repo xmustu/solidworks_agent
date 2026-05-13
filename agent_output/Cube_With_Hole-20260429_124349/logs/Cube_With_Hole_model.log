@@ -1,0 +1,10 @@
+Execution Failed with error:
+Traceback (most recent call last):
+  File "D:\CAutoD\solidworks_agent\agent_output\Cube_With_Hole-20260429_124349\part\Cube_With_Hole_model.py", line 7, in <module>
+    from pyswassem import SldWorksApp, PartDoc
+  File "D:\CAutoD\pysw_assem\pyswassem\__init__.py", line 1, in <module>
+    from .PySolidworksClass import SldWorksApp, PartDoc, AssemDoc
+  File "D:\CAutoD\pysw_assem\pyswassem\PySolidworksClass.py", line 115
+    match sketch_ref:
+          ^
+SyntaxError: invalid syntax

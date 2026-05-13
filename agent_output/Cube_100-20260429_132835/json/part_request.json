@@ -1,0 +1,59 @@
+{
+  "request_type": "part",
+  "name": "Cube_100",
+  "summary": "创建一个边长为100mm的实心立方体零件",
+  "key_requirements": [
+    "几何形状为正方体",
+    "边长尺寸为100mm",
+    "使用拉伸特征生成实体",
+    "无圆角、倒角或空心结构"
+  ],
+  "assumptions": [
+    "长度单位为mm",
+    "主草图绘制在XY平面上",
+    "立方体一个顶点位于全局坐标系原点(0,0,0)，向正X、正Y、正Z方向延伸"
+  ],
+  "requested_outputs": [
+    ".SLDPRT file",
+    "Python code"
+  ],
+  "interfaces": [],
+  "workspace": {
+    "root_dir": "D:\\CAutoD\\solidworks_agent\\agent_output\\Cube_100-20260429_132835",
+    "part_dir": "D:\\CAutoD\\solidworks_agent\\agent_output\\Cube_100-20260429_132835\\part",
+    "json_dir": "D:\\CAutoD\\solidworks_agent\\agent_output\\Cube_100-20260429_132835\\json",
+    "logs_dir": "D:\\CAutoD\\solidworks_agent\\agent_output\\Cube_100-20260429_132835\\logs",
+    "plan_file": "D:\\CAutoD\\solidworks_agent\\agent_output\\Cube_100-20260429_132835\\json\\part_request.json"
+  },
+  "part": {
+    "part_id": "Cube_100",
+    "name": "Cube_100",
+    "function": "创建一个边长为100mm的实心立方体零件",
+    "shape": "根据需求分析结果由建模智能体细化",
+    "key_dimensions": [
+      "几何形状为正方体",
+      "边长尺寸为100mm",
+      "使用拉伸特征生成实体",
+      "无圆角、倒角或空心结构"
+    ],
+    "material_or_notes": "长度单位为mm; 主草图绘制在XY平面上; 立方体一个顶点位于全局坐标系原点(0,0,0)，向正X、正Y、正Z方向延伸",
+    "interfaces": {
+      "faces": [],
+      "axes": [],
+      "points": []
+    },
+    "standalone_modeling_instructions": [
+      "几何形状为正方体",
+      "边长尺寸为100mm",
+      "使用拉伸特征生成实体",
+      "无圆角、倒角或空心结构"
+    ],
+    "workspace": {
+      "part_dir": "D:\\CAutoD\\solidworks_agent\\agent_output\\Cube_100-20260429_132835\\part",
+      "code_file": "D:\\CAutoD\\solidworks_agent\\agent_output\\Cube_100-20260429_132835\\part\\Cube_100_model.py",
+      "model_file": "D:\\CAutoD\\solidworks_agent\\agent_output\\Cube_100-20260429_132835\\part\\Cube_100.SLDPRT",
+      "log_file": "D:\\CAutoD\\solidworks_agent\\agent_output\\Cube_100-20260429_132835\\logs\\Cube_100_model.log",
+      "spec_file": "D:\\CAutoD\\solidworks_agent\\agent_output\\Cube_100-20260429_132835\\json\\Cube_100_spec.json"
+    }
+  }
+}

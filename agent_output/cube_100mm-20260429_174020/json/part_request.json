@@ -1,0 +1,65 @@
+{
+  "request_type": "part",
+  "name": "cube_100mm",
+  "summary": "创建一个边长为 100mm 的实心立方体零件。主体通过在前视基准面（XY）绘制 100x100mm 的正方形草图，并沿 Z 轴方向拉伸 100mm 形成。无圆角、倒角或孔特征。",
+  "key_requirements": [
+    "几何形状：实心立方体",
+    "关键尺寸：边长 100mm",
+    "建模方式：拉伸凸台/基体 (Extrude Boss/Base)",
+    "主草图面：XY 平面",
+    "拉伸方向：Z 轴正向",
+    "交付物：.SLDPRT 文件和 Python 代码"
+  ],
+  "assumptions": [
+    "单位默认为 mm",
+    "原点位于立方体的一个角点或中心（通常默认角点对齐原点，除非指定居中，此处按常规默认角点对齐或系统默认原点处理，若需居中需额外说明，暂按标准拉伸逻辑）",
+    "无其他修饰特征（如圆角、倒角）"
+  ],
+  "requested_outputs": [
+    ".SLDPRT",
+    "Python Code"
+  ],
+  "interfaces": [],
+  "workspace": {
+    "root_dir": "D:\\CAutoD\\solidworks_agent\\agent_output\\cube_100mm-20260429_174020",
+    "part_dir": "D:\\CAutoD\\solidworks_agent\\agent_output\\cube_100mm-20260429_174020\\part",
+    "json_dir": "D:\\CAutoD\\solidworks_agent\\agent_output\\cube_100mm-20260429_174020\\json",
+    "logs_dir": "D:\\CAutoD\\solidworks_agent\\agent_output\\cube_100mm-20260429_174020\\logs",
+    "plan_file": "D:\\CAutoD\\solidworks_agent\\agent_output\\cube_100mm-20260429_174020\\json\\part_request.json"
+  },
+  "part": {
+    "part_id": "cube_100mm",
+    "name": "cube_100mm",
+    "function": "创建一个边长为 100mm 的实心立方体零件。主体通过在前视基准面（XY）绘制 100x100mm 的正方形草图，并沿 Z 轴方向拉伸 100mm 形成。无圆角、倒角或孔特征。",
+    "shape": "根据需求分析结果由建模智能体细化",
+    "key_dimensions": [
+      "几何形状：实心立方体",
+      "关键尺寸：边长 100mm",
+      "建模方式：拉伸凸台/基体 (Extrude Boss/Base)",
+      "主草图面：XY 平面",
+      "拉伸方向：Z 轴正向",
+      "交付物：.SLDPRT 文件和 Python 代码"
+    ],
+    "material_or_notes": "单位默认为 mm; 原点位于立方体的一个角点或中心（通常默认角点对齐原点，除非指定居中，此处按常规默认角点对齐或系统默认原点处理，若需居中需额外说明，暂按标准拉伸逻辑）; 无其他修饰特征（如圆角、倒角）",
+    "interfaces": {
+      "faces": [],
+      "axes": [],
+      "points": []
+    },
+    "standalone_modeling_instructions": [
+      "几何形状：实心立方体",
+      "关键尺寸：边长 100mm",
+      "建模方式：拉伸凸台/基体 (Extrude Boss/Base)",
+      "主草图面：XY 平面",
+      "拉伸方向：Z 轴正向",
+      "交付物：.SLDPRT 文件和 Python 代码"
+    ],
+    "workspace": {
+      "part_dir": "D:\\CAutoD\\solidworks_agent\\agent_output\\cube_100mm-20260429_174020\\part",
+      "code_file": "D:\\CAutoD\\solidworks_agent\\agent_output\\cube_100mm-20260429_174020\\part\\cube_100mm_model.py",
+      "model_file": "D:\\CAutoD\\solidworks_agent\\agent_output\\cube_100mm-20260429_174020\\part\\cube_100mm.SLDPRT",
+      "log_file": "D:\\CAutoD\\solidworks_agent\\agent_output\\cube_100mm-20260429_174020\\logs\\cube_100mm_model.log",
+      "spec_file": "D:\\CAutoD\\solidworks_agent\\agent_output\\cube_100mm-20260429_174020\\json\\cube_100mm_spec.json"
+    }
+  }
+}

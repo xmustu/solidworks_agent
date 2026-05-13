@@ -1,0 +1,175 @@
+{
+  "request_type": "assembly_part",
+  "assembly_context": {
+    "name": "FiveAxisRoboticArm_Assembly",
+    "summary": "基于SolidWorks API自动生成一个五轴串联机械臂装配体。包含底座、大臂、小臂、手腕旋转部、末端法兰及5根连接轴。所有连杆简化为带安装凸台的圆柱体，轴为标准圆柱零件。初始姿态为竖直向上伸直状态。",
+    "global_coordinate_system": {
+      "origin": "Base bottom center",
+      "x_direction": "Global X (Right)",
+      "y_direction": "Global Y (Front)",
+      "z_direction": "Global Z (Up, Main Assembly Axis)"
+    },
+    "design_rules": [
+      "All dimensions in mm, convert to meters for modeling code.",
+      "Initial pose: All links aligned along +Z axis.",
+      "Shafts are standard cylinders, length slightly larger than link width for assembly clearance.",
+      "Links are simplified as cylinders with mounting bosses at ends."
+    ],
+    "instances": [
+      {
+        "instance_id": "inst_shaft_j1",
+        "part_id": "shaft_standard",
+        "name": "J1 Shaft",
+        "instance_role": "Connects Base to Link1",
+        "placement_notes": "Inserted into Base top boss and Link1 bottom hole.",
+        "interface_usage": {
+          "faces": [
+            "cylindrical_surface"
+          ],
+          "axes": [
+            "shaft_axis"
+          ],
+          "points": []
+        }
+      },
+      {
+        "instance_id": "inst_shaft_j2",
+        "part_id": "shaft_standard",
+        "name": "J2 Shaft",
+        "instance_role": "Connects Link1 to Link2",
+        "placement_notes": "Inserted into Link1 top hole and Link2 bottom hole.",
+        "interface_usage": {
+          "faces": [
+            "cylindrical_surface"
+          ],
+          "axes": [
+            "shaft_axis"
+          ],
+          "points": []
+        }
+      },
+      {
+        "instance_id": "inst_shaft_j3",
+        "part_id": "shaft_standard",
+        "name": "J3 Shaft",
+        "instance_role": "Connects Link2 to Wrist1",
+        "placement_notes": "Inserted into Link2 top hole and Wrist1 bottom hole.",
+        "interface_usage": {
+          "faces": [
+            "cylindrical_surface"
+          ],
+          "axes": [
+            "shaft_axis"
+          ],
+          "points": []
+        }
+      },
+      {
+        "instance_id": "inst_shaft_j4",
+        "part_id": "shaft_standard",
+        "name": "J4 Shaft",
+        "instance_role": "Connects Wrist1 to Wrist2",
+        "placement_notes": "Inserted into Wrist1 top hole and Wrist2 bottom hole.",
+        "interface_usage": {
+          "faces": [
+            "cylindrical_surface"
+          ],
+          "axes": [
+            "shaft_axis"
+          ],
+          "points": []
+        }
+      },
+      {
+        "instance_id": "inst_shaft_j5",
+        "part_id": "shaft_standard",
+        "name": "J5 Shaft",
+        "instance_role": "Dummy/Placeholder for J5 if needed, or End Cap",
+        "placement_notes": "Note: Prompt says 5 shafts. J1-J4 connect links. J5 is wrist pitch. Usually Wrist2 rotates around its own axis or has a final flange. Assuming J5 shaft is inside Wrist2 or connects to a tool. For simplicity in this linear stack, J5 might be the axis of Wrist2 itself. However, prompt lists 'Shaft (x5)'. I will place J5 shaft concentric with Wrist2 top, potentially representing the tool mount axis.",
+        "interface_usage": {
+          "faces": [
+            "cylindrical_surface"
+          ],
+          "axes": [
+            "shaft_axis"
+          ],
+          "points": []
+        }
+      }
+    ],
+    "assembly_sequence": [
+      "Fix inst_base to Ground",
+      "Insert inst_shaft_j1, Concentric with inst_base.central_axis_z",
+      "Insert inst_link1, Concentric hole_axis_bottom with inst_shaft_j1.shaft_axis, Coincident end_face_bottom with inst_base.top_face_boss (or offset)",
+      "Insert inst_shaft_j2, Concentric with inst_link1.hole_axis_top",
+      "Insert inst_link2, Concentric hole_axis_bottom with inst_shaft_j2.shaft_axis, Coincident end_face_bottom with inst_link1.end_face_top",
+      "Insert inst_shaft_j3, Concentric with inst_link2.hole_axis_top",
+      "Insert inst_wrist1, Concentric hole_axis_bottom with inst_shaft_j3.shaft_axis, Coincident end_face_bottom with inst_link2.end_face_top",
+      "Insert inst_shaft_j4, Concentric with inst_wrist1.hole_axis_top",
+      "Insert inst_wrist2, Concentric hole_axis_bottom with inst_shaft_j4.shaft_axis, Coincident end_face_bottom with inst_wrist1.end_face_top",
+      "Insert inst_shaft_j5, Concentric with inst_wrist2.hole_axis_top"
+    ]
+  },
+  "part": {
+    "part_id": "shaft_standard",
+    "name": "Standard Shaft",
+    "function": "Connects links and allows rotation. Used for J1, J2, J3, J4, J5.",
+    "shape": "Simple cylinder. Diameter 20mm. Length sufficient to pass through two mating bosses plus clearance.",
+    "key_dimensions": [
+      "Diameter: 20mm",
+      "Length: 30mm (Assumed: 10mm boss + 10mm gap/clearance + 10mm boss)"
+    ],
+    "material_or_notes": "Steel. Standard fastener-like component.",
+    "quantity": 5,
+    "instance_ids": [
+      "inst_shaft_j1",
+      "inst_shaft_j2",
+      "inst_shaft_j3",
+      "inst_shaft_j4",
+      "inst_shaft_j5"
+    ],
+    "interfaces": {
+      "faces": [
+        {
+          "name": "cylindrical_surface",
+          "purpose": "Concentric mating with link holes",
+          "normal_direction_relation": "radial from axis"
+        },
+        {
+          "name": "end_face_1",
+          "purpose": "Axial limit/reference",
+          "normal_direction_relation": "normal -Local_Z"
+        },
+        {
+          "name": "end_face_2",
+          "purpose": "Axial limit/reference",
+          "normal_direction_relation": "normal +Local_Z"
+        }
+      ],
+      "axes": [
+        {
+          "name": "shaft_axis",
+          "purpose": "Rotation axis",
+          "direction_relation": "along local Z"
+        }
+      ],
+      "points": []
+    },
+    "assembly_relation_notes": [
+      "Inserted into holes of adjacent links.",
+      "Concentric with link hole axes.",
+      "Faces may be coincident with link outer faces or floating depending on design intent (here assumed floating/concentric primarily)."
+    ],
+    "workspace": {
+      "part_dir": "D:\\CAutoD\\solidworks_agent\\agent_output\\FiveAxisRoboticArm_Assembly-20260429_123555\\parts\\shaft_standard",
+      "code_file": "D:\\CAutoD\\solidworks_agent\\agent_output\\FiveAxisRoboticArm_Assembly-20260429_123555\\parts\\shaft_standard\\shaft_standard_model.py",
+      "model_file": "D:\\CAutoD\\solidworks_agent\\agent_output\\FiveAxisRoboticArm_Assembly-20260429_123555\\parts\\shaft_standard\\shaft_standard.SLDPRT",
+      "log_file": "D:\\CAutoD\\solidworks_agent\\agent_output\\FiveAxisRoboticArm_Assembly-20260429_123555\\logs\\shaft_standard_model.log",
+      "spec_file": "D:\\CAutoD\\solidworks_agent\\agent_output\\FiveAxisRoboticArm_Assembly-20260429_123555\\json\\shaft_standard_spec.json"
+    },
+    "standalone_modeling_instructions": [
+      "Sketch circle dia 20mm on XY plane.",
+      "Extrude 30mm along +Z."
+    ]
+  }
+}

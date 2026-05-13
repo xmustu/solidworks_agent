@@ -1,0 +1,26 @@
+正在启动 SolidWorks 应用...
+正在创建零件文档 'cube_100mm'...
+C# 程序运行失败，返回代码: 3762504530
+错误信息 (Stderr):
+[DEBUG] 17:40:55 - 接收到参数，尝试创建并激活文档: cube_100mm
+[DEBUG] 17:40:55 - 尝试连接 SolidWorks...
+
+未经处理的异常:  System.Runtime.InteropServices.COMException: 检索 COM 类工厂中 CLSID 为 {666AAEE2-7A21-40FC-B768-2078840A88C3} 的组件失败，原因是出现以下错误: 80040154 没有注册类 (异常来自 HRESULT:0x80040154 (REGDB_E_CLASSNOTREG))。
+   在 System.RuntimeTypeHandle.CreateInstance(RuntimeType type, Boolean publicOnly, Boolean noCheck, Boolean& canBeCached, RuntimeMethodHandleInternal& ctor, Boolean& bNeedSecurityCheck)
+   在 System.RuntimeType.CreateInstanceSlow(Boolean publicOnly, Boolean skipCheckThis, Boolean fillCache, StackCrawlMark& stackMark)
+   在 System.Activator.CreateInstance(Type type, Boolean nonPublic)
+   在 System.Activator.CreateInstance(Type type)
+   在 new_part.NewPart.Main(String[] args) 位置 D:\a_src\c#\new_part\Program.cs:行号 42
+
+在 XY 平面插入草图...
+创建草图成功
+绘制边长为 0.1m 的正方形草图...
+创建中心矩形成功
+矩形对象信息: (<COMObject CreateCenterRectangle>, <COMObject CreateCenterRectangle>, <COMObject CreateCenterRectangle>, <COMObject CreateCenterRectangle>, <COMObject CreateCenterRectangle>, <COMObject CreateCenterRectangle>)
+沿 Z 轴正向拉伸 0.1m...
+检测到当前有未退出的草图，正在自动退出以继续操作...
+草图选择成功，准备拉伸
+拉伸成功
+正在保存零件到: D:\CAutoD\solidworks_agent\agent_output\cube_100mm-20260429_174020\part\cube_100mm.SLDPRT
+零件已保存至: D:\CAutoD\solidworks_agent\agent_output\cube_100mm-20260429_174020\part\cube_100mm.SLDPRT
+零件建模与保存成功。
