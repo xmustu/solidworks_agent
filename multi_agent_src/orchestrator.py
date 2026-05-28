@@ -25,6 +25,8 @@ try:
     )
     from .config import AGENT_OUTPUT_ROOT
     from .executor import (
+        execute_python_code,
+        format_execution_failure_summary,
         run_assembly_plan_checks,
         run_part_plan_checks,
     )
@@ -43,11 +45,12 @@ except ImportError:
         extract_python_code,
     )
     from config import AGENT_OUTPUT_ROOT
-    from executor import run_assembly_plan_checks, run_part_plan_checks
-    from pipeline_state import DEFAULT_STATE_POLICIES, PipelineState, StatePolicy
-
-
-PART_PARALLELISM_LIMIT = 8
+    from executor import (
+        execute_python_code,
+        format_execution_failure_summary,
+        run_assembly_plan_checks,
+        run_part_plan_checks,
+    )
 
 
 def slugify(value: str, fallback: str) -> str:
@@ -423,6 +426,16 @@ class MultiAgentOrchestrator:
         if success:
             self.set_state(PipelineState.DONE, request_type="part")
             print("\n=== 单零件需求执行完成 ===")
+            part_workspace = plan["part"]["workspace"]
+            # 通过结构化事件把生成的文件路径透传给上游（例如 cautod_fastapi）
+            self.emit_event(
+                "pipeline_result",
+                request_type="part",
+                part_id=str(plan["part"].get("part_id", "")),
+                model_file=str(part_workspace["model_file"]),
+                code_file=str(part_workspace["code_file"]),
+                log_file=str(part_workspace["log_file"]),
+            )
         else:
             print("\n=== 单零件需求执行失败，请根据日志调整需求或知识库 ===")
 
@@ -445,18 +458,24 @@ class MultiAgentOrchestrator:
 
         print("\n[阶段 3] 零件建模分发")
         self.emit_status("[阶段 3] 零件建模分发")
-        part_results = self.run_parts_parallel(
-            full_plan=plan,
-            part_specs=plan["assembly"]["parts"],
-            max_workers=self.part_parallelism_limit,
-        )
-        failed_parts = [result for result in part_results if not result.get("success")]
-        if failed_parts:
-            for result in failed_parts:
-                self.set_state(PipelineState.FAILED_RECOVERABLE, part_id=result["part_id"])
-            self.set_state(
-                PipelineState.FAILED_FATAL,
-                failed_part_ids=[result["part_id"] for result in failed_parts],
+        part_results: list[dict[str, Any]] = []
+        for index, part_spec in enumerate(plan["assembly"]["parts"], start=1):
+            print(f"\n  -> 零件 {index}/{len(plan['assembly']['parts'])}: {part_spec['name']}")
+            self.emit_status(f"[零件 {index}/{len(plan['assembly']['parts'])}] {part_spec['name']}")
+            success = self.run_part_pipeline(
+                full_plan=plan,
+                part_spec=part_spec,
+                enable_static_validation=True,
+            )
+            part_results.append(
+                {
+                    "part_id": part_spec["part_id"],
+                    "name": part_spec["name"],
+                    "success": success,
+                    "model_file": part_spec["workspace"]["model_file"],
+                    "code_file": part_spec["workspace"]["code_file"],
+                    "log_file": part_spec["workspace"]["log_file"],
+                }
             )
             print("\n=== 零件建模未全部完成，停止装配阶段 ===")
             return
@@ -468,6 +487,24 @@ class MultiAgentOrchestrator:
         if assembly_success:
             self.set_state(PipelineState.DONE, request_type="assembly")
             print("\n=== 装配需求执行完成 ===")
+            assembly_output = plan["assembly"]["assembly_output"]
+            self.emit_event(
+                "pipeline_result",
+                request_type="assembly",
+                assembly_model_file=str(assembly_output["model_file"]),
+                assembly_code_file=str(assembly_output["code_file"]),
+                assembly_log_file=str(assembly_output["log_file"]),
+                parts=[
+                    {
+                        "part_id": pr.get("part_id"),
+                        "model_file": pr.get("model_file"),
+                        "code_file": pr.get("code_file"),
+                        "log_file": pr.get("log_file"),
+                    }
+                    for pr in part_results
+                    if pr.get("success")
+                ],
+            )
         else:
             print("\n=== 装配阶段失败，请查看输出目录日志 ===")
         self.last_run_context = {
@@ -1097,7 +1134,7 @@ class MultiAgentOrchestrator:
             self.record_attempt(part_spec["part_id"], attempt, code, execution.content, execution.success)
 
             if not execution.success:
-                summary = execution.content.splitlines()[-1] if execution.content.splitlines() else execution.content
+                summary = format_execution_failure_summary(execution.log)
                 print(f"    [执行失败] {summary}")
                 self.emit_status(f"[执行失败] {summary}")
                 part_agent.remember(f"Attempt {attempt} failed. Edit the existing file instead of regenerating from scratch.")
@@ -1275,7 +1312,7 @@ class MultiAgentOrchestrator:
             self.emit_event("execution_log", title="装配执行与截图日志", content=execution.content)
 
             if not execution.success:
-                summary = execution.content.splitlines()[-1] if execution.content.splitlines() else execution.content
+                summary = format_execution_failure_summary(execution.log)
                 print(f"  [装配执行失败] {summary}")
                 self.emit_status(f"[装配执行失败] {summary}")
                 current_prompt = self.build_assembly_prompt(plan, part_results, execution.content)
